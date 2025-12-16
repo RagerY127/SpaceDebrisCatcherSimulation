@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/GlobalStyles.uss?fileID=7433441132597879392&amp;guid=4f3d59cb90662203e8a3fbc8b91a18d8&amp;type=3#GlobalStyles" />
+    <Style src="project://database/Assets/UI/interfaceStyle.uss?fileID=7433441132597879392&amp;guid=7b88971e3a3045944b481a80c043d981&amp;type=3#interfaceStyle" />
+    <ui:VisualElement name="file-management-buttons" class="button-group" style="width: 100%; height: 100%;">
+        <ui:Button name="filename" text="Filename" class="file-management-button" />
+        <ui:Button name="save" class="file-management-button" />
+        <ui:Button name="open" class="file-management-button" />
+        <ui:Button name="help" class="file-management-button" />
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,33 @@
+#file-management-buttons {
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+
+.file-management-button {
+    flex-grow: 1;
+    -unity-background-scale-mode: scale-to-fit;
+    background-size: 32px 32px;
+}
+
+#file-management-buttons #filename {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    color: white;
+}
+
+#file-management-buttons #save {
+    background-image: url("project://database/Assets/UI/Icons/save.png?fileID=2800000&guid=b3eef6b18b78d4781a3beb6de4963aa6&type=3#save");
+    border-radius: 0px;
+}
+
+#file-management-buttons #open {
+    background-image: url("project://database/Assets/UI/Icons/open.png?fileID=2800000&guid=d373940a28b434576a485119a028fee6&type=3#open");
+    border-radius: 0px;
+}
+
+#file-management-buttons #help {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    background-image: url("project://database/Assets/UI/Icons/help.png?fileID=2800000&guid=5ce318c4a75294cb1a65103256f51025&type=3#help");
+}
