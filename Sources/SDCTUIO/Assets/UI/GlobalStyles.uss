@@ -1,7 +1,25 @@
 .unity-text-element {
-    background-color: #41516D;
-    border-color: #547B92;
+    background-color: rgb(65, 81, 109);
+    border-color: rgb(84, 123, 146);
     border-width: 4px;
     border-radius: 24px;
-    color: #FFFFFF;
+    color: rgb(255, 255, 255);
+}
+
+.window {
+    background-color: rgb(65, 81, 109);
+    border-color: rgb(84, 123, 146);
+    border-width: 4px;
+    border-radius: 24px;
+    color: rgb(255, 255, 255);
+}
+
+.unity-label {
+    background-color: transparent;
+    border-color: transparent;
+    -unity-font-style: normal;
+}
+
+.header {
+    -unity-font-style: bold;
 }
