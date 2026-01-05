@@ -30,6 +30,26 @@
     padding-left: 6px;
 }
 
+.unity-base-slider__input {
+    background-color: unset;
+    border-width: unset;
+}
+
+#unity-tracker {
+    border-width: 0px;
+    border-radius: 7px;
+    background-color: rgb(84, 123, 146);
+    height: 14px;
+    margin: 0px;
+    top: 8px;
+}
+
+#unity-dragger {
+    width: 24px;
+    border-width: 0px;
+    border-radius: 12px;
+}
+
 .window {
     background-color: rgb(65, 81, 109);
     border-color: rgb(84, 123, 146);
