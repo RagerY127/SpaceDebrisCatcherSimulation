@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/SimulationBarStyle.uss?fileID=7433441132597879392&amp;guid=536e02b625c43462eb694dde6ffd4461&amp;type=3#SimulationBarStyle" />
+    <ui:VisualElement name="simulationManagement">
+        <ui:Button name="reverse" />
+        <ui:Button name="start_stop" />
+        <ui:Button name="forward" />
+        <ui:Button text="10x" name="speed" />
+    </ui:VisualElement>
+</ui:UXML>

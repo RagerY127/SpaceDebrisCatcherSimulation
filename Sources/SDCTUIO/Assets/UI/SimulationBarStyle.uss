@@ -1,0 +1,41 @@
+#simulationManagement {
+    display: flex;
+    background-color: rgb(65, 81, 109);
+    border-color: #547B92;
+    border-width: 4px;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    border-radius: 24px;
+    padding-left:15px;
+    padding-right:15px;
+}
+
+#simulationManagement Button{
+    border-width: 0px;
+    background-color: rgb(65, 81, 109); 
+    border-radius: 24px;
+
+}
+
+#speed {
+    color: rgb(255, 255, 255);
+}
+
+#forward {
+    background-image: url("Icons/forward.png")
+    -unity-background-scale-mode: scale-to-fit;
+    background-size: 32px 32px;
+}
+
+#start_stop {
+    background-image: url("Icons/play.png")
+    -unity-background-scale-mode: scale-to-fit;
+    background-size: 32px 32px;
+}
+
+#reverse {
+    background-image: url("Icons/back.png");
+    -unity-background-scale-mode: scale-to-fit;
+    background-size: 32px 32px;
+}
