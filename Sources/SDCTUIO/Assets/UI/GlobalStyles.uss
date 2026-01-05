@@ -23,3 +23,7 @@
 .header {
     -unity-font-style: bold;
 }
+
+#WindowContent {
+    background-color: rgb(40, 51, 73);
+}
