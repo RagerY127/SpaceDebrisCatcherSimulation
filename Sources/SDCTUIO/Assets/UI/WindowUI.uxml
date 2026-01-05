@@ -2,6 +2,6 @@
     <Style src="project://database/Assets/UI/GlobalStyles.uss?fileID=7433441132597879392&amp;guid=4f3d59cb90662203e8a3fbc8b91a18d8&amp;type=3#GlobalStyles" />
     <ui:VisualElement name="VisualElement" class="window" style="width: 100%; height: 100%;">
         <ui:Label text="Label" class="header" />
-        <ui:ScrollView />
+        <ui:ScrollView style="flex-grow: 1; flex-shrink: 0;" />
     </ui:VisualElement>
 </ui:UXML>
