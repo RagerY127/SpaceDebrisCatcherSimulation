@@ -36,7 +36,6 @@ public class CameraManager : MonoBehaviour
 
     private void OnPanGesture(object sender, System.EventArgs e)
     {
-        print("Panning camera");
         Quaternion rotation = Quaternion.Euler(
             -PanGesture.DeltaPosition.y / Screen.height * RotationSpeed,
             PanGesture.DeltaPosition.x / Screen.width * RotationSpeed,
@@ -47,9 +46,6 @@ public class CameraManager : MonoBehaviour
 
     private void OnZoomGesture(object sender, System.EventArgs e)
     {
-        print("Zooming camera");
-        print(ZoomGesture.DeltaScale);
-
         MainCamera.transform.localPosition *= 1.0f / ZoomGesture.DeltaScale;
 
         float distance = Math.Abs(MainCamera.transform.localPosition.magnitude);

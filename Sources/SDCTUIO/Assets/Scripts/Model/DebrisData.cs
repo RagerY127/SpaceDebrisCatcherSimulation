@@ -9,6 +9,7 @@ public enum DebrisShape
 
 public class DebrisData
 {
+    public string Id { get; private set; }
     public string Name { get; private set; }
     public float OrbitFirstAxis { get; private set; }
     public float OrbitSecondAxis { get; private set; }
@@ -23,6 +24,7 @@ public class DebrisData
     public DebrisData(string name, float orbitFirstAxis, float orbitSecondAxis, float initialPosition,
                   float revolutionsPerDay, float mass, DebrisShape shape, float height, float length, float width)
     {
+        this.Id = Guid.NewGuid().ToString();
         this.Name = name;
         this.OrbitFirstAxis = orbitFirstAxis;
         this.OrbitSecondAxis = orbitSecondAxis;
