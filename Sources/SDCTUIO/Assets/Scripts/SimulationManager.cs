@@ -28,6 +28,9 @@ public class SimulationManager : MonoBehaviour
         this.SimulationScaleFactor = Earth.Radius / EARTH_RADIUS_KM;
 
         DebrisManager.Instance.AddDebrisToSimulation(DebrisData.TestDebrisData());
+        DebrisManager.Instance.AddDebrisToSimulation(DebrisData.TestDebrisData(90.0f, 0.0f));
+        DebrisManager.Instance.AddDebrisToSimulation(DebrisData.TestDebrisData(45.0f, 45.0f));
+        
     }
 
     void Update()

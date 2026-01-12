@@ -44,12 +44,12 @@ public class DebrisData
         return ParserTLE.parseTle(tleLine1, tleLine2);
     }
 
-    public static DebrisData TestDebrisData()
+    public static DebrisData TestDebrisData(float orbitFirstAxis = 0.0f, float orbitSecondAxis = 0.0f)
     {
         return new DebrisData(
             "Test Debris",
-            0.0f,
-            0.0f,
+            orbitFirstAxis,
+            orbitSecondAxis,
             0.0f,
             14.84061f,
             100.0f,
