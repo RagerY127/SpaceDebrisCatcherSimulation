@@ -52,19 +52,15 @@ public class CameraManager : MonoBehaviour
 
         MainCamera.transform.localPosition *= 1.0f / ZoomGesture.DeltaScale;
 
-        float distance = Math.Abs(MainCamera.transform.localPosition.z);
+        float distance = Math.Abs(MainCamera.transform.localPosition.magnitude);
         if (distance < MinCameraDistance)
         {
-            MainCamera.transform.localPosition = new Vector3(
-                0, 0, -MinCameraDistance
-            );
+            MainCamera.transform.localPosition *= MinCameraDistance / distance;
         }
 
         if (distance > MaxCameraDistance)
         {
-            MainCamera.transform.localPosition = new Vector3(
-                0, 0, -MaxCameraDistance
-            );
+            MainCamera.transform.localPosition *= MaxCameraDistance / distance;
         }
     }
 }
