@@ -27,10 +27,12 @@ public class SimulationManager : MonoBehaviour
         this.SimulationTime = new EpochTime(DateTime.UtcNow);
         this.SimulationScaleFactor = Earth.Radius / EARTH_RADIUS_KM;
 
+        DebrisData testDebris = DebrisData.TestDebrisData(45.0f, 45.0f);
         DebrisManager.Instance.AddDebrisToSimulation(DebrisData.TestDebrisData());
         DebrisManager.Instance.AddDebrisToSimulation(DebrisData.TestDebrisData(90.0f, 0.0f));
-        DebrisManager.Instance.AddDebrisToSimulation(DebrisData.TestDebrisData(45.0f, 45.0f));
+        DebrisManager.Instance.AddDebrisToSimulation(testDebris);
         
+        DebrisManager.Instance.DrawDebrisOrbit(testDebris.Id);
     }
 
     void Update()
