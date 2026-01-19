@@ -1,5 +1,6 @@
 using One_Sgp4;
 using System;
+using System.Numerics;
 
 public enum DebrisShape
 {
@@ -42,6 +43,23 @@ public class DebrisData
         string tleLine1 = $"1 00000U 00000ACM 00000.00000000  .00000000  00000+0  00000+0 0  000".AddTleChecksum();
         string tleLine2 = FormattableString.Invariant($"2 00000 {this.OrbitFirstAxis:000.0000} {this.OrbitSecondAxis:000.0000} 0000000 000.0000 {this.InitialPosition:000.0000} {this.RevolutionsPerDay:00.00000000}00000").AddTleChecksum();
         return ParserTLE.parseTle(tleLine1, tleLine2);
+    }
+
+    public Vector3 GetPositionKmAtTime(EpochTime time)
+    {
+        Sgp4Data sgp4DebrisData = SatFunctions.getSatPositionAtTime(
+            this.ToTle(),
+            time,
+            Sgp4.wgsConstant.WGS_84
+        );
+
+        // ATTENTION: Unity utilise un systeme de coordonnees Y-up tandis que SGP4 utilise Z-up
+        Point3d realPositionKm = sgp4DebrisData.getPositionData();
+        return new Vector3(
+            (float)realPositionKm.x,
+            (float)realPositionKm.z,
+            (float)realPositionKm.y
+        );
     }
 
     public static DebrisData TestDebrisData(float orbitFirstAxis = 0.0f, float orbitSecondAxis = 0.0f)

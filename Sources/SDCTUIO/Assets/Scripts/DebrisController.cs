@@ -1,6 +1,7 @@
 using One_Sgp4;
 using TouchScript.Gestures;
 using UnityEngine;
+using System.Numerics;
 
 public class DebrisController : MonoBehaviour
 {
@@ -32,11 +33,7 @@ public class DebrisController : MonoBehaviour
             return;
         }
 
-        transform.position = Utils.GetUnityPosition(
-            this.Tle,
-            SimulationManager.Instance.SimulationTime,
-            SimulationManager.Instance.SimulationScaleFactor
-        );
+        transform.position = this.DebrisData.GetPositionKmAtTime(SimulationManager.Instance.SimulationTime).ToUnityVector3() * SimulationManager.Instance.SimulationScaleFactor;
     }
 
     private void OnDebrisTapped(object sender, System.EventArgs e)

@@ -75,11 +75,7 @@ public class DebrisManager : MonoBehaviour
             EpochTime time = new EpochTime(startTime);
             time.addMinutes(timeOffsetMinutes);
 
-            orbitPoints[i] = Utils.GetUnityPosition(
-                debrisController.Tle,
-                time,
-                SimulationManager.Instance.SimulationScaleFactor
-            );
+            orbitPoints[i] = debrisController.DebrisData.GetPositionKmAtTime(time).ToUnityVector3() * SimulationManager.Instance.SimulationScaleFactor;
         }
 
         LineRenderer.SetPositions(orbitPoints);
