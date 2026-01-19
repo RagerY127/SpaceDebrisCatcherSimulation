@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System;
 public class CatcherData : MonoBehaviour
 {
     public DebrisData Target{get;private set;}
@@ -18,12 +18,13 @@ public class CatcherData : MonoBehaviour
         return speed*MinutesBeforeCatch*60;
         }
 
-    public Catcher(double MinutesBeforeCatch,Debris Target){
+    public CatcherData(double MinutesBeforeCatch,DebrisData Target){
         this.MinutesBeforeCatch=MinutesBeforeCatch;
         this.Target=Target;
 
     }
     public string GetTargetName(){
+        return "";
         //return Target.GetInfos["name"];
     }
 
