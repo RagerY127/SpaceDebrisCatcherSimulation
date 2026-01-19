@@ -62,7 +62,7 @@ public class DebrisData
         );
     }
 
-    public static DebrisData TestDebrisData(float orbitFirstAxis = 0.0f, float orbitSecondAxis = 0.0f)
+    public static DebrisData TestDebrisData(float orbitFirstAxis = 0.0f, float orbitSecondAxis = 0.0f, DebrisShape shape = DebrisShape.Cube)
     {
         return new DebrisData(
             "Test Debris",
@@ -71,7 +71,7 @@ public class DebrisData
             0.0f,
             14.84061f,
             100.0f,
-            DebrisShape.Cube,
+            shape,
             1.0f,
             1.0f,
             1.0f

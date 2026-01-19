@@ -27,6 +27,17 @@ public class DebrisManager : MonoBehaviour
         debrisController.AssignDebrisData(debrisData);
 
         DebrisObjects[debrisData.Id] = debrisObject;
+
+        // Change prefab data from the debris data
+        switch (debrisData.Shape)
+        {
+            case DebrisShape.Cube:
+                debrisObject.GetComponent<MeshFilter>().mesh = Resources.GetBuiltinResource<Mesh>("Cube.fbx");
+                break;
+            case DebrisShape.Cylinder:
+                debrisObject.GetComponent<MeshFilter>().mesh = Resources.GetBuiltinResource<Mesh>("Cylinder.fbx");
+                break;
+        }
     }
 
     public void RemoveDebris(string debrisId)
