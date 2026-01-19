@@ -1,9 +1,12 @@
 using System;
 using TouchScript.Gestures.TransformGestures;
 using UnityEngine;
+using UnityEngine.InputSystem.DualShock;
 
 public class CameraManager : MonoBehaviour
 {
+    public static CameraManager Instance;
+
     [SerializeField]
     private Camera MainCamera;
     [SerializeField]
@@ -17,6 +20,9 @@ public class CameraManager : MonoBehaviour
     [SerializeField]
     private ScreenTransformGesture ZoomGesture;
 
+    private GameObject FollowedDebris;
+    private bool IsFollowingDebris;
+
     private void OnEnable()
     {
         PanGesture.Transformed += OnPanGesture;
@@ -29,19 +35,44 @@ public class CameraManager : MonoBehaviour
         ZoomGesture.Transformed -= OnZoomGesture;
     }
 
+    void Start()
+    {
+        Instance = this;
+        FollowedDebris = null;
+        IsFollowingDebris = false;
+    }
+
     void Update()
     {
-        
+        if (IsFollowingDebris && FollowedDebris != null)
+        {
+            Vector3 debrisPosition = FollowedDebris.transform.position;
+            transform.LookAt(debrisPosition);
+        }
+    }
+
+    public void FollowDebris(GameObject debris)
+    {
+        FollowedDebris = debris;
+        IsFollowingDebris = true;
+    }
+
+    public void UnfollowDebris()
+    {
+        FollowedDebris = null;
+        IsFollowingDebris = false;
     }
 
     private void OnPanGesture(object sender, System.EventArgs e)
     {
         Quaternion rotation = Quaternion.Euler(
-            -PanGesture.DeltaPosition.y / Screen.height * RotationSpeed,
+            PanGesture.DeltaPosition.y / Screen.height * RotationSpeed,
             PanGesture.DeltaPosition.x / Screen.width * RotationSpeed,
             0
         );
         transform.localRotation *= rotation;
+
+        UnfollowDebris();
     }
 
     private void OnZoomGesture(object sender, System.EventArgs e)
