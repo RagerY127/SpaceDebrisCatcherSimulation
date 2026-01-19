@@ -9,7 +9,7 @@ public enum MessageType { DEBRIS=1, CATCHER=2}
 public class DataEntry//La classe Dictionary n'étant pas sérialisable,il faut créer la notre
 {
     [SerializeField] public string key;
-    [SerializeField] public string value; //TYPE A CHANGER!
+    [SerializeField] public ObjectDataBundle value; //TYPE A CHANGER!
 }
 
 /*
@@ -29,7 +29,7 @@ public class HololensMessage{
         this.type=type;
     }
 
-    public void AddData(string name,string data){
+    public void AddData(string name,ObjectDataBundle data){
         messageData.Add(new DataEntry { key = name, value = data });
     }
 }
