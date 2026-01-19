@@ -31,8 +31,7 @@ public class SimulationManager : MonoBehaviour
         DebrisManager.Instance.AddDebrisToSimulation(DebrisData.TestDebrisData());
         DebrisManager.Instance.AddDebrisToSimulation(DebrisData.TestDebrisData(90.0f, 0.0f));
         DebrisManager.Instance.AddDebrisToSimulation(testDebris);
-        
-        DebrisManager.Instance.DrawDebrisOrbit(testDebris.Id);
+        DebrisManager.Instance.SelectDebris(testDebris.Id);
     }
 
     void Update()

@@ -48,6 +48,7 @@ public class DebrisManager : MonoBehaviour
         }
 
         SelectedDebris = DebrisObjects[debrisId];
+        DrawDebrisOrbit(debrisId);
     }
 
     public void DrawDebrisOrbit(string debrisId)

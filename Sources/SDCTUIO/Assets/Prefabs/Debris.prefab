@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6763649353200734597}
   - component: {fileID: 391471030340351392}
   - component: {fileID: 4673051163581282913}
+  - component: {fileID: 8107814032817879455}
   m_Layer: 0
   m_Name: Debris
   m_TagString: Untagged
@@ -124,3 +125,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70854fc82ebb12744b57d9e1981f3a3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebrisController
+  TapGesture: {fileID: 8107814032817879455}
+--- !u!114 &8107814032817879455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5957911271144715361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a878a6ff128243dfb1d89ca0273f059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TouchScript.Gestures.TapGesture
+  OnStateChange:
+    m_PersistentCalls:
+      m_Calls: []
+  basicEditor: 1
+  generalProps: 0
+  limitsProps: 0
+  advancedProps: 0
+  minPointers: 0
+  maxPointers: 0
+  useSendMessage: 0
+  sendStateChangeMessages: 0
+  sendMessageTarget: {fileID: 0}
+  useUnityEvents: 0
+  sendStateChangeEvents: 0
+  requireGestureToFail: {fileID: 0}
+  friendlyGestures: []
+  OnTap:
+    m_PersistentCalls:
+      m_Calls: []
+  numberOfTapsRequired: 1
+  timeLimit: Infinity
+  distanceLimit: Infinity
+  combinePointers: 0
+  combinePointersInterval: 0.3

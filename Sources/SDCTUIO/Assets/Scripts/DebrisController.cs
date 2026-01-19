@@ -9,6 +9,9 @@ public class DebrisController : MonoBehaviour
     public DebrisData DebrisData { get; private set; }
     private bool IsInitialized = false;
 
+    [SerializeField]
+    private TapGesture TapGesture;
+
     public void AssignDebrisData(DebrisData debrisData)
     {
         this.Tle = debrisData.ToTle();
@@ -18,12 +21,12 @@ public class DebrisController : MonoBehaviour
 
     public void OnEnable()
     {
-        // GetComponent<TapGesture>().Tapped += OnDebrisTapped;
+        TapGesture.Tapped += OnDebrisTapped;
     }
 
     public void OnDisable()
     {
-        // GetComponent<TapGesture>().Tapped -= OnDebrisTapped;
+        TapGesture.Tapped -= OnDebrisTapped;
     }
 
     private void Update()
@@ -38,7 +41,6 @@ public class DebrisController : MonoBehaviour
 
     private void OnDebrisTapped(object sender, System.EventArgs e)
     {
-        // DebrisManager.Instance.SelectDebris(this.gameObject);
-        // Debug.Log("Debris tapped: " + this.DebrisData.Name);
+        DebrisManager.Instance.SelectDebris(this.DebrisData.Id);
     }
 }
