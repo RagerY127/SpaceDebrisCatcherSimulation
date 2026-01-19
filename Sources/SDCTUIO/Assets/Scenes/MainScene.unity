@@ -456,6 +456,7 @@ MonoBehaviour:
   RotationSpeed: 180
   MinCameraDistance: 30
   MaxCameraDistance: 150
+  TrackingSpeed: 5
   PanGesture: {fileID: 736798984}
   ZoomGesture: {fileID: 736798985}
 --- !u!114 &736798984

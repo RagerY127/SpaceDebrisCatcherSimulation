@@ -16,6 +16,8 @@ public class CameraManager : MonoBehaviour
     [SerializeField]
     private float MaxCameraDistance;
     [SerializeField]
+    private float TrackingSpeed;
+    [SerializeField]
     private ScreenTransformGesture PanGesture;
     [SerializeField]
     private ScreenTransformGesture ZoomGesture;
@@ -47,7 +49,8 @@ public class CameraManager : MonoBehaviour
         if (IsFollowingDebris && FollowedDebris != null)
         {
             Vector3 debrisPosition = FollowedDebris.transform.position;
-            transform.LookAt(debrisPosition);
+            Quaternion targetRotation = Quaternion.LookRotation(debrisPosition);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * TrackingSpeed);
         }
     }
 
