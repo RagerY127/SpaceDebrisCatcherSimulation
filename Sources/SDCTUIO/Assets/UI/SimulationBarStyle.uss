@@ -29,7 +29,6 @@
 }
 
 #start_stop {
-    background-image: url("Icons/play.png");
     -unity-background-scale-mode: scale-to-fit;
     background-size: 32px 32px;
 }
@@ -38,4 +37,12 @@
     background-image: url("Icons/back.png");
     -unity-background-scale-mode: scale-to-fit;
     background-size: 32px 32px;
+}
+
+.icon-play {
+    background-image: url("project:/Assets/UI/Icons/play.png");
+}
+
+.icon-pause {
+    background-image: url("project:/Assets/UI/Icons/pause.png");
 }
