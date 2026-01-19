@@ -23,13 +23,13 @@
 }
 
 #forward {
-    background-image: url("Icons/forward.png")
+    background-image: url("Icons/forward.png");
     -unity-background-scale-mode: scale-to-fit;
     background-size: 32px 32px;
 }
 
 #start_stop {
-    background-image: url("Icons/play.png")
+    background-image: url("Icons/play.png");
     -unity-background-scale-mode: scale-to-fit;
     background-size: 32px 32px;
 }
