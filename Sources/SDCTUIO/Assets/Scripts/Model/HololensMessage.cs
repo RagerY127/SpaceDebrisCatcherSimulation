@@ -1,5 +1,6 @@
 using UnityEngine;
 using System; // Obligatoire pour [Serializable]
+using System.Collections.Generic;
 
 public enum MessageType { DEBRIS, CATCHER }
 
