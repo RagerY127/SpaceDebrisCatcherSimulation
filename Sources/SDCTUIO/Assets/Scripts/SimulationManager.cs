@@ -11,6 +11,7 @@ public class SimulationManager : MonoBehaviour
     private EarthScript Earth;
     [SerializeField]
     public float SimulationSpeed;
+    private float SavedSimulationSpeed;
 
     public static SimulationManager Instance { get; private set; }
 
@@ -37,5 +38,29 @@ public class SimulationManager : MonoBehaviour
     void Update()
     {
         this.SimulationTime.addTick(Time.deltaTime * this.SimulationSpeed);
+
+        /// DEBUG
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (this.SimulationSpeed > 0.0f)
+            {
+                this.StopSimulation();
+            }
+            else
+            {
+                this.ResumeSimulation();
+            }
+        }
+    }
+
+    public void StopSimulation()
+    {
+        this.SavedSimulationSpeed = this.SimulationSpeed;
+        this.SimulationSpeed = 0.0f;
+    }
+
+    public void ResumeSimulation()
+    {
+        this.SimulationSpeed = this.SavedSimulationSpeed;
     }
 }
