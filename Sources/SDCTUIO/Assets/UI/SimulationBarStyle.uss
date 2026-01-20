@@ -23,7 +23,7 @@
 }
 
 #forward {
-    background-image: url("Icons/forward.png");
+    background-image: url("project:/Assets/UI/Icons/fast_forward.png");
     -unity-background-scale-mode: scale-to-fit;
     background-size: 32px 32px;
 }
@@ -34,7 +34,7 @@
 }
 
 #reverse {
-    background-image: url("Icons/back.png");
+    background-image: url("project:/Assets/UI/Icons/fast_rewind.png");
     -unity-background-scale-mode: scale-to-fit;
     background-size: 32px 32px;
 }
@@ -45,4 +45,9 @@
 
 .icon-pause {
     background-image: url("project:/Assets/UI/Icons/pause.png");
+}
+
+.button--disabled {
+    opacity: 0.3;
+    -unity-background-image-tint-color: rgba(200, 200, 200, 0.5);
 }
