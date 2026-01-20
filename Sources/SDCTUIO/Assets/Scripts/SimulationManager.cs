@@ -16,10 +16,12 @@ public class SimulationManager : MonoBehaviour
 
     public EpochTime SimulationTime { get; private set; }
     public float SimulationScaleFactor { get; private set; }
+    public bool IsSimulationRunning { get; private set; } 
 
     void Awake() 
     {
         Instance = this;
+        IsSimulationRunning = true;
     }
 
     void Start()
@@ -63,10 +65,12 @@ public class SimulationManager : MonoBehaviour
     {
         this.SavedSimulationSpeed = this.SimulationSpeed;
         this.SimulationSpeed = 0.0f;
+        this.IsSimulationRunning = false;
     }
 
     public void ResumeSimulation()
     {
         this.SimulationSpeed = this.SavedSimulationSpeed;
+        this.IsSimulationRunning = true;
     }
 }
