@@ -61,6 +61,15 @@ public class SimulationManager : MonoBehaviour
         }
     }
 
+    public void SetSimulationSpeed(float speed)
+    {
+        this.SavedSimulationSpeed = speed;
+        if (this.IsSimulationRunning)
+        {
+            this.SimulationSpeed = speed;   
+        }
+    }
+
     public void StopSimulation()
     {
         this.SavedSimulationSpeed = this.SimulationSpeed;

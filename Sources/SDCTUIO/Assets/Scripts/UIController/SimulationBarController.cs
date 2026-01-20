@@ -82,7 +82,7 @@ public class SimulationBarController : MonoBehaviour
     private void ApplySpeed()
     {
         float newSpeed = _speedSteps[_currentSpeedIndex];
-         
+        SimulationManager.Instance.SetSimulationSpeed(newSpeed);
         
         if (_speedLabel != null)
         {
