@@ -46,19 +46,6 @@ public class SimulationManager : MonoBehaviour
     void Update()
     {
         this.SimulationTime.addTick(Time.deltaTime * this.SimulationSpeed);
-
-        /// DEBUG
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (this.SimulationSpeed > 0.0f)
-            {
-                this.StopSimulation();
-            }
-            else
-            {
-                this.ResumeSimulation();
-            }
-        }
     }
 
     public void SetSimulationSpeed(float speed)
