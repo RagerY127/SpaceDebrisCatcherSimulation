@@ -1,7 +1,6 @@
 using System;
 using TouchScript.Gestures.TransformGestures;
 using UnityEngine;
-using UnityEngine.InputSystem.DualShock;
 
 public class CameraManager : MonoBehaviour
 {
@@ -23,17 +22,18 @@ public class CameraManager : MonoBehaviour
     private ScreenTransformGesture ZoomGesture;
 
     private GameObject FollowedDebris;
-    private bool IsFollowingDebris;
 
     private void OnEnable()
     {
         PanGesture.Transformed += OnPanGesture;
+        PanGesture.TransformCompleted += OnPanCompletedGesture;
         ZoomGesture.Transformed += OnZoomGesture;
     }
 
     private void OnDisable()
     {
         PanGesture.Transformed -= OnPanGesture;
+        PanGesture.TransformCompleted -= OnPanCompletedGesture;
         ZoomGesture.Transformed -= OnZoomGesture;
     }
 
@@ -41,29 +41,30 @@ public class CameraManager : MonoBehaviour
     {
         Instance = this;
         FollowedDebris = null;
-        IsFollowingDebris = false;
     }
 
     void Update()
     {
-        if (IsFollowingDebris && FollowedDebris != null)
+        if (FollowedDebris != null)
         {
             Vector3 debrisPosition = FollowedDebris.transform.position;
             Quaternion targetRotation = Quaternion.LookRotation(debrisPosition);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * TrackingSpeed);
+        }
+        else
+        {
+
         }
     }
 
     public void FollowDebris(GameObject debris)
     {
         FollowedDebris = debris;
-        IsFollowingDebris = true;
     }
 
     public void UnfollowDebris()
     {
         FollowedDebris = null;
-        IsFollowingDebris = false;
     }
 
     private void OnPanGesture(object sender, System.EventArgs e)
@@ -76,6 +77,11 @@ public class CameraManager : MonoBehaviour
         transform.localRotation *= rotation;
 
         UnfollowDebris();
+    }
+
+    private void OnPanCompletedGesture(object sender, System.EventArgs e)
+    {
+
     }
 
     private void OnZoomGesture(object sender, System.EventArgs e)
