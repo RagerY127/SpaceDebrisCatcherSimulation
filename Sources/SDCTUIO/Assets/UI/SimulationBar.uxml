@@ -4,6 +4,6 @@
         <ui:Button name="reverse" />
         <ui:Button name="start_stop" />
         <ui:Button name="forward" />
-        <ui:Button text="10x" name="speed" />
+        <ui:Label text="10x" name="speed" />
     </ui:VisualElement>
 </ui:UXML>
