@@ -61,8 +61,6 @@ public class SimulationBarController : MonoBehaviour
 
     private void OnSpeedDown()
     {
-        if (!SimulationManager.Instance.IsSimulationRunning) return;
-
         if (_currentSpeedIndex > 0)
         {
             _currentSpeedIndex--;
@@ -73,8 +71,6 @@ public class SimulationBarController : MonoBehaviour
 
     private void OnSpeedUp()
     {
-        if (!SimulationManager.Instance.IsSimulationRunning) return;
-
         if (_currentSpeedIndex < _speedSteps.Length - 1)
         {
             _currentSpeedIndex++;
