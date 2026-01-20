@@ -19,13 +19,15 @@
 }
 
 #speed {
+    width:50px;
+    -unity-text-align: middle-right;
     color: rgb(255, 255, 255);
 }
 
 #forward {
     background-image: url("project:/Assets/UI/Icons/fast_forward.png");
     -unity-background-scale-mode: scale-to-fit;
-    background-size: 32px 32px;
+    background-size: 28px 28px;
 }
 
 #start_stop {
@@ -36,7 +38,7 @@
 #reverse {
     background-image: url("project:/Assets/UI/Icons/fast_rewind.png");
     -unity-background-scale-mode: scale-to-fit;
-    background-size: 32px 32px;
+    background-size: 28px 28px;
 }
 
 .icon-play {
