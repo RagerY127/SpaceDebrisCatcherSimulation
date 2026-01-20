@@ -6,5 +6,5 @@
         <ui:Instance template="TopBarUI" />
     </ui:VisualElement>
     <ui:VisualElement name="VisualElement" style="flex-grow: 1;" />
-    <ui:Instance template="SimulationBar" />
+    <ui:Instance template="SimulationBar" style="width: 25%;" />
 </ui:UXML>
