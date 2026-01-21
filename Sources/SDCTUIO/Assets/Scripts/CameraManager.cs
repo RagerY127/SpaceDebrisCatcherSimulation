@@ -7,49 +7,49 @@ public class CameraManager : MonoBehaviour
     public static CameraManager Instance;
 
     [SerializeField]
-    private Camera MainCamera;
+    private Camera _mainCamera;
     [SerializeField]
-    private float RotationSpeed;
+    private float _rotationSpeed;
     [SerializeField]
-    private float MinCameraDistance;
+    private float _minCameraDistance;
     [SerializeField]
-    private float MaxCameraDistance;
+    private float _maxCameraDistance;
     [SerializeField]
-    private float TrackingSpeed;
+    private float _trackingSpeed;
     [SerializeField]
-    private ScreenTransformGesture PanGesture;
+    private ScreenTransformGesture _panGesture;
     [SerializeField]
-    private ScreenTransformGesture ZoomGesture;
+    private ScreenTransformGesture _zoomGesture;
 
-    private GameObject FollowedDebris;
+    private GameObject _followedDebris;
 
     private void OnEnable()
     {
-        PanGesture.Transformed += OnPanGesture;
-        PanGesture.TransformCompleted += OnPanCompletedGesture;
-        ZoomGesture.Transformed += OnZoomGesture;
+        _panGesture.Transformed += OnPanGesture;
+        _panGesture.TransformCompleted += OnPanCompletedGesture;
+        _zoomGesture.Transformed += OnZoomGesture;
     }
 
     private void OnDisable()
     {
-        PanGesture.Transformed -= OnPanGesture;
-        PanGesture.TransformCompleted -= OnPanCompletedGesture;
-        ZoomGesture.Transformed -= OnZoomGesture;
+        _panGesture.Transformed -= OnPanGesture;
+        _panGesture.TransformCompleted -= OnPanCompletedGesture;
+        _zoomGesture.Transformed -= OnZoomGesture;
     }
 
     void Start()
     {
         Instance = this;
-        FollowedDebris = null;
+        _followedDebris = null;
     }
 
     void Update()
     {
-        if (FollowedDebris != null)
+        if (_followedDebris != null)
         {
-            Vector3 debrisPosition = FollowedDebris.transform.position;
+            Vector3 debrisPosition = _followedDebris.transform.position;
             Quaternion targetRotation = Quaternion.LookRotation(debrisPosition);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * TrackingSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _trackingSpeed);
         }
         else
         {
@@ -59,19 +59,19 @@ public class CameraManager : MonoBehaviour
 
     public void FollowDebris(GameObject debris)
     {
-        FollowedDebris = debris;
+        _followedDebris = debris;
     }
 
     public void UnfollowDebris()
     {
-        FollowedDebris = null;
+        _followedDebris = null;
     }
 
-    private void OnPanGesture(object sender, System.EventArgs e)
+    private void OnPanGesture(object sender, EventArgs e)
     {
         Quaternion rotation = Quaternion.Euler(
-            PanGesture.DeltaPosition.y / Screen.height * RotationSpeed,
-            PanGesture.DeltaPosition.x / Screen.width * RotationSpeed,
+            _panGesture.DeltaPosition.y / Screen.height * _rotationSpeed,
+            _panGesture.DeltaPosition.x / Screen.width * _rotationSpeed,
             0
         );
         transform.localRotation *= rotation;
@@ -79,24 +79,24 @@ public class CameraManager : MonoBehaviour
         UnfollowDebris();
     }
 
-    private void OnPanCompletedGesture(object sender, System.EventArgs e)
+    private void OnPanCompletedGesture(object sender, EventArgs e)
     {
 
     }
 
-    private void OnZoomGesture(object sender, System.EventArgs e)
+    private void OnZoomGesture(object sender, EventArgs e)
     {
-        MainCamera.transform.localPosition *= 1.0f / ZoomGesture.DeltaScale;
+        _mainCamera.transform.localPosition *= 1.0f / _zoomGesture.DeltaScale;
 
-        float distance = Math.Abs(MainCamera.transform.localPosition.magnitude);
-        if (distance < MinCameraDistance)
+        float distance = Math.Abs(_mainCamera.transform.localPosition.magnitude);
+        if (distance < _minCameraDistance)
         {
-            MainCamera.transform.localPosition *= MinCameraDistance / distance;
+            _mainCamera.transform.localPosition *= _minCameraDistance / distance;
         }
 
-        if (distance > MaxCameraDistance)
+        if (distance > _maxCameraDistance)
         {
-            MainCamera.transform.localPosition *= MaxCameraDistance / distance;
+            _mainCamera.transform.localPosition *= _maxCameraDistance / distance;
         }
     }
 }
