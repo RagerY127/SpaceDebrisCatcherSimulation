@@ -7,7 +7,7 @@ public class CatcherData : MonoBehaviour
     public Vector3 LastPos=new Vector3(0,0,0);
     
     public double GetSpeed(){
-        Vector3 posDiff=(transform.position-LastPos)*SimulationManager.Instance.SimulationScaleFactor;
+        Vector3 posDiff=(transform.position-LastPos)*SimulationManager.ScaleFactor;
         double distance=Math.Sqrt(posDiff.x*posDiff.x+posDiff.y*posDiff.y+posDiff.z*posDiff.z);
 
         return distance/Time.deltaTime;

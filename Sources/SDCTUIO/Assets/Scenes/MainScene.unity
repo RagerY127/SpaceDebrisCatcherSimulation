@@ -452,13 +452,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8eefeed3aca5e9c459659df641cabfa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraManager
-  MainCamera: {fileID: 1316160846}
-  RotationSpeed: 135
-  MinCameraDistance: 30
-  MaxCameraDistance: 150
-  TrackingSpeed: 5
-  PanGesture: {fileID: 736798984}
-  ZoomGesture: {fileID: 736798985}
+  _mainCamera: {fileID: 1316160846}
+  _rotationSpeed: 135
+  _minCameraDistance: 50
+  _maxCameraDistance: 300
+  _trackingSpeed: 5
+  _panGesture: {fileID: 736798984}
+  _zoomGesture: {fileID: 736798985}
 --- !u!114 &736798984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,8 +583,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bb992bc2168794c8519efde6fdad2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimulationManager
-  Earth: {fileID: 33535732}
-  SimulationSpeed: 200
+  _earth: {fileID: 33535732}
+  _simulationSpeed: 1
 --- !u!1001 &980378303
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1124,7 +1124,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebrisManager
   DebrisPrefab: {fileID: 5957911271144715361, guid: 5e85b1541a4395c45927b662f7ccde75, type: 3}
-  SelectedDebris: {fileID: 0}
   OrbitPointCount: 30
   LineRenderer: {fileID: 2052408731}
 --- !u!120 &2052408731

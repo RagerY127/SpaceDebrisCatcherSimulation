@@ -43,6 +43,12 @@ public class SimulationManager : MonoBehaviour
     void Update()
     {
         _simulationTime.addTick(Time.deltaTime * _simulationSpeed);
+
+        // DEBUG: Remove selected debris on backspace
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            DebrisManager.Instance.RemoveSelectedDebris();
+        }
     }
 
     public void SetSimulationSpeed(float speed)
