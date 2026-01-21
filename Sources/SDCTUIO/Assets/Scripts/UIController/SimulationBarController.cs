@@ -42,7 +42,7 @@ public class SimulationBarController : MonoBehaviour
 
     private void OnToggleSimulation()
     {
-        if (SimulationManager.Instance.IsSimulationRunning)
+        if (SimulationManager.IsRunning)
     
         {
             _playPauseButton.RemoveFromClassList("icon-pause");

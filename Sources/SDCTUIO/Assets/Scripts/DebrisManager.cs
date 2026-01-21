@@ -79,7 +79,7 @@ public class DebrisManager : MonoBehaviour
         float meanMotion = debrisController.DebrisData.RevolutionsPerDay;
         float periodMinutes = 60f * 24f / meanMotion;
 
-        EpochTime startTime = new EpochTime(SimulationManager.Instance.SimulationTime);
+        EpochTime startTime = new EpochTime(SimulationManager.SimulationTime);
         for (int i = 0; i < OrbitPointCount; i++)
         {
             double timeOffsetMinutes = periodMinutes / OrbitPointCount * i;
@@ -87,7 +87,7 @@ public class DebrisManager : MonoBehaviour
             EpochTime time = new EpochTime(startTime);
             time.addMinutes(timeOffsetMinutes);
 
-            orbitPoints[i] = debrisController.DebrisData.GetPositionKmAtTime(time).ToUnityVector3() * SimulationManager.Instance.SimulationScaleFactor;
+            orbitPoints[i] = debrisController.DebrisData.GetPositionKmAtTime(time).ToUnityVector3() * SimulationManager.ScaleFactor;
         }
 
         LineRenderer.SetPositions(orbitPoints);

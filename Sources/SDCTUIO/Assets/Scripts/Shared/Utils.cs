@@ -1,6 +1,3 @@
-using UnityEngine;
-using One_Sgp4;
-
 public static class Utils
 {
     public static UnityEngine.Vector3 ToUnityVector3(this System.Numerics.Vector3 vec)
