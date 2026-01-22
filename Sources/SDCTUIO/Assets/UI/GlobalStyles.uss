@@ -1,8 +1,10 @@
-.unity-text-element {
+.unity-button {
     background-color: rgb(65, 81, 109);
     border-color: rgb(84, 123, 146);
     border-width: 4px;
     border-radius: 24px;
+}
+.unity-text-element {
     color: rgb(255, 255, 255);
 }
 
