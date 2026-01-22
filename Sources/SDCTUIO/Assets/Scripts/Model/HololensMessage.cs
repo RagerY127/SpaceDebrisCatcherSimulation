@@ -2,14 +2,14 @@ using UnityEngine;
 using System; // Obligatoire pour [Serializable]
 using System.Collections.Generic;
 
-public enum MessageType { DEBRIS=1, CATCHER=2}
+public enum MessageType { DEBRIS, CATCHER }
 
 
 [Serializable]
 public class DataEntry//La classe Dictionary n'étant pas sérialisable,il faut créer la notre
 {
-    [SerializeField] public string key;
-    [SerializeField] public ObjectDataBundle value; //TYPE A CHANGER!
+    public string key;
+    public string value; //TYPE A CHANGER!
 }
 
 /*
@@ -23,13 +23,16 @@ A la réception:
 */
 [Serializable]
 public class HololensMessage{
-    [SerializeField] public MessageType type;
-    [SerializeField] public List<DataEntry> messageData = new List<DataEntry>();
+    private MessageType type;
+    private List<DataEntry> messageData = new List<DataEntry>();
     public HololensMessage(MessageType type){
         this.type=type;
     }
 
-    public void AddData(string name,ObjectDataBundle data){
+    public void AddData(string name,string data){
         messageData.Add(new DataEntry { key = name, value = data });
     }
+
+    public List<DataEntry> GetMessageData(){return messageData;}
+    public MessageType GetMessageType(){return type;}
 }

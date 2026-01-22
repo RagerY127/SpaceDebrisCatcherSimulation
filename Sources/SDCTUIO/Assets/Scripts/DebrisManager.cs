@@ -7,17 +7,18 @@ public class DebrisManager : MonoBehaviour
     public static DebrisManager Instance { get; private set; }
 
     public GameObject DebrisPrefab;
-    public GameObject SelectedDebris;
+    public GameObject SelectedDebris { get; private set; }
     [SerializeField]
     private int OrbitPointCount;
     [SerializeField]
     private LineRenderer LineRenderer;
 
-    private Dictionary<string, GameObject> DebrisObjects = new();
+    private Dictionary<string, GameObject> _debrisObjects;
 
     void Awake() 
     {
         Instance = this;
+        _debrisObjects = new Dictionary<string, GameObject>();
     }
 
     public void AddDebrisToSimulation(DebrisData debrisData)
@@ -26,7 +27,7 @@ public class DebrisManager : MonoBehaviour
         DebrisController debrisController = debrisObject.GetComponent<DebrisController>();
         debrisController.AssignDebrisData(debrisData);
 
-        DebrisObjects[debrisData.Id] = debrisObject;
+        _debrisObjects[debrisData.Id] = debrisObject;
 
         // Change prefab data from the debris data
         switch (debrisData.Shape)
@@ -43,33 +44,50 @@ public class DebrisManager : MonoBehaviour
     public void RemoveDebris(string debrisId)
     {
         
-        if (DebrisObjects.ContainsKey(debrisId))
+        if (_debrisObjects.ContainsKey(debrisId))
         {
-            GameObject debrisObject = DebrisObjects[debrisId];
-            DebrisObjects.Remove(debrisId);
+            GameObject debrisObject = _debrisObjects[debrisId];
+            _debrisObjects.Remove(debrisId);
             Destroy(debrisObject);
         }
     }
 
+    public void RemoveSelectedDebris()
+    {
+        RemoveDebris(SelectedDebris.GetComponent<DebrisController>().DebrisData.Id);
+        DeselectDebris();
+    }
+
+    public GameObject FindDebrisFromId(string debrisId)
+    {
+        return _debrisObjects.GetValueOrDefault(debrisId, null);
+    }
+
     public void SelectDebris(string debrisId)
     {
-        if (!DebrisObjects.ContainsKey(debrisId))
+        if (!_debrisObjects.ContainsKey(debrisId))
         {
             return;
         }
 
-        SelectedDebris = DebrisObjects[debrisId];
+        SelectedDebris = _debrisObjects[debrisId];
         DrawDebrisOrbit(debrisId);
+    }
+
+    public void DeselectDebris()
+    {
+        SelectedDebris = null;
+        LineRenderer.positionCount = 0;
     }
 
     public void DrawDebrisOrbit(string debrisId)
     {
-        if (!DebrisObjects.ContainsKey(debrisId))
+        if (!_debrisObjects.ContainsKey(debrisId))
         {
             return;
         }
 
-        DebrisController debrisController = DebrisObjects[debrisId].GetComponent<DebrisController>();
+        DebrisController debrisController = _debrisObjects[debrisId].GetComponent<DebrisController>();
 
         LineRenderer.positionCount = OrbitPointCount;
         LineRenderer.loop = true;
@@ -79,7 +97,7 @@ public class DebrisManager : MonoBehaviour
         float meanMotion = debrisController.DebrisData.RevolutionsPerDay;
         float periodMinutes = 60f * 24f / meanMotion;
 
-        EpochTime startTime = new EpochTime(SimulationManager.Instance.SimulationTime);
+        EpochTime startTime = new EpochTime(SimulationManager.SimulationTime);
         for (int i = 0; i < OrbitPointCount; i++)
         {
             double timeOffsetMinutes = periodMinutes / OrbitPointCount * i;
@@ -87,7 +105,7 @@ public class DebrisManager : MonoBehaviour
             EpochTime time = new EpochTime(startTime);
             time.addMinutes(timeOffsetMinutes);
 
-            orbitPoints[i] = debrisController.DebrisData.GetPositionKmAtTime(time).ToUnityVector3() * SimulationManager.Instance.SimulationScaleFactor;
+            orbitPoints[i] = debrisController.DebrisData.GetPositionKmAtTime(time).ToUnityVector3() * SimulationManager.ScaleFactor;
         }
 
         LineRenderer.SetPositions(orbitPoints);

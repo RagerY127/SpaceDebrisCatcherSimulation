@@ -1,67 +1,75 @@
-using System;
 using One_Sgp4;
 using UnityEngine;
 using DigitalRuby.Earth;
 
 public class SimulationManager : MonoBehaviour
 {
+    public static SimulationManager Instance { get; private set; }
+
     public const float EARTH_RADIUS_KM = 6371.0f;
 
     [SerializeField]
-    private EarthScript Earth;
+    private EarthScript _earth;
     [SerializeField]
-    public float SimulationSpeed;
-    private float SavedSimulationSpeed;
+    private float _simulationSpeed;
+    private float _savedSimulationSpeed;
+    private EpochTime _simulationTime;
+    private float _scaleFactor;
+    private bool _isRunning;
 
-    public static SimulationManager Instance { get; private set; }
-
-    public EpochTime SimulationTime { get; private set; }
-    public float SimulationScaleFactor { get; private set; }
+    // Static passthroughs
+    public static float SimulationSpeed => Instance._simulationSpeed;
+    public static EpochTime SimulationTime => Instance._simulationTime;
+    public static float ScaleFactor => Instance._scaleFactor;
+    public static bool IsRunning => Instance._isRunning;
 
     void Awake() 
     {
         Instance = this;
+        _isRunning = true;
     }
 
     void Start()
     {
-        this.SimulationTime = new EpochTime(DateTime.UtcNow);
-        this.SimulationScaleFactor = Earth.Radius / EARTH_RADIUS_KM;
+        _simulationTime = new EpochTime(System.DateTime.UtcNow);
+        _scaleFactor = _earth.Radius / EARTH_RADIUS_KM;
 
-        DebrisData testDebris = DebrisData.TestDebrisData(45.0f, 45.0f);
-        DebrisManager.Instance.AddDebrisToSimulation(DebrisData.TestDebrisData());
-        DebrisManager.Instance.AddDebrisToSimulation(DebrisData.TestDebrisData(90.0f, 0.0f, DebrisShape.Cylinder));
-        DebrisManager.Instance.AddDebrisToSimulation(DebrisData.TestDebrisData(49.0f, 155.0f));
-        DebrisManager.Instance.AddDebrisToSimulation(testDebris);
-        DebrisManager.Instance.SelectDebris(testDebris.Id);
+        for (int i = 0; i < 20; i++)
+        {
+            DebrisManager.Instance.AddDebrisToSimulation(DebrisData.RandomDebris());
+        }
     }
 
     void Update()
     {
-        this.SimulationTime.addTick(Time.deltaTime * this.SimulationSpeed);
+        _simulationTime.addTick(Time.deltaTime * _simulationSpeed);
 
-        /// DEBUG
-        if (Input.GetKeyDown(KeyCode.Space))
+        // DEBUG: Remove selected debris on backspace
+        if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            if (this.SimulationSpeed > 0.0f)
-            {
-                this.StopSimulation();
-            }
-            else
-            {
-                this.ResumeSimulation();
-            }
+            DebrisManager.Instance.RemoveSelectedDebris();
+        }
+    }
+
+    public void SetSimulationSpeed(float speed)
+    {
+        _savedSimulationSpeed = speed;
+        if (_isRunning)
+        {
+            _simulationSpeed = speed;   
         }
     }
 
     public void StopSimulation()
     {
-        this.SavedSimulationSpeed = this.SimulationSpeed;
-        this.SimulationSpeed = 0.0f;
+        _savedSimulationSpeed = SimulationSpeed;
+        _simulationSpeed = 0.0f;
+        _isRunning = false;
     }
 
     public void ResumeSimulation()
     {
-        this.SimulationSpeed = this.SavedSimulationSpeed;
+        _simulationSpeed = _savedSimulationSpeed;
+        _isRunning = true;
     }
 }

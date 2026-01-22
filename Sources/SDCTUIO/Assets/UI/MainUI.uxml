@@ -1,7 +1,25 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:Template name="TopBarUI" src="project://database/Assets/UI/TopBarUI.uxml?fileID=9197481963319205126&amp;guid=927fc9e392a545a078204a1613515883&amp;type=3#TopBarUI" />
+    <ui:Template name="SimulationBar" src="project://database/Assets/UI/SimulationBar.uxml?fileID=9197481963319205126&amp;guid=6b4c1a944c030429fbb6ee5fa543d13c&amp;type=3#SimulationBar" />
+    <ui:Template name="DistMeasureUI" src="project://database/Assets/UI/DistMeasureUI.uxml?fileID=9197481963319205126&amp;guid=62bb86b2261a8c19ba228c04f137f28e&amp;type=3#DistMeasureUI" />
     <Style src="project://database/Assets/UI/GlobalStyles.uss?fileID=7433441132597879392&amp;guid=4f3d59cb90662203e8a3fbc8b91a18d8&amp;type=3#GlobalStyles" />
-    <ui:VisualElement style="width: 35%;">
-        <ui:Instance template="TopBarUI" />
+    <ui:VisualElement style="flex-grow: 1; margin-top: 8px; margin-right: 8px; margin-bottom: 8px; margin-left: 8px;">
+        <ui:VisualElement style="flex-grow: 1; -unity-font-style: italic; flex-direction: row;">
+            <ui:VisualElement style="width: 35%;">
+                <ui:Instance template="TopBarUI" />
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-grow: 1; flex-shrink: 0;" />
+            <ui:Label text="Projet Situation Intégratrice M2 G2IHM" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Screen" style="flex-grow: 1;" />
+        <ui:VisualElement name="BottomTools" style="flex-grow: 0; flex-direction: row; align-items: flex-end;">
+            <ui:Instance template="SimulationBar" style="width: 25%;" />
+            <ui:VisualElement name="Spacer" style="flex-grow: 1;" />
+            <ui:Instance template="DistMeasureUI" name="MeasureWidget" style="width: 10%; height: 40%;" />
+            <ui:VisualElement style="flex-grow: 0; width: auto;">
+                <ui:Button text="Detail of Debris" icon-image="project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=6936960519852013934&amp;guid=e7fdc15043f0521e3af4397d488d5690&amp;type=3#arrow-up@2x" name="sendDebrisBoutton" style="font-size: 20px;" />
+                <ui:Button text="  Create Debris" icon-image="project://database/Assets/UI/Icons/plus.png?fileID=2800000&amp;guid=d65c7ad9a3a8e3597b0a876b465816a2&amp;type=3#plus" name="CreateDebrisButton" style="font-size: 20px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

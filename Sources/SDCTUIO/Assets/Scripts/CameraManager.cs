@@ -4,59 +4,99 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
+    public static CameraManager Instance;
+
     [SerializeField]
-    private Camera MainCamera;
+    private Camera _mainCamera;
     [SerializeField]
-    private float RotationSpeed;
+    private float _rotationSpeed;
     [SerializeField]
-    private float MinCameraDistance;
+    private float _minCameraDistance;
     [SerializeField]
-    private float MaxCameraDistance;
+    private float _maxCameraDistance;
     [SerializeField]
-    private ScreenTransformGesture PanGesture;
+    private float _trackingSpeed;
     [SerializeField]
-    private ScreenTransformGesture ZoomGesture;
+    private ScreenTransformGesture _panGesture;
+    [SerializeField]
+    private ScreenTransformGesture _zoomGesture;
+
+    private GameObject _followedDebris;
 
     private void OnEnable()
     {
-        PanGesture.Transformed += OnPanGesture;
-        ZoomGesture.Transformed += OnZoomGesture;
+        _panGesture.Transformed += OnPanGesture;
+        _panGesture.TransformCompleted += OnPanCompletedGesture;
+        _zoomGesture.Transformed += OnZoomGesture;
     }
 
     private void OnDisable()
     {
-        PanGesture.Transformed -= OnPanGesture;
-        ZoomGesture.Transformed -= OnZoomGesture;
+        _panGesture.Transformed -= OnPanGesture;
+        _panGesture.TransformCompleted -= OnPanCompletedGesture;
+        _zoomGesture.Transformed -= OnZoomGesture;
+    }
+
+    void Start()
+    {
+        Instance = this;
+        _followedDebris = null;
     }
 
     void Update()
     {
-        
+        if (_followedDebris != null)
+        {
+            Vector3 debrisPosition = _followedDebris.transform.position;
+            Quaternion targetRotation = Quaternion.LookRotation(debrisPosition);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _trackingSpeed);
+        }
+        else
+        {
+
+        }
     }
 
-    private void OnPanGesture(object sender, System.EventArgs e)
+    public void FollowDebris(GameObject debris)
+    {
+        _followedDebris = debris;
+    }
+
+    public void UnfollowDebris()
+    {
+        _followedDebris = null;
+    }
+
+    private void OnPanGesture(object sender, EventArgs e)
     {
         Quaternion rotation = Quaternion.Euler(
-            -PanGesture.DeltaPosition.y / Screen.height * RotationSpeed,
-            PanGesture.DeltaPosition.x / Screen.width * RotationSpeed,
+            _panGesture.DeltaPosition.y / Screen.height * _rotationSpeed,
+            _panGesture.DeltaPosition.x / Screen.width * _rotationSpeed,
             0
         );
         transform.localRotation *= rotation;
+
+        UnfollowDebris();
     }
 
-    private void OnZoomGesture(object sender, System.EventArgs e)
+    private void OnPanCompletedGesture(object sender, EventArgs e)
     {
-        MainCamera.transform.localPosition *= 1.0f / ZoomGesture.DeltaScale;
 
-        float distance = Math.Abs(MainCamera.transform.localPosition.magnitude);
-        if (distance < MinCameraDistance)
+    }
+
+    private void OnZoomGesture(object sender, EventArgs e)
+    {
+        _mainCamera.transform.localPosition *= 1.0f / _zoomGesture.DeltaScale;
+
+        float distance = Math.Abs(_mainCamera.transform.localPosition.magnitude);
+        if (distance < _minCameraDistance)
         {
-            MainCamera.transform.localPosition *= MinCameraDistance / distance;
+            _mainCamera.transform.localPosition *= _minCameraDistance / distance;
         }
 
-        if (distance > MaxCameraDistance)
+        if (distance > _maxCameraDistance)
         {
-            MainCamera.transform.localPosition *= MaxCameraDistance / distance;
+            _mainCamera.transform.localPosition *= _maxCameraDistance / distance;
         }
     }
 }

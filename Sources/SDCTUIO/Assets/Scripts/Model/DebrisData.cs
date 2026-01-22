@@ -62,19 +62,19 @@ public class DebrisData
         );
     }
 
-    public static DebrisData TestDebrisData(float orbitFirstAxis = 0.0f, float orbitSecondAxis = 0.0f, DebrisShape shape = DebrisShape.Cube)
+    public static DebrisData RandomDebris()
     {
         return new DebrisData(
-            "Test Debris",
-            orbitFirstAxis,
-            orbitSecondAxis,
-            0.0f,
-            14.84061f,
-            100.0f,
-            shape,
-            1.0f,
-            1.0f,
-            1.0f
+            "Random Debris",
+            UnityEngine.Random.Range(0.0f, 360.0f),
+            UnityEngine.Random.Range(0.0f, 360.0f),
+            UnityEngine.Random.Range(0.0f, 360.0f),
+            UnityEngine.Random.Range(11.0f, 15.0f),
+            UnityEngine.Random.Range(10.0f, 1000.0f),
+            (DebrisShape)UnityEngine.Random.Range(0, System.Enum.GetNames(typeof(DebrisShape)).Length),
+            UnityEngine.Random.Range(1.0f, 5.0f),
+            UnityEngine.Random.Range(1.0f, 5.0f),
+            UnityEngine.Random.Range(1.0f, 5.0f)
         );
     }
 }
