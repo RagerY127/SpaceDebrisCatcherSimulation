@@ -7,6 +7,7 @@ public class ObjectDataEntry//La classe Dictionary n'étant pas sérialisable,il
     [SerializeField] public string key;
     [SerializeField] public string value;
 }
+[Serializable]
 public class ObjectDataBundle
 {
     [SerializeField] public List<ObjectDataEntry> data = new List<ObjectDataEntry>();
