@@ -1,0 +1,19 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/GlobalStyles.uss?fileID=7433441132597879392&amp;guid=4f3d59cb90662203e8a3fbc8b91a18d8&amp;type=3#GlobalStyles" />
+    <ui:VisualElement template="WindowUI" style="flex-grow: 1;">
+        <Style src="project://database/Assets/UI/GlobalStyles.uss?fileID=7433441132597879392&amp;guid=4f3d59cb90662203e8a3fbc8b91a18d8&amp;type=3#GlobalStyles" />
+        <ui:VisualElement name="VisualElement" class="window" style="width: 100%; height: 100%; overflow: hidden;">
+            <ui:Label text="Label" class="header" style="margin-left: 10px; margin-right: 10px;" />
+            <ui:ScrollView name="WindowContent" style="flex-grow: 1; flex-shrink: 0;">
+                <ui:Label text="Label" style="-unity-font-style: bold;" />
+                <ui:TextField placeholder-text="Default Name" />
+                <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: center;">
+                    <ui:VisualElement style="width: 200px; height: 100px; background-color: rgb(0, 0, 0);" />
+                </ui:VisualElement>
+                <ui:Label text="Tilt (First axis of rotation)" style="-unity-font-style: bold;" />
+                <ui:Slider label="60°" value="42" high-value="100" fill="false" direction="Horizontal" style="margin-bottom: 2px; margin-top: 2px;" />
+            </ui:ScrollView>
+        </ui:VisualElement>
+        <ui:VisualElement name="WindowFooter" style="flex-grow: 1;" />
+    </ui:VisualElement>
+</ui:UXML>
