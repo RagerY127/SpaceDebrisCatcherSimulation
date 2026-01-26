@@ -23,7 +23,9 @@ public class SimulationManager : MonoBehaviour
     public static float ScaleFactor => Instance._scaleFactor;
     public static bool IsRunning => Instance._isRunning;
 
-    void Awake() 
+    public EarthScript Earth => _earth;
+
+    void Awake()
     {
         Instance = this;
         _isRunning = true;
