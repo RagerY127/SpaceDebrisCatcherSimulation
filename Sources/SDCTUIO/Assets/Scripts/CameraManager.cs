@@ -10,16 +10,18 @@ public class CameraManager : MonoBehaviour
     private Camera _mainCamera;
     [SerializeField]
     private float _rotationSpeed;
-    [SerializeField]
-    private float _minCameraDistance;
-    [SerializeField]
-    private float _maxCameraDistance;
+    
+    public float minCameraDistance;
+    public float maxCameraDistance;
+
     [SerializeField]
     private float _trackingSpeed;
     [SerializeField]
     private ScreenTransformGesture _panGesture;
     [SerializeField]
     private ScreenTransformGesture _zoomGesture;
+
+    public float distance { get; private set; }
 
     private GameObject _followedDebris;
 
@@ -89,14 +91,15 @@ public class CameraManager : MonoBehaviour
         _mainCamera.transform.localPosition *= 1.0f / _zoomGesture.DeltaScale;
 
         float distance = Math.Abs(_mainCamera.transform.localPosition.magnitude);
-        if (distance < _minCameraDistance)
+        if (distance < minCameraDistance)
         {
-            _mainCamera.transform.localPosition *= _minCameraDistance / distance;
+            _mainCamera.transform.localPosition *= minCameraDistance / distance;
         }
 
-        if (distance > _maxCameraDistance)
+        if (distance > maxCameraDistance)
         {
-            _mainCamera.transform.localPosition *= _maxCameraDistance / distance;
+            _mainCamera.transform.localPosition *= maxCameraDistance / distance;
         }
+        this.distance = distance;
     }
 }
