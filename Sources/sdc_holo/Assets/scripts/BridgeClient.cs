@@ -1,60 +1,89 @@
-﻿using System.Collections.Concurrent; // 引入线程安全队列
+﻿using System;
+using System.Collections.Concurrent;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using UnityEngine;
+using TMPro;
 
 public class BridgeClient : MonoBehaviour
 {
-    public string serverIP = "192.168.183.134";
+    [Header("Paramètres de connexion")]
+    //public string serverIP = "192.168.183.134";
     //public string serverIP = "192.168.183.134";
     //public string serverIP = "127.0.0.1";
     //public string serverIP = "192.168.212.137";
+    public string serverIP = "172.20.10.2";
     public int port = 9999;
 
-    private TcpClient client;
-    private Thread clientThread;
+    [Header("Interface Utilisateur")] 
+    public TMP_Text statusText;
 
+    private TcpClient client;
+    private NetworkStream stream;
+    private Thread clientThread;
+    private bool isRunning = false;
+
+    [Header("Paramètres de génération")]
     public GameObject myPrefab;
 
+    // File thread-safe pour transférer les messages du thread réseau vers le thread principal
     private ConcurrentQueue<string> messageQueue = new ConcurrentQueue<string>();
 
     void Start()
     {
-        Debug.Log("[HoloLens] is trying to connect PC...");
+        if (statusText != null) statusText.text = "Waiting for connection...";
+
+        Debug.Log("[HoloLens] Tentative de connexion au PC...");
+        isRunning = true;
+
         clientThread = new Thread(ConnectToServer);
         clientThread.IsBackground = true;
         clientThread.Start();
     }
 
+    // ===============================
+    // Thread secondaire : connexion TCP + écoute des messages
+    // ===============================
     private void ConnectToServer()
     {
         try
         {
             client = new TcpClient();
             client.Connect(serverIP, port);
-            Debug.Log("[HoloLens] Connect Success!");
+            stream = client.GetStream();
 
-            NetworkStream stream = client.GetStream();
+            Debug.Log("[HoloLens] Connexion réussie !");
+            messageQueue.Enqueue("SYS_CONNECTED");
+
             byte[] buffer = new byte[1024];
 
-            while (true)
+            while (isRunning)
             {
-                int bytesRead = stream.Read(buffer, 0, buffer.Length);
-                if (bytesRead > 0)
+                if (stream.CanRead)
                 {
-                    string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-
-                    messageQueue.Enqueue(message);
+                    int bytesRead = stream.Read(buffer, 0, buffer.Length);
+                    if (bytesRead > 0)
+                    {
+                        string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                        messageQueue.Enqueue(message);
+                    }
                 }
             }
         }
-        catch (System.Exception e)
+        catch (Exception e)
         {
-            Debug.LogError($"[HoloLens] Connect Fail: {e.Message}");
+            if (isRunning)
+            {
+                Debug.LogError($"[HoloLens] Échec de connexion : {e.Message}");
+                messageQueue.Enqueue($"SYS_ERROR:{e.Message}");
+            }
         }
     }
 
+    // ===============================
+    // Thread principal Unity : traitement des messages
+    // ===============================
     void Update()
     {
         while (messageQueue.TryDequeue(out string message))
@@ -63,40 +92,130 @@ public class BridgeClient : MonoBehaviour
         }
     }
 
+    // ===============================
+    // Traitement des messages reçus
+    // ===============================
     void HandleMessage(string msg)
     {
-        Debug.Log($"[MainThread] traite message: {msg}");
+        Debug.Log($"[MainThread] Message traité : {msg}");
 
-        if (msg.Trim() == "SPAWN_CUBE")
+        if (statusText != null)
         {
-            if (myPrefab != null)
+            // 如果是系统消息，显示状态；如果是数据，显示内容
+            if (msg == "SYS_CONNECTED")
             {
-                if (Camera.main != null)
-                {
-                    Transform camTransform = Camera.main.transform;
-                    Instantiate(myPrefab, camTransform.position + camTransform.forward * 1.5f, Quaternion.identity);
-                }
-                else
-                {
-                    Instantiate(myPrefab, new Vector3(0, 0, 1f), Quaternion.identity);
-                }
-
-                Debug.Log("appear Cube!");
+                statusText.text = "<color=green>Connected to PC!</color>";
+            }
+            else if (msg.StartsWith("SYS_ERROR"))
+            {
+                statusText.text = $"<color=red>{msg}</color>";
             }
             else
             {
-                Debug.LogError(" inspector exam");
+                // 显示收到的具体信息
+                statusText.text = $"Received: {msg}";
             }
+        }
+
+        // génération d'un cube
+        if (msg.Trim() == "SPAWN_CUBE")
+        {
+            SpawnCube();
+            return;
+        }
+
+        // tentative de traitement des messages JSON
+        if (msg.StartsWith("SYS_"))
+        {
+            TryHandleJsonMessage(msg);
+        }
+        
+    }
+
+    // ===============================
+    // Génération du cube 
+    // ===============================
+    void SpawnCube()
+    {
+        if (myPrefab != null)
+        {
+            if (Camera.main != null)
+            {
+                Transform camTransform = Camera.main.transform;
+                Instantiate(
+                    myPrefab,
+                    camTransform.position + camTransform.forward * 1.5f,
+                    Quaternion.identity
+                );
+            }
+            else
+            {
+                Instantiate(myPrefab, new Vector3(0, 0, 1f), Quaternion.identity);
+            }
+
+            Debug.Log("Cube apparu !");
         }
         else
         {
-            Debug.Log($"other message  {msg} ");
+            Debug.LogError("Prefab non assigné dans l'inspecteur");
         }
     }
 
+    // ===============================
+    // Traitement des messages JSON (depuis le PC)
+    // ===============================
+    void TryHandleJsonMessage(string msg)
+    {
+        try
+        {
+            HololensMessage message = JsonUtility.FromJson<HololensMessage>(msg);
+
+            Debug.Log("Type du message JSON = " + message.GetMessageType());
+
+            var data = message.GetMessageData();
+            if (data != null)
+            {
+                Debug.Log("Donnée JSON [0] = " + data[0]);
+            }
+        }
+        catch
+        {
+            // Si ce n'est pas du JSON, on le traite comme un message texte classique
+            Debug.Log($"Message non JSON : {msg}");
+        }
+    }
+
+    // ===============================
+    // Envoi d'un message vers le PC
+    // ===============================
+    public void SendToPC(string message)
+    {
+        if (client == null || !client.Connected || stream == null) return;
+
+        try
+        {
+            byte[] data = Encoding.UTF8.GetBytes(message);
+            stream.Write(data, 0, data.Length);
+            Debug.Log($"[HoloLens] Message envoyé au PC : {message}");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Échec de l'envoi vers le PC : {e.Message}");
+        }
+    }
+
+    // ===============================
+    // Nettoyage à la fermeture de l'application
+    // ===============================
     void OnApplicationQuit()
     {
-        if (client != null) client.Close();
-        if (clientThread != null) clientThread.Abort();
+        isRunning = false;
+        stream?.Close();
+        client?.Close();
+
+        if (clientThread != null && clientThread.IsAlive)
+        {
+            clientThread.Abort();
+        }
     }
 }
