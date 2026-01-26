@@ -1071,7 +1071,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c965edc2064be074e97bcfa3c7da049a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BridgeClient
-  serverIP: 172.20.10.2
+  serverIP: 127.0.0.1
   port: 9999
   statusText: {fileID: 1340403676}
   myPrefab: {fileID: 285981770586061605, guid: b4f3a55949ea2a345bb95217973ae5e2, type: 3}

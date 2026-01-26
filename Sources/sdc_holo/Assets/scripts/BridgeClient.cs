@@ -129,6 +129,7 @@ public class BridgeClient : MonoBehaviour
         {
             TryHandleJsonMessage(msg);
         }
+        TryHandleJsonMessage(msg);
         
     }
 
@@ -170,13 +171,17 @@ public class BridgeClient : MonoBehaviour
         {
             HololensMessage message = JsonUtility.FromJson<HololensMessage>(msg);
 
-            Debug.Log("Type du message JSON = " + message.GetMessageType());
-
-            var data = message.GetMessageData();
+            Debug.Log("Type du message JSON = " + message.type);
+            if(message.type == MessageType.DEBRIS)
+            {
+                SpawnCube();
+            }
+            var data = message.messageData;
             if (data != null)
             {
                 Debug.Log("Donnée JSON [0] = " + data[0]);
             }
+            
         }
         catch
         {
