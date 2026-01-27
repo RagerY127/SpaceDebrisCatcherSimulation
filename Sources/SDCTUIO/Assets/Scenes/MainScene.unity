@@ -590,6 +590,7 @@ MonoBehaviour:
   _orbitPointCount: 30
   _lineRenderer: {fileID: 751930411}
   DebrisPrefab: {fileID: 5957911271144715361, guid: 5e85b1541a4395c45927b662f7ccde75, type: 3}
+  CatcherPrefab: {fileID: 766560007459443654, guid: ce2c076f8d7247745b541aa52b2bab1c, type: 3}
 --- !u!120 &751930411
 LineRenderer:
   serializedVersion: 2
