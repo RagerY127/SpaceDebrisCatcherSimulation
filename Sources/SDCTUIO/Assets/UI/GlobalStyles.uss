@@ -33,7 +33,7 @@
     padding-left: 6px;
 }
 
-.unity-text-element__selectable {
+.unity-text-element__selectable, .unity-enum-field__text, .unity-base-popup-field__text {
     padding: 4px;
 }
 
