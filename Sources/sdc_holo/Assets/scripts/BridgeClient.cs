@@ -207,6 +207,7 @@ public class BridgeClient : MonoBehaviour
             else if(message.type == MessageType.CATCHER)
             {
                 SpawnCatcher();
+                SpawnCube();
             }
             else{
                 Debug.Log("Type de message incorrect");

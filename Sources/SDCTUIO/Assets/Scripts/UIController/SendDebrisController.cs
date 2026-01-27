@@ -47,9 +47,12 @@ public class SendDebrisController : MonoBehaviour
             message.messageData.Add(new DataEntry(){key="catcher",value=catcher});
 
             ObjectDataBundle debris1=new ObjectDataBundle();
-            catcher.data.Add(new ObjectDataEntry(){key="targetName",value="debris1"});
-            catcher.data.Add(new ObjectDataEntry(){key="speed",value="1542.36"});
-            catcher.data.Add(new ObjectDataEntry(){key="targetDistance",value="14.67"});
+            debris1.data.Add(new ObjectDataEntry(){key="name",value="debrisCube"});
+            debris1.data.Add(new ObjectDataEntry(){key="revolutionPerDay",value="4.5"});
+            debris1.data.Add(new ObjectDataEntry(){key="mass",value="85.9"});
+            debris1.data.Add(new ObjectDataEntry(){key="position",value="27.6"});
+            message.messageData.Add(new DataEntry(){key="debris1",value=debris1});
+            
             string json=JsonUtility.ToJson(message);
             BridgeServer.Instance.SendMessageToHoloLens(json);
         }
