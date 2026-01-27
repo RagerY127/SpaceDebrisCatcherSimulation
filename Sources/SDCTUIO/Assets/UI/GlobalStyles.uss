@@ -29,8 +29,12 @@
     border-color: rgb(84, 123, 146);
     border-width: 4px;
     border-radius: 0;
-    padding: 0;
+    padding: 0px;
     padding-left: 6px;
+}
+
+.unity-text-element__selectable {
+    padding: 4px;
 }
 
 .unity-base-slider__input {
