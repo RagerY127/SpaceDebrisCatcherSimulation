@@ -28,6 +28,11 @@ public class SimulationManager : MonoBehaviour
     public GameObject DebrisPrefab;
     private GameObject _selectedDebris;
 
+    // Catcher managing data
+    public GameObject CatcherPrefab;
+    private GameObject _catcher;
+    private GameObject _targetDebris;
+
     // Static passthroughs
     public static float SimulationSpeed => Instance._simulationSpeed;
     public static EpochTime SimulationTime => Instance._simulationTime;
@@ -39,6 +44,8 @@ public class SimulationManager : MonoBehaviour
         Instance = this;
         _isRunning = true;
         _debrisObjects = new();
+        _catcher = null;
+        _targetDebris = null;
     }
 
     void Start()
@@ -46,7 +53,11 @@ public class SimulationManager : MonoBehaviour
         _simulationTime = new EpochTime(System.DateTime.UtcNow);
         _scaleFactor = _earth.Radius / EARTH_RADIUS_KM;
 
-        for (int i = 0; i < 20; i++)
+        DebrisData test = DebrisData.RandomDebris();
+        AddDebrisToSimulation(test);
+        AssignCatcherToDebris(test.Id);
+
+        for (int i = 0; i < 5; i++)
         {
             AddDebrisToSimulation(DebrisData.RandomDebris());
         }
@@ -159,6 +170,16 @@ public class SimulationManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Finds the debris GameObject from a given ID.
+    /// </summary>
+    /// <param name="debrisId">The ID of the debris.</param>
+    /// <returns></returns>
+    public GameObject FindDebrisFromId(string debrisId)
+    {
+        return _debrisObjects.GetValueOrDefault(debrisId, null);
+    }
+
+    /// <summary>
     /// Draws the orbit of a debris.
     /// </summary>
     /// <param name="debrisId">The ID of the debris.</param>
@@ -191,5 +212,32 @@ public class SimulationManager : MonoBehaviour
         }
 
         _lineRenderer.SetPositions(orbitPoints);
+    }
+
+    public void AssignCatcherToDebris(string debrisId)
+    {
+        if (!_debrisObjects.ContainsKey(debrisId))
+        {
+            return;
+        }
+
+        DestroyCatcher();
+
+        _targetDebris = _debrisObjects[debrisId];
+
+        _catcher = Instantiate(this.CatcherPrefab, this.transform);
+        CatcherController controller = _catcher.GetComponent<CatcherController>();
+        controller.AssignTargetDebris(_targetDebris);
+    }
+
+    public void DestroyCatcher()
+    {
+        if (_catcher)
+        {
+            Destroy(_catcher);
+            _catcher = null;
+        }
+
+        _targetDebris = null;
     }
 }
