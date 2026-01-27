@@ -15,7 +15,7 @@
     border-radius: unset;
 }
 
-.unity-base-popup-field__arrow {
+.unity-base-popup-field__arrow, .unity-enum-field__arrow {
     -unity-background-image-tint-color: rgb(255, 255, 255);
     -unity-background-scale-mode: scale-to-fit;
     background-size: 12px 6px;
