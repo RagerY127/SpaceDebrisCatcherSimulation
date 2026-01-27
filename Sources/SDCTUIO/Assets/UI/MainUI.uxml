@@ -2,6 +2,7 @@
     <ui:Template name="TopBarUI" src="project://database/Assets/UI/TopBarUI.uxml?fileID=9197481963319205126&amp;guid=927fc9e392a545a078204a1613515883&amp;type=3#TopBarUI" />
     <ui:Template name="SimulationBar" src="project://database/Assets/UI/SimulationBar.uxml?fileID=9197481963319205126&amp;guid=6b4c1a944c030429fbb6ee5fa543d13c&amp;type=3#SimulationBar" />
     <ui:Template name="DistMeasureUI" src="project://database/Assets/UI/DistMeasureUI.uxml?fileID=9197481963319205126&amp;guid=62bb86b2261a8c19ba228c04f137f28e&amp;type=3#DistMeasureUI" />
+    <ui:Template name="Help" src="project://database/Assets/UI/Help.uxml?fileID=9197481963319205126&amp;guid=166923f3a79e3452099d8390c3d3ac9b&amp;type=3#Help" />
     <Style src="project://database/Assets/UI/GlobalStyles.uss?fileID=7433441132597879392&amp;guid=4f3d59cb90662203e8a3fbc8b91a18d8&amp;type=3#GlobalStyles" />
     <ui:VisualElement style="flex-grow: 1; margin-top: 8px; margin-right: 8px; margin-bottom: 8px; margin-left: 8px;">
         <ui:VisualElement style="width: 35%;">
@@ -13,5 +14,8 @@
             <ui:VisualElement name="Spacer" style="flex-grow: 1;" />
             <ui:Instance template="DistMeasureUI" name="MeasureWidget" style="width: 10%; height: 40%;" />
         </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="HelpOverlay" class="overlay-hidden">
+        <ui:Instance template="Help" />
     </ui:VisualElement>
 </ui:UXML>

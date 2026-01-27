@@ -1,0 +1,22 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/GlobalStyles.uss?fileID=7433441132597879392&amp;guid=4f3d59cb90662203e8a3fbc8b91a18d8&amp;type=3#GlobalStyles" />
+    <Style src="project://database/Assets/UI/HelpStyle.uss?fileID=7433441132597879392&amp;guid=a03ef134829344c93bcb87722ef0a7da&amp;type=3#HelpStyle" />
+    <ui:VisualElement name="VisualElement" class="window" style="width: 100%; height: 100%; overflow: hidden;">
+        <ui:Label text="Guide" class="header" style="margin-left: 10px; margin-right: 10px;" />
+        <ui:ScrollView name="WindowContent" style="flex-grow: 1; flex-shrink: 0;">
+            <ui:Label text="Gestures" name="Gestures" class="header" />
+            <ui:Label text="Zoom" class="help-content" />
+            <ui:Label text="Tap on debris/catcher" class="help-content" />
+            <ui:VisualElement class="separator" />
+            <ui:Label text="Simulation" name="Simulation" class="header" />
+            <ui:Label text="Start a simulation:" class="help-content" />
+            <ui:Label text="Stop a simulation:" class="help-content" />
+            <ui:Label text="Save a simulation:" class="help-content" />
+            <ui:Label text="Open a saved simulation:" class="help-content" />
+            <ui:VisualElement class="separator" />
+            <ui:Label text="How to use the Hololens 2" name="Hololens" class="header" />
+            <ui:Label text="Detailed view:" class="help-content" />
+        </ui:ScrollView>
+        <ui:Button text="X Close" name="Close" class="close" style="width: 96px; height: 45px;" />
+    </ui:VisualElement>
+</ui:UXML>
