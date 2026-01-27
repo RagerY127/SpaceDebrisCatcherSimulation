@@ -1,2 +1,14 @@
 fileFormatVersion: 2
 guid: c965edc2064be074e97bcfa3c7da049a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - statusText: {instanceID: 0}
+  - debrisPrefab: {fileID: 285981770586061605, guid: b4f3a55949ea2a345bb95217973ae5e2, type: 3}
+  - catcherPrefab: {fileID: 766560007459443654, guid: 65932049454560146a72630dbea3337c, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

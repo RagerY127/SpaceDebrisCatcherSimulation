@@ -25,7 +25,8 @@ public class BridgeClient : MonoBehaviour
     private bool isRunning = false;
 
     [Header("Paramètres de génération")]
-    public GameObject myPrefab;
+    public GameObject debrisPrefab;
+    public GameObject catcherPrefab;
 
     // File thread-safe pour transférer les messages du thread réseau vers le thread principal
     private ConcurrentQueue<string> messageQueue = new ConcurrentQueue<string>();
@@ -138,20 +139,20 @@ public class BridgeClient : MonoBehaviour
     // ===============================
     void SpawnCube()
     {
-        if (myPrefab != null)
+        if (debrisPrefab != null)
         {
             if (Camera.main != null)
             {
                 Transform camTransform = Camera.main.transform;
                 Instantiate(
-                    myPrefab,
+                    debrisPrefab,
                     camTransform.position + camTransform.forward * 1.5f,
                     Quaternion.identity
                 );
             }
             else
             {
-                Instantiate(myPrefab, new Vector3(0, 0, 1f), Quaternion.identity);
+                Instantiate(debrisPrefab, new Vector3(0, 0, 1f), Quaternion.identity);
             }
 
             Debug.Log("Cube apparu !");
@@ -161,7 +162,34 @@ public class BridgeClient : MonoBehaviour
             Debug.LogError("Prefab non assigné dans l'inspecteur");
         }
     }
+    // ===============================
+    // Génération du catcher
+    // ===============================
+    void SpawnCatcher()
+    {
+        if (catcherPrefab != null)
+        {
+            if (Camera.main != null)
+            {
+                Transform camTransform = Camera.main.transform;
+                Instantiate(
+                    catcherPrefab,
+                    camTransform.position + camTransform.forward * 1.5f,
+                    Quaternion.identity
+                );
+            }
+            else
+            {
+                Instantiate(catcherPrefab, new Vector3(0, 0, 1f), Quaternion.identity);
+            }
 
+            Debug.Log("Catcher apparu !");
+        }
+        else
+        {
+            Debug.LogError("Prefab non assigné dans l'inspecteur");
+        }
+    }
     // ===============================
     // Traitement des messages JSON (depuis le PC)
     // ===============================
@@ -175,6 +203,14 @@ public class BridgeClient : MonoBehaviour
             if(message.type == MessageType.DEBRIS)
             {
                 SpawnCube();
+            }
+            else if(message.type == MessageType.CATCHER)
+            {
+                SpawnCatcher();
+            }
+            else{
+                Debug.Log("Type de message incorrect");
+                return;
             }
             var data = message.messageData;
             if (data != null)
