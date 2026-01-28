@@ -1076,6 +1076,7 @@ MonoBehaviour:
   statusText: {fileID: 1340403676}
   debrisPrefab: {fileID: 285981770586061605, guid: b4f3a55949ea2a345bb95217973ae5e2, type: 3}
   catcherPrefab: {fileID: 766560007459443654, guid: 65932049454560146a72630dbea3337c, type: 3}
+  catcherInfo: {fileID: 3758598746463649504, guid: 636736c74ab57c44ea20da7fc720e4a6, type: 3}
 --- !u!4 &1773871258
 Transform:
   m_ObjectHideFlags: 0

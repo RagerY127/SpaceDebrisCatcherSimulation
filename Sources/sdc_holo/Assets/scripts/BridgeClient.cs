@@ -27,6 +27,7 @@ public class BridgeClient : MonoBehaviour
     [Header("Paramètres de génération")]
     public GameObject debrisPrefab;
     public GameObject catcherPrefab;
+    public GameObject catcherInfo;//prefab qui affiche les données du catcher
 
     // File thread-safe pour transférer les messages du thread réseau vers le thread principal
     private ConcurrentQueue<string> messageQueue = new ConcurrentQueue<string>();
@@ -41,6 +42,7 @@ public class BridgeClient : MonoBehaviour
         clientThread = new Thread(ConnectToServer);
         clientThread.IsBackground = true;
         clientThread.Start();
+        SpawnCatcherData("debris1", 2750.5, 1200.75);
     }
 
     // ===============================
@@ -190,6 +192,50 @@ public class BridgeClient : MonoBehaviour
             Debug.LogError("Prefab non assigné dans l'inspecteur");
         }
     }
+    // ===============================
+    // Faire Apparaitre les données du catcher
+    // ===============================
+
+    void SpawnCatcherData(string targetName, double speed, double targetDistance)
+    {
+         if (catcherInfo != null)
+        {
+            if (Camera.main != null)
+            {
+                Transform camTransform = Camera.main.transform;
+                GameObject pane=Instantiate(
+                    catcherInfo,
+                    camTransform.position + camTransform.forward * 1.5f,
+                    Quaternion.identity
+                );
+                var script=pane.GetComponent<CatcherInfo>();
+                if(script!=null)
+                script.UpdateInfo(targetName, speed, targetDistance);
+                else
+                {
+                    Debug.LogError("CatcherInfo script not found on the prefab.");
+                }
+            }
+            else
+            {
+                GameObject pane=Instantiate(catcherInfo, new Vector3(0, 0, 1f), Quaternion.identity);
+                var script=pane.GetComponent<CatcherInfo>();
+                if(script!=null)
+                script.UpdateInfo(targetName, speed, targetDistance);
+                else
+                {
+                    Debug.LogError("CatcherInfo script not found on the prefab.");
+                }
+            }
+
+            Debug.Log("Infos du catcher apparues !");
+        }
+        else
+        {
+            Debug.LogError("Prefab non assigné dans l'inspecteur");
+        }
+    }
+
     // ===============================
     // Traitement des messages JSON (depuis le PC)
     // ===============================

@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using TMPro;
 public class CatcherInfo : MonoBehaviour
 {
     [Header("CatcherInfo fields")]
@@ -16,5 +16,11 @@ public class CatcherInfo : MonoBehaviour
     void Update()
     {
         
+    }
+    public void UpdateInfo(string targetName, double speed, double targetDistance)
+    {
+        targetNameField.GetComponent<TextMeshPro>().text = targetName;
+        speedField.GetComponent<TextMeshPro>().text = speed.ToString("F2") + " km/h";
+        targetDistanceField.GetComponent<TextMeshPro>().text = targetDistance.ToString("F2") + " km";
     }
 }
