@@ -17,28 +17,32 @@
                     <ui:VisualElement name="Separator" class="separator-horizontal" style="flex-grow: 0;" />
                     <ui:VisualElement name="RightPane" style="flex-grow: 1;">
                         <ui:Label text="Name" class="label-for-below" style="-unity-font-style: bold;" />
-                        <ui:TextField placeholder-text="Default Name" name="Name" />
+                        <ui:TextField placeholder-text="Default Name" name="Name">
+                            <Bindings>
+                                <ui:DataBinding property="value" data-source-path="debrisName" binding-mode="TwoWay" />
+                            </Bindings>
+                        </ui:TextField>
                         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: center;">
                             <ui:VisualElement style="width: 200px; height: 200px; background-color: rgb(0, 0, 0);" />
                         </ui:VisualElement>
                         <ui:Label text="Tilt (First axis of rotation)" class="label-for-below" style="-unity-font-style: bold;" />
                         <ui:Slider label="0" value="0" high-value="360" fill="false" direction="Horizontal" name="OrbitFirstAxis" style="margin-bottom: 2px; margin-top: 2px;">
                             <Bindings>
-                                <ui:DataBinding property="label" data-source-path="orbitFirstAxis" binding-mode="ToTarget" />
+                                <ui:DataBinding property="label" data-source-path="orbitFirstAxisString" binding-mode="ToTarget" />
                                 <ui:DataBinding property="value" data-source-path="orbitFirstAxis" binding-mode="TwoWay" />
                             </Bindings>
                         </ui:Slider>
                         <ui:Label text="Ascending Node (Second axis of rotation)" class="label-for-below" style="-unity-font-style: bold;" />
                         <ui:Slider label="0" value="0" high-value="360" fill="false" direction="Horizontal" name="OrbitSecondAxis" style="margin-bottom: 2px; margin-top: 2px;">
                             <Bindings>
-                                <ui:DataBinding property="label" data-source-path="orbitSecondAxis" binding-mode="ToTarget" />
+                                <ui:DataBinding property="label" data-source-path="orbitSecondAxisString" binding-mode="ToTarget" />
                                 <ui:DataBinding property="value" data-source-path="orbitSecondAxis" binding-mode="TwoWay" />
                             </Bindings>
                         </ui:Slider>
                         <ui:Label text="Position of debris in orbit (anomaly)" class="label-for-below" style="-unity-font-style: bold;" />
                         <ui:Slider label="0" value="0" high-value="360" fill="false" direction="Horizontal" name="InitialPosition" style="margin-bottom: 2px; margin-top: 2px;">
                             <Bindings>
-                                <ui:DataBinding property="label" data-source-path="initialPosition" binding-mode="ToTarget" />
+                                <ui:DataBinding property="label" data-source-path="initialPositionString" binding-mode="ToTarget" />
                                 <ui:DataBinding property="value" data-source-path="initialPosition" binding-mode="TwoWay" />
                             </Bindings>
                         </ui:Slider>
@@ -55,7 +59,12 @@
                             </Bindings>
                         </ui:FloatField>
                         <ui:Label text="Shape" class="label-for-below" style="-unity-font-style: bold;" />
-                        <ui:DropdownField choices="Sphere" index="0" name="Shape" />
+                        <ui:DropdownField choices="Sphere" index="0" name="Shape">
+                            <Bindings>
+                                <ui:DataBinding property="choices" data-source-path="shapeEnumList" binding-mode="ToTarget" />
+                                <ui:DataBinding property="index" data-source-path="shapeEnumIndex" binding-mode="TwoWay" />
+                            </Bindings>
+                        </ui:DropdownField>
                         <ui:Label text="Dimensions" class="label-for-below" style="-unity-font-style: bold;" />
                         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-around;">
                             <ui:FloatField label="H" value="0" name="Height" class="small-label" style="flex-grow: 1;">

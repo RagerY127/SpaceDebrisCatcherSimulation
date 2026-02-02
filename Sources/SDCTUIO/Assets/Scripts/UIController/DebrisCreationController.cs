@@ -12,13 +12,15 @@ public class DebrisCreationController : MonoBehaviour
     private Button _createButton;
 
     private DebrisScriptableObject _dataSource;
-    private VisualElement _modal;
+    private VisualElement _wizard;
+    private VisualElement _modals;
 
     void OnEnable()
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
-        _dataSource = (DebrisScriptableObject)root.dataSource;
-        _modal = root.Q<VisualElement>("DebrisCreationWizard");
+        _wizard = root.Q<VisualElement>("DebrisCreationWizard");
+        _modals = root.Q<VisualElement>("Modals");
+        _dataSource = (DebrisScriptableObject)_wizard.dataSource;
 
         _orbitFirstAxisSlider = root.Q<Slider>("OrbitFirstAxis");
         _orbitSecondAxisSlider = root.Q<Slider>("OrbitSecondAxis");
@@ -33,10 +35,11 @@ public class DebrisCreationController : MonoBehaviour
     private void OnCreateButtonClicked()
     {
         DebrisData data = new DebrisData(_dataSource.debrisName, _dataSource.orbitFirstAxis,
-        _dataSource.orbitSecondAxis, _dataSource.initialPosition, _dataSource.revolutionsPerDay, _dataSource.mass, DebrisShape.Cube,
+        _dataSource.orbitSecondAxis, _dataSource.initialPosition, _dataSource.revolutionsPerDay, _dataSource.mass, _dataSource.shape,
         _dataSource.height, _dataSource.length, _dataSource.width);
 
         SimulationManager.Instance.AddDebrisToSimulation(data);
-        _modal.visible = false;
+        _wizard.visible = false;
+        _modals.visible = false;
     }
 }
