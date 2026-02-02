@@ -163,7 +163,7 @@ public class BridgeClient : MonoBehaviour
                 var obj = Instantiate(
                     debrisPrefab,
                     camTransform.position + camTransform.forward * 1.5f,
-                    Quaternion.identity
+                    camTransform.rotation
                 );
                 spawnedObjects.Add(obj);
             }
@@ -193,7 +193,7 @@ public class BridgeClient : MonoBehaviour
                 var obj = Instantiate(
                     catcherPrefab,
                     camTransform.position + camTransform.forward * 1.5f,
-                    Quaternion.identity
+                    camTransform.rotation
                 );
                 spawnedObjects.Add(obj);
             }
@@ -223,8 +223,8 @@ public class BridgeClient : MonoBehaviour
                 Transform camTransform = Camera.main.transform;
                 GameObject pane=Instantiate(
                     catcherInfo,
-                    camTransform.position - camTransform.forward * 0.2f,
-                    Quaternion.identity
+                    camTransform.position - camTransform.forward * 0.2f + camTransform.right*0.5f + camTransform.up*0.2f,
+                    camTransform.rotation
                 );
                 spawnedObjects.Add(pane);
                 var script=pane.GetComponent<CatcherInfo>();
@@ -269,8 +269,8 @@ public class BridgeClient : MonoBehaviour
                 Transform camTransform = Camera.main.transform;
                 GameObject pane=Instantiate(
                     debrisInfo,
-                    camTransform.position - camTransform.forward * 0.2f,
-                    Quaternion.identity
+                    camTransform.position - camTransform.forward * 0.2f + camTransform.right*0.5f + camTransform.up*0.2f,
+                    camTransform.rotation
                 );
                 spawnedObjects.Add(pane);
                 var script=pane.GetComponent<DebrisInfo>();
