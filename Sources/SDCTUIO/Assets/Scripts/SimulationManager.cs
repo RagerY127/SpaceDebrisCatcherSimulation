@@ -55,14 +55,14 @@ public class SimulationManager : MonoBehaviour
         _simulationTime = new EpochTime(System.DateTime.UtcNow);
         _scaleFactor = _earth.Radius / EARTH_RADIUS_KM;
 
-        DebrisData test = DebrisData.RandomDebris();
-        AddDebrisToSimulation(test);
-        AssignCatcherToDebris(test.Id);
+        // DebrisData test = DebrisData.RandomDebris();
+        // AddDebrisToSimulation(test);
+        // AssignCatcherToDebris(test.Id);
 
-        for (int i = 0; i < 5; i++)
-        {
-            AddDebrisToSimulation(DebrisData.RandomDebris());
-        }
+        // for (int i = 0; i < 5; i++)
+        // {
+        //     AddDebrisToSimulation(DebrisData.RandomDebris());
+        // }
     }
 
     void Update()
@@ -70,10 +70,10 @@ public class SimulationManager : MonoBehaviour
         _simulationTime.addTick(Time.deltaTime * _simulationSpeed);
 
         // DEBUG: Remove selected debris on backspace
-        if (Input.GetKeyDown(KeyCode.Backspace))
-        {
-            RemoveDebris(_selectedDebris.GetComponent<DebrisController>().DebrisData.Id);
-        }
+        // if (Input.GetKeyDown(KeyCode.Backspace))
+        // {
+        //     RemoveDebris(_selectedDebris.GetComponent<DebrisController>().DebrisData.Id);
+        // }
     }
 
     /// <summary>
