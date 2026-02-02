@@ -46,10 +46,10 @@
                                 <ui:DataBinding property="value" data-source-path="initialPosition" binding-mode="TwoWay" />
                             </Bindings>
                         </ui:Slider>
-                        <ui:Label text="Revolutions per day (Movement)" class="label-for-below" style="-unity-font-style: bold;" />
-                        <ui:IntegerField value="42" name="RevolutionsPerDay">
+                        <ui:Label text="Distance from Earth (km)" class="label-for-below" style="-unity-font-style: bold;" />
+                        <ui:IntegerField value="42" name="DistanceFromEarth">
                             <Bindings>
-                                <ui:DataBinding property="value" data-source-path="revolutionsPerDay" binding-mode="TwoWay" />
+                                <ui:DataBinding property="value" data-source-path="distanceFromEarthKm" binding-mode="TwoWay" />
                             </Bindings>
                         </ui:IntegerField>
                         <ui:Label text="Mass (kg)" class="label-for-below" style="-unity-font-style: bold;" />
