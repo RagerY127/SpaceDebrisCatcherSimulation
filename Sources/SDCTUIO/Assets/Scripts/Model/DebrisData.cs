@@ -23,19 +23,24 @@ public class DebrisData
     public float Width { get; private set; }
 
     public DebrisData(string name, float orbitFirstAxis, float orbitSecondAxis, float initialPosition,
-                  float revolutionsPerDay, float mass, DebrisShape shape, float height, float length, float width)
+                  float distanceFromEarthKm, float mass, DebrisShape shape, float height, float length, float width)
     {
         this.Id = Guid.NewGuid().ToString();
         this.Name = name;
         this.OrbitFirstAxis = orbitFirstAxis;
         this.OrbitSecondAxis = orbitSecondAxis;
         this.InitialPosition = initialPosition;
-        this.RevolutionsPerDay = revolutionsPerDay;
         this.Mass = mass;
         this.Shape = shape;
         this.Height = height;
         this.Length = length;
         this.Width = width;
+
+        // for revolutions per day, use kepler's third law
+        double orbitalRadius = distanceFromEarthKm + SimulationManager.EARTH_RADIUS_KM;
+        double mu = 398600.4418;
+        double orbitalPeriodSeconds = 2f * Math.PI * Math.Sqrt(Math.Pow(orbitalRadius, 3) / mu);
+        this.RevolutionsPerDay = (float)(86400.0 / orbitalPeriodSeconds); // 24 * 60 * 60 = 86400
     }
 
     public Tle ToTle()
@@ -69,7 +74,7 @@ public class DebrisData
             UnityEngine.Random.Range(0.0f, 360.0f),
             UnityEngine.Random.Range(0.0f, 360.0f),
             UnityEngine.Random.Range(0.0f, 360.0f),
-            UnityEngine.Random.Range(11.0f, 15.0f),
+            UnityEngine.Random.Range(500.0f, 5000.0f),
             UnityEngine.Random.Range(10.0f, 1000.0f),
             (DebrisShape)UnityEngine.Random.Range(0, System.Enum.GetNames(typeof(DebrisShape)).Length),
             UnityEngine.Random.Range(1.0f, 5.0f),
