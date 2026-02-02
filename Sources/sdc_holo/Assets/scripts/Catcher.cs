@@ -1,17 +1,15 @@
 using UnityEngine;
 
-public class Debris : MonoBehaviour
+public class Catcher : MonoBehaviour
 {
     [Header ("Info prefab")]
     public GameObject infoPrefab;
 
+    public string targetName { get; set; }
+    public double speed { get; set; }
+    public double targetDistance { get; set; }
     public GameObject infoInstance;
-
-    public string debrisName { get; set; }
-    public double revolution { get; set; }
-    public double mass { get; set;}
-    public double position { get; set; }
-
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -24,15 +22,15 @@ public class Debris : MonoBehaviour
         
     }
 
-    public void onClick()
+     public void onClick()
     {
        if(infoInstance == null)
         {
             Transform camTransform = Camera.main.transform;
             infoInstance = Instantiate(infoPrefab, camTransform.position - camTransform.forward * 0.2f + camTransform.right*0.5f + camTransform.up*0.2f,
              camTransform.rotation);
-            var script = infoInstance.GetComponent<DebrisInfo>();
-            script.UpdateInfo(debrisName, revolution, mass, position);
+            var script = infoInstance.GetComponent<CatcherInfo>();
+            script.UpdateInfo(targetName, speed, targetDistance);
         }
        else
         {

@@ -29,8 +29,6 @@ public class BridgeClient : MonoBehaviour
     [Header("Paramètres de génération")]
     public GameObject debrisPrefab;
     public GameObject catcherPrefab;
-    public GameObject debrisInfo;//prefab qui affiche les données du débris
-    public GameObject catcherInfo;//prefab qui affiche les données du catcher
 
     private List<GameObject> spawnedObjects = new List<GameObject>();
     // File thread-safe pour transférer les messages du thread réseau vers le thread principal
@@ -46,7 +44,6 @@ public class BridgeClient : MonoBehaviour
         clientThread = new Thread(ConnectToServer);
         clientThread.IsBackground = true;
         clientThread.Start();
-        SpawnCube();
     }
 
     // ===============================
@@ -154,7 +151,7 @@ public class BridgeClient : MonoBehaviour
     // ===============================
     // Génération du cube 
     // ===============================
-    void SpawnCube()
+    void SpawnCube(string debrisName="debris", double revolution=0, double mass=1, double position=0)
     {
         if (debrisPrefab != null)
         {
@@ -166,6 +163,14 @@ public class BridgeClient : MonoBehaviour
                     camTransform.position + camTransform.forward * 1.5f,
                     camTransform.rotation
                 );
+                var script=obj.GetComponent<Debris>();
+                if(script!=null)
+                {
+                    script.debrisName=debrisName;
+                    script.revolution=revolution;
+                    script.mass=mass;
+                    script.position=position;
+                }
                 spawnedObjects.Add(obj);
             }
             else
@@ -184,7 +189,7 @@ public class BridgeClient : MonoBehaviour
     // ===============================
     // Génération du catcher
     // ===============================
-    void SpawnCatcher()
+    void SpawnCatcher(string targetName, double speed, double targetDistance)
     {
         if (catcherPrefab != null)
         {
@@ -196,6 +201,13 @@ public class BridgeClient : MonoBehaviour
                     camTransform.position + camTransform.forward * 1.5f,
                     camTransform.rotation
                 );
+                var script=obj.GetComponent<Catcher>();
+                if(script!=null)
+                {
+                    script.targetName=targetName;
+                    script.speed=speed;
+                    script.targetDistance=targetDistance;
+                }
                 spawnedObjects.Add(obj);
             }
             else
@@ -205,97 +217,6 @@ public class BridgeClient : MonoBehaviour
             }
 
             Debug.Log("Catcher apparu !");
-        }
-        else
-        {
-            Debug.LogError("Prefab non assigné dans l'inspecteur");
-        }
-    }
-    // ===============================
-    // Faire Apparaitre les données du catcher
-    // ===============================
-
-    void SpawnCatcherData(string targetName, double speed, double targetDistance)
-    {
-         if (catcherInfo != null)
-        {
-            if (Camera.main != null)
-            {
-                Transform camTransform = Camera.main.transform;
-                GameObject pane=Instantiate(
-                    catcherInfo,
-                    camTransform.position - camTransform.forward * 0.2f + camTransform.right*0.5f + camTransform.up*0.2f,
-                    camTransform.rotation
-                );
-                spawnedObjects.Add(pane);
-                var script=pane.GetComponent<CatcherInfo>();
-                if(script!=null)
-                script.UpdateInfo(targetName, speed, targetDistance);
-                else
-                {
-                    Debug.LogError("CatcherInfo script not found on the prefab.");
-                }
-            }
-            else
-            {
-                GameObject pane=Instantiate(catcherInfo, new Vector3(0, 0, 1f), Quaternion.identity);
-                spawnedObjects.Add(pane);
-                var script=pane.GetComponent<CatcherInfo>();
-                if(script!=null)
-                script.UpdateInfo(targetName, speed, targetDistance);
-                else
-                {
-                    Debug.LogError("CatcherInfo script not found on the prefab.");
-                }
-            }
-
-            Debug.Log("Infos du catcher apparues !");
-        }
-        else
-        {
-            Debug.LogError("Prefab non assigné dans l'inspecteur");
-        }
-    }
-
-    // ===============================
-    // Faire Apparaitre les données du débris
-    // ===============================
-
-    void SpawnDebrisData(string debrisName, double revolution, double mass, double position)
-    {
-         if (debrisInfo != null)
-        {
-            if (Camera.main != null)
-            {
-                Transform camTransform = Camera.main.transform;
-                GameObject pane=Instantiate(
-                    debrisInfo,
-                    camTransform.position - camTransform.forward * 0.2f + camTransform.right*0.5f + camTransform.up*0.2f,
-                    camTransform.rotation
-                );
-                spawnedObjects.Add(pane);
-                var script=pane.GetComponent<DebrisInfo>();
-                if(script!=null)
-                script.UpdateInfo(debrisName, revolution, mass, position);
-                else
-                {
-                    Debug.LogError("DebrisInfo script not found on the prefab.");
-                }
-            }
-            else
-            {
-                GameObject pane=Instantiate(debrisInfo, new Vector3(0, 0, 1f), Quaternion.identity);
-                spawnedObjects.Add(pane);
-                var script=pane.GetComponent<DebrisInfo>();
-                if(script!=null)
-                script.UpdateInfo(debrisName, revolution, mass, position);
-                else
-                {
-                    Debug.LogError("DebrisInfo script not found on the prefab.");
-                }
-            }
-
-            Debug.Log("Infos du débris apparues !");
         }
         else
         {
@@ -321,8 +242,7 @@ public class BridgeClient : MonoBehaviour
                 double mass=double.Parse((catcher.GetValue("mass")==null)?"0":catcher.GetValue("mass"),CultureInfo.InvariantCulture);
                 double position=double.Parse((catcher.GetValue("position")==null)?"0":catcher.GetValue("position"),CultureInfo.InvariantCulture);
                 ClearSpawnedObjects();
-                SpawnCube();
-                SpawnDebrisData(name, revolution, mass, position);
+                SpawnCube(name, revolution, mass, position);
             }
             else if(message.type == MessageType.CATCHER)
             {
@@ -331,10 +251,15 @@ public class BridgeClient : MonoBehaviour
                 double speed=double.Parse((catcher.GetValue("speed")==null)?"0":catcher.GetValue("speed"),CultureInfo.InvariantCulture);
                 double distance=double.Parse(catcher.GetValue("targetDistance")==null?"0":catcher.GetValue("targetDistance"),CultureInfo.InvariantCulture);
                 
+                ObjectDataBundle debris=message.messageData[1].value;
+                string debrisName=(debris.GetValue("name")==null)?"Unknown":debris.GetValue("name");
+                double debrisRevolution=double.Parse((debris.GetValue("revolutionPerDay")==null)?"0":debris.GetValue("revolutionPerDay"),CultureInfo.InvariantCulture);
+                double debrisMass=double.Parse((debris.GetValue("mass")==null)?"0":debris.GetValue("mass"),CultureInfo.InvariantCulture);
+                double debrisPosition=double.Parse((debris.GetValue("position")==null)?"0":debris.GetValue("position"),CultureInfo.InvariantCulture);
+                
                 ClearSpawnedObjects();
-                SpawnCatcher();
-                SpawnCube();
-                SpawnCatcherData(name, speed, distance);
+                SpawnCatcher(name, speed, distance);
+                SpawnCube(debrisName, debrisRevolution, debrisMass, debrisPosition);
             }
             else{
                 Debug.Log("Type de message incorrect");
