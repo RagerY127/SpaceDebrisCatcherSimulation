@@ -43,6 +43,8 @@ public class CameraManager : MonoBehaviour
     {
         Instance = this;
         _followedDebris = null;
+
+        OnZoomGesture(null, null);
     }
 
     void Update()
