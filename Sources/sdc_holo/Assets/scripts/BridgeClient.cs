@@ -46,6 +46,7 @@ public class BridgeClient : MonoBehaviour
         clientThread = new Thread(ConnectToServer);
         clientThread.IsBackground = true;
         clientThread.Start();
+        SpawnCube();
     }
 
     // ===============================
