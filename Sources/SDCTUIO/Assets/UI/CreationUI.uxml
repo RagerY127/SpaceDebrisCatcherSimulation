@@ -1,6 +1,6 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/GlobalStyles.uss?fileID=7433441132597879392&amp;guid=4f3d59cb90662203e8a3fbc8b91a18d8&amp;type=3#GlobalStyles" />
-    <ui:VisualElement template="WindowUI" name="VisualElement" style="flex-grow: 1;">
+    <ui:VisualElement template="WindowUI" name="DebrisCreationWizard" data-source="project://database/Assets/UI/DebrisScriptableObject.asset?fileID=11400000&amp;guid=7839e15f248c0f94fa1ecd8717b06c9b&amp;type=2#DebrisScriptableObject" style="flex-grow: 1;">
         <Style src="project://database/Assets/UI/GlobalStyles.uss?fileID=7433441132597879392&amp;guid=4f3d59cb90662203e8a3fbc8b91a18d8&amp;type=3#GlobalStyles" />
         <ui:VisualElement name="VisualElement" class="window" style="width: 100%; height: 100%; overflow: hidden;">
             <ui:Label text="Debris Creation Wizard" class="header" style="margin-left: 10px; margin-right: 10px; margin-top: 8px; margin-bottom: 6px;" />
@@ -17,35 +17,70 @@
                     <ui:VisualElement name="Separator" class="separator-horizontal" style="flex-grow: 0;" />
                     <ui:VisualElement name="RightPane" style="flex-grow: 1;">
                         <ui:Label text="Name" class="label-for-below" style="-unity-font-style: bold;" />
-                        <ui:TextField placeholder-text="Default Name" />
+                        <ui:TextField placeholder-text="Default Name" name="Name" />
                         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: center;">
                             <ui:VisualElement style="width: 200px; height: 200px; background-color: rgb(0, 0, 0);" />
                         </ui:VisualElement>
                         <ui:Label text="Tilt (First axis of rotation)" class="label-for-below" style="-unity-font-style: bold;" />
-                        <ui:Slider label="VALUE" value="60" high-value="100" fill="false" direction="Horizontal" style="margin-bottom: 2px; margin-top: 2px;" />
+                        <ui:Slider label="0" value="0" high-value="360" fill="false" direction="Horizontal" name="OrbitFirstAxis" style="margin-bottom: 2px; margin-top: 2px;">
+                            <Bindings>
+                                <ui:DataBinding property="label" data-source-path="orbitFirstAxis" binding-mode="ToTarget" />
+                                <ui:DataBinding property="value" data-source-path="orbitFirstAxis" binding-mode="TwoWay" />
+                            </Bindings>
+                        </ui:Slider>
                         <ui:Label text="Ascending Node (Second axis of rotation)" class="label-for-below" style="-unity-font-style: bold;" />
-                        <ui:Slider label="VALUE" value="45" high-value="100" fill="false" direction="Horizontal" style="margin-bottom: 2px; margin-top: 2px;" />
+                        <ui:Slider label="0" value="0" high-value="360" fill="false" direction="Horizontal" name="OrbitSecondAxis" style="margin-bottom: 2px; margin-top: 2px;">
+                            <Bindings>
+                                <ui:DataBinding property="label" data-source-path="orbitSecondAxis" binding-mode="ToTarget" />
+                                <ui:DataBinding property="value" data-source-path="orbitSecondAxis" binding-mode="TwoWay" />
+                            </Bindings>
+                        </ui:Slider>
                         <ui:Label text="Position of debris in orbit (anomaly)" class="label-for-below" style="-unity-font-style: bold;" />
-                        <ui:Slider label="VALUE" value="45" high-value="100" fill="false" direction="Horizontal" style="margin-bottom: 2px; margin-top: 2px;" />
+                        <ui:Slider label="0" value="0" high-value="360" fill="false" direction="Horizontal" name="InitialPosition" style="margin-bottom: 2px; margin-top: 2px;">
+                            <Bindings>
+                                <ui:DataBinding property="label" data-source-path="initialPosition" binding-mode="ToTarget" />
+                                <ui:DataBinding property="value" data-source-path="initialPosition" binding-mode="TwoWay" />
+                            </Bindings>
+                        </ui:Slider>
                         <ui:Label text="Revolutions per day (Movement)" class="label-for-below" style="-unity-font-style: bold;" />
-                        <ui:IntegerField value="42" />
+                        <ui:IntegerField value="42" name="RevolutionsPerDay">
+                            <Bindings>
+                                <ui:DataBinding property="value" data-source-path="revolutionsPerDay" binding-mode="TwoWay" />
+                            </Bindings>
+                        </ui:IntegerField>
                         <ui:Label text="Mass (kg)" class="label-for-below" style="-unity-font-style: bold;" />
-                        <ui:FloatField value="42.2" />
+                        <ui:FloatField value="42.2" name="Mass">
+                            <Bindings>
+                                <ui:DataBinding property="value" data-source-path="mass" binding-mode="TwoWay" />
+                            </Bindings>
+                        </ui:FloatField>
                         <ui:Label text="Shape" class="label-for-below" style="-unity-font-style: bold;" />
-                        <ui:DropdownField choices="Sphere" index="0" />
+                        <ui:DropdownField choices="Sphere" index="0" name="Shape" />
                         <ui:Label text="Dimensions" class="label-for-below" style="-unity-font-style: bold;" />
                         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-around;">
-                            <ui:FloatField label="H" value="0" class="small-label" style="flex-grow: 1;" />
-                            <ui:FloatField label="L" value="0" class="small-label" style="flex-grow: 1;" />
-                            <ui:FloatField label="W" value="0" class="small-label" style="flex-grow: 1;" />
+                            <ui:FloatField label="H" value="0" name="Height" class="small-label" style="flex-grow: 1;">
+                                <Bindings>
+                                    <ui:DataBinding property="value" data-source-path="height" binding-mode="TwoWay" />
+                                </Bindings>
+                            </ui:FloatField>
+                            <ui:FloatField label="L" value="0" name="Length" class="small-label" style="flex-grow: 1;">
+                                <Bindings>
+                                    <ui:DataBinding property="value" data-source-path="length" binding-mode="TwoWay" />
+                                </Bindings>
+                            </ui:FloatField>
+                            <ui:FloatField label="W" value="0" name="Width" class="small-label" style="flex-grow: 1;">
+                                <Bindings>
+                                    <ui:DataBinding property="value" data-source-path="width" binding-mode="TwoWay" />
+                                </Bindings>
+                            </ui:FloatField>
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:ScrollView>
             <ui:VisualElement name="WindowFooter" style="flex-grow: 0; flex-direction: row; flex-shrink: 0; justify-content: space-around; padding-top: 8px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px;">
-                <ui:Button text="Cancel" style="flex-grow: 1;" />
+                <ui:Button text="Cancel" name="Cancel" style="flex-grow: 1;" />
                 <ui:VisualElement style="flex-grow: 1; flex-shrink: 0;" />
-                <ui:Button text="Create" style="flex-grow: 1;" />
+                <ui:Button text="Create" name="Create" style="flex-grow: 1;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
