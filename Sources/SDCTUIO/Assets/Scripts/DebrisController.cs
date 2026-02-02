@@ -6,7 +6,6 @@ public class DebrisController : MonoBehaviour
 {
     public Tle Tle { get; set; }
     public DebrisData DebrisData { get; private set; }
-    private bool IsInitialized = false;
 
     [SerializeField]
     private TapGesture TapGesture;
@@ -15,7 +14,6 @@ public class DebrisController : MonoBehaviour
     {
         this.Tle = debrisData.ToTle();
         this.DebrisData = debrisData;
-        this.IsInitialized = true;
     }
 
     public void OnEnable()
@@ -30,17 +28,12 @@ public class DebrisController : MonoBehaviour
 
     private void Update()
     {
-        if (!this.IsInitialized)
-        {
-            return;
-        }
-
         transform.position = this.DebrisData.GetPositionKmAtTime(SimulationManager.SimulationTime).ToUnityVector3() * SimulationManager.ScaleFactor;
     }
 
     private void OnDebrisTapped(object sender, System.EventArgs e)
     {
-        DebrisManager.Instance.SelectDebris(this.DebrisData.Id);
+        SimulationManager.Instance.SelectDebris(this.DebrisData.Id);
         CameraManager.Instance.FollowDebris(this.gameObject);
     }
 }
