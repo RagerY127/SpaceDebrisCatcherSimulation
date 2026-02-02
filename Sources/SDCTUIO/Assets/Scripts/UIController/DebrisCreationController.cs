@@ -5,9 +5,6 @@ using UnityEngine.UIElements;
 
 public class DebrisCreationController : MonoBehaviour
 {
-    private Slider _orbitFirstAxisSlider;
-    private Slider _orbitSecondAxisSlider;
-    private Slider _initialPositionSlider;
     private Button _cancelButton;
     private Button _createButton;
 
@@ -22,9 +19,6 @@ public class DebrisCreationController : MonoBehaviour
         _modals = root.Q<VisualElement>("Modals");
         _dataSource = (DebrisScriptableObject)_wizard.dataSource;
 
-        _orbitFirstAxisSlider = root.Q<Slider>("OrbitFirstAxis");
-        _orbitSecondAxisSlider = root.Q<Slider>("OrbitSecondAxis");
-        _initialPositionSlider = root.Q<Slider>("InitialPosition");
         _cancelButton = root.Q<Button>("Cancel");
         _createButton = root.Q<Button>("Create");
 
@@ -35,7 +29,7 @@ public class DebrisCreationController : MonoBehaviour
     private void OnCreateButtonClicked()
     {
         DebrisData data = new DebrisData(_dataSource.debrisName, _dataSource.orbitFirstAxis,
-        _dataSource.orbitSecondAxis, _dataSource.initialPosition, _dataSource.revolutionsPerDay, _dataSource.mass, _dataSource.shape,
+        _dataSource.orbitSecondAxis, _dataSource.initialPosition, _dataSource.distanceFromEarthKm, _dataSource.mass, _dataSource.shape,
         _dataSource.height, _dataSource.length, _dataSource.width);
 
         SimulationManager.Instance.AddDebrisToSimulation(data);
