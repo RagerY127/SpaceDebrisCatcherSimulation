@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 using TMPro;
+using System.Globalization;
 
 public class BridgeClient : MonoBehaviour
 {
@@ -42,7 +43,6 @@ public class BridgeClient : MonoBehaviour
         clientThread = new Thread(ConnectToServer);
         clientThread.IsBackground = true;
         clientThread.Start();
-        SpawnCatcherData("debris1", 2750.5, 1200.75);
     }
 
     // ===============================
@@ -205,7 +205,7 @@ public class BridgeClient : MonoBehaviour
                 Transform camTransform = Camera.main.transform;
                 GameObject pane=Instantiate(
                     catcherInfo,
-                    camTransform.position + camTransform.forward * 1.5f,
+                    camTransform.position - camTransform.forward * 0.2f,
                     Quaternion.identity
                 );
                 var script=pane.GetComponent<CatcherInfo>();
@@ -252,8 +252,14 @@ public class BridgeClient : MonoBehaviour
             }
             else if(message.type == MessageType.CATCHER)
             {
+                ObjectDataBundle catcher=message.messageData[0].value;
+                string name=(catcher.GetValue("targetName")==null)?"Unknown":catcher.GetValue("targetName");
+                double speed=double.Parse((catcher.GetValue("speed")==null)?"0":catcher.GetValue("speed"),CultureInfo.InvariantCulture);
+                double distance=double.Parse(catcher.GetValue("targetDistance")==null?"0":catcher.GetValue("targetDistance"),CultureInfo.InvariantCulture);
+                
                 SpawnCatcher();
                 SpawnCube();
+                SpawnCatcherData(name, speed, distance);
             }
             else{
                 Debug.Log("Type de message incorrect");
