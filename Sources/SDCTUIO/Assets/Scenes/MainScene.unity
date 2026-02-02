@@ -1276,6 +1276,7 @@ GameObject:
   - component: {fileID: 1472755244}
   - component: {fileID: 1472755246}
   - component: {fileID: 1472755247}
+  - component: {fileID: 1472755248}
   m_Layer: 5
   m_Name: MainUI
   m_TagString: Untagged
@@ -1345,6 +1346,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e83165f4fd1f056b8ff431b33ee59b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeasureDistController
+--- !u!114 &1472755248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472755243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bda956ccc8704defa56aea8a6679565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIController
 --- !u!1 &1928563196
 GameObject:
   m_ObjectHideFlags: 0
