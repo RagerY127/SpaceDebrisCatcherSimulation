@@ -9,6 +9,9 @@ public class DebrisController : MonoBehaviour
 
     [SerializeField]
     private TapGesture TapGesture;
+    // Long gesture in anneau Controller
+    [SerializeField]
+    public LongPressGesture LongPressGesture;
 
     public void AssignDebrisData(DebrisData debrisData)
     {
@@ -19,6 +22,8 @@ public class DebrisController : MonoBehaviour
     public void OnEnable()
     {
         TapGesture.Tapped += OnDebrisTapped;
+
+        LongPressGesture.LongPressed += OnDebrisLongPressed;
     }
 
     public void OnDisable()
@@ -35,5 +40,10 @@ public class DebrisController : MonoBehaviour
     {
         SimulationManager.Instance.SelectDebris(this.DebrisData.Id);
         CameraManager.Instance.FollowDebris(this.gameObject);
+    }
+
+    private void OnDebrisLongPressed(object sender, System.EventArgs e)
+    {
+        AnneauController.Instance.OpenMenuForDebris(this);
     }
 }
