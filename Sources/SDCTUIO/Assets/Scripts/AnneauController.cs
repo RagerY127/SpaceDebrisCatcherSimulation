@@ -241,21 +241,17 @@ public class AnneauController : MonoBehaviour
 
     void UpdateHover(VisualElement btn)
     {
-        if (_curHoverBtn == btn) return;
+        _curHoverBtn = btn; 
 
-        if (_curHoverBtn != null) 
-        { 
-            _curHoverBtn.style.scale = Vector3.one; 
-            _curHoverBtn.style.opacity = 0.5f; 
+        var container = _state == State.Sel ? _selectionLayer : _activeValLayer;
+        if (container == null) return;
+
+        foreach (var child in container.Children())
+        {
+            bool isTarget = (child == btn);
+            child.style.opacity = (btn == null || isTarget) ? 1f : 0.5f;
+            child.style.scale = isTarget ? Vector3.one * 1.2f : Vector3.one;
         }
-
-        if (btn != null) 
-        { 
-            btn.style.scale = Vector3.one * 1.2f; 
-            btn.style.opacity = 1f; 
-        }
-
-        _curHoverBtn = btn;
     }
 
     public void OpenMenuForDebris(DebrisController d)
@@ -265,27 +261,19 @@ public class AnneauController : MonoBehaviour
         _state = State.Sel; 
         _hoverTimer = 0; 
         _pendingOpBtn = null; 
-        _curHoverBtn = null;
+
+        _curHoverBtn = new VisualElement(); 
 
         if (_menuContainer == null) return;
 
         _menuContainer.style.display = DisplayStyle.Flex;
-        
         if (_selectionLayer != null) _selectionLayer.style.display = DisplayStyle.Flex;
+        
         if (_valLayerDelete != null) _valLayerDelete.style.display = DisplayStyle.None;
         if (_valLayerHolo != null)   _valLayerHolo.style.display = DisplayStyle.None;
         if (_valLayerFocus != null)  _valLayerFocus.style.display = DisplayStyle.None;
 
-        string[] selButtons = { "btnDelete", "btnHolo", "btnFocas" };
-        foreach (var name in selButtons) 
-        {
-            var btn = _selectionLayer?.Q(name); 
-            if (btn != null) 
-            { 
-                btn.style.opacity = 0.5f; 
-                btn.style.scale = Vector3.one; 
-            }
-        }
+        UpdateHover(null);
     }
 
     public void HideMenu() 
