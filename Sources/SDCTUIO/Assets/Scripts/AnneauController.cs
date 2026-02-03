@@ -138,7 +138,7 @@ public class AnneauController : MonoBehaviour
         
         UpdateHover(btn);
 
-        if (btn != null && btn == _curHoverBtn) 
+        if (btn != null && btn == _curHoverBtn)
         {
             _hoverTimer += Time.deltaTime;
             
@@ -201,15 +201,18 @@ public class AnneauController : MonoBehaviour
         
         if (btn != null && btn.name == "btnConfirm" && _pendingOpBtn != null) 
         {
-            if (_pendingOpBtn.name == "btnDelete") 
+            if (_pendingOpBtn.name == "btnDelete")
             { 
-                /* DebrisManager.Instance.Remove(_targetDebris); */ 
+                SimulationManager.Instance.RemoveDebris(_targetDebris.id);
+
             } else if (_pendingOpBtn.name == "btnHolo") 
             { 
                 /* DebrisManager.Instance.Remove(_targetDebris); */ 
+
             } else if (_pendingOpBtn.name == "btnFocas") 
             { 
                 /* DebrisManager.Instance.Remove(_targetDebris); */ 
+
             }
         }
         
