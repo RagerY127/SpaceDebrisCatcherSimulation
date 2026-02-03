@@ -138,6 +138,7 @@ public class SimulationManager : MonoBehaviour
     /// <param name="debrisId">The ID of the debris to be removed.</param>
     public void RemoveDebris(string debrisId)
     {
+        // TODO: affichier une alerte pour dire un debris a ete supprime
         
         if (_debrisObjects.ContainsKey(debrisId))
         {

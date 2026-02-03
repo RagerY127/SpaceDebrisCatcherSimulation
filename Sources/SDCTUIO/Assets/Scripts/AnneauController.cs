@@ -208,7 +208,7 @@ public class AnneauController : MonoBehaviour
             } else if (_pendingOpBtn.name == "btnHolo") 
             { 
                 /* DebrisManager.Instance.Remove(_targetDebris); */ 
-
+                
             } else if (_pendingOpBtn.name == "btnFocas") 
             { 
                 /* DebrisManager.Instance.Remove(_targetDebris); */ 

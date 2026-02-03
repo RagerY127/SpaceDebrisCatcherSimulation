@@ -6,7 +6,19 @@ using UnityEngine;
 
 public class BridgeServer : MonoBehaviour
 {
-    // port
+    public static BridgeServer Instance { get; private set; }
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     private int port = 9999;
     private TcpListener listener;
     private TcpClient connectedClient;
@@ -54,9 +66,7 @@ public class BridgeServer : MonoBehaviour
 
     public void OnClickSpawnButton()
     {
-        Debug.Log(" okokokokokok ");
         SendMessageToHoloLens("SPAWN_CUBE");
-        Debug.Log(" okokokokokok ");
     }
 
     public void SendMessageToHoloLens(string message)
