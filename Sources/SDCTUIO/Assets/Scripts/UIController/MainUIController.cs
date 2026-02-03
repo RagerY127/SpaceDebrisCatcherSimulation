@@ -8,10 +8,13 @@ public class MainUIController : MonoBehaviour
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
 
-        root.Query<TextField>().ForEach(field =>
-        {
-           field.RegisterCallback<FocusEvent>(e => { OnScreenKeyboard.ShowTouchKeyboard(); });
-           field.RegisterCallback<ClickEvent>(e => { OnScreenKeyboard.ShowTouchKeyboard(); });
+        root.Query<TextField>().ForEach(field => {
+            field.RegisterCallback<PointerUpEvent>(e => {
+                if (e.pointerType == "touch") OnScreenKeyboard.ShowTouchKeyboard(); });
+        });
+        root.Query<TextElement>().ForEach(field => {
+            field.RegisterCallback<PointerUpEvent>(e => {
+                if (e.pointerType == "touch") OnScreenKeyboard.ShowTouchKeyboard(); });
         });
     }
 }
