@@ -203,7 +203,7 @@ public class AnneauController : MonoBehaviour
         {
             if (_pendingOpBtn.name == "btnDelete")
             { 
-                SimulationManager.Instance.RemoveDebris(_targetDebris.id);
+                SimulationManager.Instance.RemoveDebris(_targetDebris.DebrisData.Id);
 
             } else if (_pendingOpBtn.name == "btnHolo") 
             { 
