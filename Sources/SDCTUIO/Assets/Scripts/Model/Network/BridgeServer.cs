@@ -64,10 +64,10 @@ public class BridgeServer : MonoBehaviour
         }
     }
 
-    public void OnClickSpawnButton()
+    /*public void OnClickSpawnButton()
     {
         SendMessageToHoloLens("SPAWN_CUBE");
-    }
+    }*/
 
     public void SendMessageToHoloLens(string message)
     {

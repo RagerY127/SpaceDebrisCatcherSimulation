@@ -211,7 +211,8 @@ public class AnneauController : MonoBehaviour
                 
             } else if (_pendingOpBtn.name == "btnFocas") 
             { 
-                /* DebrisManager.Instance.Remove(_targetDebris); */ 
+                SimulationManager.Instance.SelectDebris(_targetDebris.DebrisData.Id);
+                CameraManager.Instance.FollowDebris(_targetDebris.gameObject);
 
             }
         }
