@@ -9,7 +9,7 @@ public class AnneauController : MonoBehaviour
     public UIDocument uiDocument;
     public Vector2 menuOffset = new Vector2(-165f, -135f);
     public float selectionDistance = 80f;
-    public float hoverDurationToActivate = 1.0f;
+    //public float hoverDurationToActivate = 1.0f;
 
     private DebrisController _targetDebris;
     private VisualElement _root;
@@ -24,7 +24,7 @@ public class AnneauController : MonoBehaviour
     private VisualElement _curHoverBtn;
     private VisualElement _pendingOpBtn;
 
-    private float _hoverTimer;
+    //private float _hoverTimer;
     private bool _isOpen;
     
     /*
@@ -81,27 +81,17 @@ public class AnneauController : MonoBehaviour
         _menuContainer.style.left = wp.x + menuOffset.x; 
         _menuContainer.style.top = wp.y + menuOffset.y;
 
-        // The states of finger or mouse
+        // Input detection
         bool isTouch = Input.touchCount > 0;
         bool isMouseRelease = Input.GetMouseButtonUp(0);
         bool isTouchRelease = isTouch && Input.GetTouch(0).phase == TouchPhase.Ended;
         
-        // Is released 
         bool isReleased = isTouchRelease || isMouseRelease;
-        // Is pressed finger OR mouse
         bool isPressing = isTouch || Input.GetMouseButton(0);
 
-
-        // Get position
         Vector2 screenPos;
-        if (isTouch)
-        {
-            screenPos = Input.GetTouch(0).position;
-        }
-        else
-        {
-            screenPos = Input.mousePosition;
-        }
+        if (isTouch) screenPos = Input.GetTouch(0).position;
+        else screenPos = Input.mousePosition;
 
         Vector2 panelPos = RuntimePanelUtils.ScreenToPanel(
             _menuContainer.panel, 
@@ -110,14 +100,18 @@ public class AnneauController : MonoBehaviour
 
         if (!isPressing && isReleased) 
         {
-            if (_state == State.Val) 
+            if (_state == State.Sel) 
             {
-                // Execute after the validation of the button selected
-                ExecuteIfConfirmed(panelPos); 
+                var btn = FindBtn(_selectionLayer, panelPos, "btnDelete", "btnHolo", "btnFocas");
+                
+                if (btn != null) 
+                {
+                    ToValMode(btn);
+                }
             }
-            else 
+            else if (_state == State.Val) 
             {
-                HideMenu();
+                ExecuteIfConfirmed(panelPos); 
             }
             return;
         }
@@ -137,20 +131,6 @@ public class AnneauController : MonoBehaviour
         var btn = FindBtn(_selectionLayer, p, "btnDelete", "btnHolo", "btnFocas");
         
         UpdateHover(btn);
-
-        if (btn != null && btn == _curHoverBtn)
-        {
-            _hoverTimer += Time.deltaTime;
-            
-            if (_hoverTimer >= hoverDurationToActivate) 
-            {
-                ToValMode(btn);
-            }
-        } 
-        else 
-        {
-            _hoverTimer = 0f;
-        }
     }
 
     void HandleVal(Vector2 p)
@@ -163,7 +143,7 @@ public class AnneauController : MonoBehaviour
     {
         _pendingOpBtn = op; 
         _state = State.Val; 
-        _hoverTimer = 0f;
+        //_hoverTimer = 0f;
 
         if (_selectionLayer != null) 
         {
@@ -263,7 +243,7 @@ public class AnneauController : MonoBehaviour
         _targetDebris = d; 
         _isOpen = true; 
         _state = State.Sel; 
-        _hoverTimer = 0; 
+        //_hoverTimer = 0; 
         _pendingOpBtn = null; 
 
         _curHoverBtn = new VisualElement(); 
