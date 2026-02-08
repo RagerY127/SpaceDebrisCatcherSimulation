@@ -1,11 +1,25 @@
 using One_Sgp4;
 using UnityEngine;
+using TouchScript.Gestures;
 
 public class CatcherController : MonoBehaviour
 {
     private DebrisData _debrisData;
-    private double _timeOffsetSeconds;
 
+    // getter for anneauController to read
+    public DebrisData TargetDebris 
+    { 
+        get { return _debrisData; } 
+    }
+    public CatcherData CatcherData { get; private set; }
+
+    [SerializeField]
+    private TapGesture TapGesture;
+
+    [SerializeField]
+    private LongPressGesture LongPressGesture;
+
+    private double _timeOffsetSeconds;
     public void AssignTargetDebris(GameObject debris)
     {
         _debrisData = debris.GetComponent<DebrisController>().DebrisData;

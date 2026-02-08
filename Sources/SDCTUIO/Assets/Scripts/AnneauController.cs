@@ -3,15 +3,22 @@ using UnityEngine.UIElements;
 
 public class AnneauController : MonoBehaviour
 {
+    //Instance
     public static AnneauController Instance { get; private set; }
 
+    // The relevent position of anneau, could be adjust in Unity
     [Header("UI settings")]
     public UIDocument uiDocument;
     public Vector2 menuOffset = new Vector2(-165f, -135f);
     public float selectionDistance = 80f;
-    //public float hoverDurationToActivate = 1.0f;
 
+    // This debris
     private DebrisController _targetDebris;
+
+    // This catcher
+    private CatcherController _targetCatcher;
+
+    // UI Elements
     private VisualElement _root;
     private VisualElement _menuContainer;
     
@@ -26,6 +33,67 @@ public class AnneauController : MonoBehaviour
 
     //private float _hoverTimer;
     private bool _isOpen;
+
+    private float _openTime;
+
+    
+    /// <summary>
+    /// !!!!!!!!!!!!!!!!!!!!!!Operations of these buttons!!!!!!!!!!!!!!!!!!!!
+    /// !!!!!!!!!!!!!!!!!!!!!!ADD LOGIC OF BUTTONS ON THE ANNEAU HERE!!!!!!!!
+    /// </summary>
+    /// <param name="p"></param>
+    void ExecuteIfConfirmed(Vector2 p)
+    {
+        var btn = FindBtn(_activeValLayer, p, "btnConfirm", "btnCancel");
+        
+        if (btn != null && btn.name == "btnConfirm" && _pendingOpBtn != null) 
+        {
+            // DELETE object button
+            if (_pendingOpBtn.name == "btnDelete")
+            {
+                if (_targetDebris != null)
+                {
+                    HololensMessage.SendDebrisMessage(MessageCommand.DELETE, _targetDebris.DebrisData);
+                    SimulationManager.Instance.RemoveDebris(_targetDebris.DebrisData.Id);
+                }
+                else if (_targetCatcher != null)
+                {
+                    //Destroy(_targetCatcher.gameObject); 
+                }
+
+            } 
+            // SEND TO HOLOLENS button
+            else if (_pendingOpBtn.name == "btnHolo") 
+            {
+                if (_targetDebris != null)
+                {
+                    // La logique pour envoyer debris et catcher, on envoye un d'entre les deux est-ce qu'on voit aussi l'autre dans Hololens?
+                    HololensMessage.SendDebrisMessage(MessageCommand.SPAWN, _targetDebris.DebrisData);
+                    Debug.Log("11111");
+                }
+                else if (_targetCatcher != null)
+                {
+                    HololensMessage.SendCatcherMessage(MessageCommand.SPAWN, _targetCatcher.CatcherData);
+                }
+            } 
+            // FOCUS button
+            else if (_pendingOpBtn.name == "btnFocas") 
+            { 
+                if (_targetDebris != null)
+                {
+                    SimulationManager.Instance.SelectDebris(_targetDebris.DebrisData.Id);
+                    CameraManager.Instance.FollowDebris(_targetDebris.gameObject);
+                }
+                else if (_targetCatcher != null)
+                {
+                    //CameraManager.Instance.FollowCatcher(_targetCatcher.??);
+                    //CameraManager.Instance.FollowDebris(_targetCatcher.gameObject);
+                }
+            }
+        }
+        
+        HideMenu();
+    }
     
     /*
         State:
@@ -67,14 +135,26 @@ public class AnneauController : MonoBehaviour
 
     void Update()
     {
-        if (!_isOpen || !_targetDebris || _menuContainer == null) 
+
+        // If chose catcher or debris
+        bool hasTarget = _targetDebris != null || _targetCatcher != null;
+
+        if (!_isOpen || !hasTarget || _menuContainer == null) 
         {
             return;
         }
 
+        // Depends on if we choose DEBRIS or CATCHER
+        Vector3 targetPosition = Vector3.zero;
+        if (_targetDebris != null) 
+            targetPosition = _targetDebris.transform.position;
+        else if (_targetCatcher != null) 
+            targetPosition = _targetCatcher.transform.position;
+
+        // Position follow logic
         Vector2 wp = RuntimePanelUtils.CameraTransformWorldToPanel(
             _menuContainer.panel, 
-            _targetDebris.transform.position, 
+            targetPosition, 
             Camera.main
         );
         
@@ -98,6 +178,7 @@ public class AnneauController : MonoBehaviour
             new Vector2(screenPos.x, Screen.height - screenPos.y)
         );
 
+        // Interaction logic
         if (!isPressing && isReleased) 
         {
             if (_state == State.Sel) 
@@ -107,6 +188,13 @@ public class AnneauController : MonoBehaviour
                 if (btn != null) 
                 {
                     ToValMode(btn);
+                }
+                else
+                {
+                    if (Time.time - _openTime > 0.5f)
+                    {
+                        HideMenu();
+                    }
                 }
             }
             else if (_state == State.Val) 
@@ -126,6 +214,10 @@ public class AnneauController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handling hover in selection mode
+    /// </summary>
+    /// <param name="p"></param>
     void HandleSel(Vector2 p)
     {
         var btn = FindBtn(_selectionLayer, p, "btnDelete", "btnHolo", "btnFocas");
@@ -133,12 +225,20 @@ public class AnneauController : MonoBehaviour
         UpdateHover(btn);
     }
 
+    /// <summary>
+    /// Hover in confirmation mode
+    /// </summary>
+    /// <param name="p"></param>
     void HandleVal(Vector2 p)
     {
         var btn = FindBtn(_activeValLayer, p, "btnConfirm", "btnCancel");
         UpdateHover(btn);
     }
 
+    /// <summary>
+    /// Switch to Validation Mode
+    /// </summary>
+    /// <param name="op"></param>
     void ToValMode(VisualElement op)
     {
         _pendingOpBtn = op; 
@@ -172,34 +272,13 @@ public class AnneauController : MonoBehaviour
         }
     }
 
-    /*
-        Operations of these buttons
-    */
-    void ExecuteIfConfirmed(Vector2 p)
-    {
-        var btn = FindBtn(_activeValLayer, p, "btnConfirm", "btnCancel");
-        
-        if (btn != null && btn.name == "btnConfirm" && _pendingOpBtn != null) 
-        {
-            if (_pendingOpBtn.name == "btnDelete")
-            { 
-                SimulationManager.Instance.RemoveDebris(_targetDebris.DebrisData.Id);
-
-            } else if (_pendingOpBtn.name == "btnHolo") 
-            { 
-                /* DebrisManager.Instance.Remove(_targetDebris); */ 
-                
-            } else if (_pendingOpBtn.name == "btnFocas") 
-            { 
-                SimulationManager.Instance.SelectDebris(_targetDebris.DebrisData.Id);
-                CameraManager.Instance.FollowDebris(_targetDebris.gameObject);
-
-            }
-        }
-        
-        HideMenu();
-    }
-
+    /// <summary>
+    /// Helper method: Find the button closest to the mouse cursor in the parent container.
+    /// </summary>
+    /// <param name="parent"></param>
+    /// <param name="pos"></param>
+    /// <param name="names"></param>
+    /// <returns></returns>
     VisualElement FindBtn(VisualElement parent, Vector2 pos, params string[] names)
     {
         if (parent == null) return null;
@@ -223,6 +302,10 @@ public class AnneauController : MonoBehaviour
         return result;
     }
 
+    /// <summary>
+    /// Hover visual effect of the update button
+    /// </summary>
+    /// <param name="btn"></param>
     void UpdateHover(VisualElement btn)
     {
         _curHoverBtn = btn; 
@@ -241,11 +324,22 @@ public class AnneauController : MonoBehaviour
     public void OpenMenuForDebris(DebrisController d)
     {
         _targetDebris = d; 
-        _isOpen = true; 
-        _state = State.Sel; 
-        //_hoverTimer = 0; 
-        _pendingOpBtn = null; 
+        _targetCatcher = null;
+        OpenMenuInternal();
+    }
 
+    public void OpenMenuForCatcher(CatcherController c)
+    {
+        _targetCatcher = c;
+        _targetDebris = null;
+        OpenMenuInternal();
+    }
+    private void OpenMenuInternal()
+    {
+        _isOpen = true; 
+        _openTime = Time.time;
+        _state = State.Sel; 
+        _pendingOpBtn = null; 
         _curHoverBtn = new VisualElement(); 
 
         if (_menuContainer == null) return;
@@ -260,6 +354,9 @@ public class AnneauController : MonoBehaviour
         UpdateHover(null);
     }
 
+    /// <summary>
+    /// Hide and reset the menu
+    /// </summary>
     public void HideMenu() 
     { 
         _isOpen = false; 
