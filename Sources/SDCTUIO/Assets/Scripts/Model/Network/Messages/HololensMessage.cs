@@ -1,13 +1,12 @@
 using System;
-using UnityEngine;
+using System.Runtime.Serialization;
 
 [Serializable]
 public class HololensMessage
 {
     public string command;
     public string targetType;
-    public DebrisDTO debrisData;
-    public CatcherDTO catcherData;
+    public ISerializable data;
 
     private HololensMessage() { }
 
@@ -16,8 +15,7 @@ public class HololensMessage
         var msg = new HololensMessage();
         msg.command = cmd.ToString();
         msg.targetType = TargetType.DEBRIS.ToString();
-        msg.debrisData = new DebrisDTO(data);
-        msg.catcherData = null;
+        msg.data = new DebrisDTO(data);
 
         string json = msg.ToJson();
 
@@ -30,8 +28,7 @@ public class HololensMessage
         var msg = new HololensMessage();
         msg.command = cmd.ToString();
         msg.targetType = TargetType.CATCHER.ToString();
-        msg.catcherData = new CatcherDTO(data);
-        msg.debrisData = null;
+        msg.data = new CatcherDTO(data);
 
         string json = msg.ToJson();
         
