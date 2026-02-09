@@ -242,34 +242,25 @@ public class BridgeClient : MonoBehaviour
         {
             HololensMessage message = JsonUtility.FromJson<HololensMessage>(msg);
 
-            Debug.Log("Type du message JSON = " + message.type);
-            if(message.type == MessageType.DEBRIS)
+            Debug.Log("Type du message JSON = " + message.targetType);
+
+            if(message.targetType == "DEBRIS")
             {
-                ObjectDataBundle catcher=message.messageData[0].value;
-                string name=(catcher.GetValue("name")==null)?"Unknown":catcher.GetValue("name");
-                double revolution=double.Parse((catcher.GetValue("revolutionPerDay")==null)?"0":catcher.GetValue("revolutionPerDay"),CultureInfo.InvariantCulture);
-                double mass=double.Parse((catcher.GetValue("mass")==null)?"0":catcher.GetValue("mass"),CultureInfo.InvariantCulture);
-                double position=double.Parse((catcher.GetValue("position")==null)?"0":catcher.GetValue("position"),CultureInfo.InvariantCulture);
-                ClearSpawnedObjects();
+                DebrisDTO data=message.data as DebrisDTO;
+                string name=(data.name==null)?"Unknown":data.name;
+                double revolution=data.revolutionsPerDay;
+                double mass=data.mass;
+                double position=0;
                 SpawnCube(name, revolution, mass, position);
             }
-            else if(message.type == MessageType.CATCHER)
+            else if(message.targetType == "CATCHER")
             {
-                ObjectDataBundle catcher=message.messageData[0].value;
-                string name=(catcher.GetValue("targetName")==null)?"Unknown":catcher.GetValue("targetName");
-                double speed=double.Parse((catcher.GetValue("speed")==null)?"0":catcher.GetValue("speed"),CultureInfo.InvariantCulture);
-                double distance=double.Parse(catcher.GetValue("targetDistance")==null?"0":catcher.GetValue("targetDistance"),CultureInfo.InvariantCulture);
-                
-                ObjectDataBundle debris=message.messageData[1].value;
-                string debrisName=(debris.GetValue("name")==null)?"Unknown":debris.GetValue("name");
-                double debrisRevolution=double.Parse((debris.GetValue("revolutionPerDay")==null)?"0":debris.GetValue("revolutionPerDay"),CultureInfo.InvariantCulture);
-                double debrisMass=double.Parse((debris.GetValue("mass")==null)?"0":debris.GetValue("mass"),CultureInfo.InvariantCulture);
-                double debrisPosition=double.Parse((debris.GetValue("position")==null)?"0":debris.GetValue("position"),CultureInfo.InvariantCulture);
-                
-                ClearSpawnedObjects();
-                var catcherObj = SpawnCatcher(name, speed, distance);
-                var debrisObj = SpawnCube(debrisName, debrisRevolution, debrisMass, debrisPosition);
-                catcherObj.transform.LookAt(debrisObj.transform);
+
+                CatcherDTO data=message.data as CatcherDTO;
+                string name=(data.targetName==null)?"Unknown":data.targetName;
+                double speed=data.speed;
+                double distance=data.targetDistance;
+                SpawnCatcher(name, speed, distance);
 
             }
             else{
