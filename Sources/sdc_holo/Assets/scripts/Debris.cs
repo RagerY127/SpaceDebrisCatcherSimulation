@@ -5,7 +5,7 @@ public class Debris : MonoBehaviour
     [Header("Info prefab")]
     public GameObject infoPrefab;
 
-    public GameObject infoInstance;
+    public GameObject infoInstance{ get; set; }
 
     public string debrisName { get; set; }
     public double revolution { get; set; }

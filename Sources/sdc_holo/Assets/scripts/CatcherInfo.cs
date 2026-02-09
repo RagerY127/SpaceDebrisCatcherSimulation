@@ -6,6 +6,8 @@ public class CatcherInfo : MonoBehaviour
     public GameObject targetNameField;
     public GameObject speedField;
     public GameObject targetDistanceField;
+
+    public Catcher Original{get; set;}
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -16,6 +18,10 @@ public class CatcherInfo : MonoBehaviour
     void Update()
     {
         
+    }
+    void OnDestroy()
+    {
+        Original.infoInstance = null;
     }
     public void UpdateInfo(string targetName, double speed, double targetDistance)
     {
