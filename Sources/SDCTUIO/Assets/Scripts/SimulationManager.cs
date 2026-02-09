@@ -112,7 +112,7 @@ public class SimulationManager : MonoBehaviour
     /// Adds a debris object to the simulation.
     /// </summary>
     /// <param name="debrisData">The data of the debris to be added.</param>
-    public void AddDebrisToSimulation(DebrisData debrisData)
+    public GameObject AddDebrisToSimulation(DebrisData debrisData)
     {
         GameObject debrisObject = Instantiate(this.DebrisPrefab, this.transform);
         DebrisController debrisController = debrisObject.GetComponent<DebrisController>();
@@ -130,6 +130,8 @@ public class SimulationManager : MonoBehaviour
                 debrisObject.GetComponent<MeshFilter>().mesh = Resources.GetBuiltinResource<Mesh>("Cylinder.fbx");
                 break;
         }
+
+        return debrisObject;
     }
 
     /// <summary>

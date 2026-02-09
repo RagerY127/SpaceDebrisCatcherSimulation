@@ -24,7 +24,7 @@ public class DebrisCreationController : MonoBehaviour
 
         if (_cancelButton != null)
             _cancelButton.clicked += OnCancelButtonClicked;
-            
+
         if (_createButton != null)
             _createButton.clicked += OnCreateButtonClicked;
     }
@@ -36,7 +36,10 @@ public class DebrisCreationController : MonoBehaviour
         _dataSource.orbitSecondAxis, _dataSource.initialPosition, _dataSource.distanceFromEarthKm, _dataSource.mass, _dataSource.shape,
         _dataSource.height, _dataSource.length, _dataSource.width);
 
-        SimulationManager.Instance.AddDebrisToSimulation(data);
+        GameObject debrisObject = SimulationManager.Instance.AddDebrisToSimulation(data);
+        SimulationManager.Instance.SelectDebris(data.Id);
+        CameraManager.Instance.FollowDebris(debrisObject);
+
         DisableModal();
     }
 
