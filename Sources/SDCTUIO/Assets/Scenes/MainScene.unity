@@ -876,7 +876,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
@@ -1332,6 +1332,7 @@ GameObject:
   - component: {fileID: 1472755246}
   - component: {fileID: 1472755247}
   - component: {fileID: 1472755248}
+  - component: {fileID: 1472755249}
   m_Layer: 5
   m_Name: MainUI
   m_TagString: Untagged
@@ -1420,6 +1421,30 @@ MonoBehaviour:
   iconDelete: {fileID: 0}
   iconHolo: {fileID: 0}
   iconFocas: {fileID: 0}
+--- !u!114 &1472755248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472755243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bd7b8b0fa4abe448b5acb89cc933ed0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DebrisCreationController
+--- !u!114 &1472755249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472755243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5eb22d02bd48d564596ec1a46f1ad24a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MainUIController
 --- !u!1 &1928563196
 GameObject:
   m_ObjectHideFlags: 0

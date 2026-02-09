@@ -55,14 +55,14 @@ public class SimulationManager : MonoBehaviour
         _simulationTime = new EpochTime(System.DateTime.UtcNow);
         _scaleFactor = _earth.Radius / EARTH_RADIUS_KM;
 
-        DebrisData test = DebrisData.RandomDebris();
-        AddDebrisToSimulation(test);
-        AssignCatcherToDebris(test.Id);
+        // DebrisData test = DebrisData.RandomDebris();
+        // AddDebrisToSimulation(test);
+        // AssignCatcherToDebris(test.Id);
 
-        for (int i = 0; i < 5; i++)
-        {
-            AddDebrisToSimulation(DebrisData.RandomDebris());
-        }
+        // for (int i = 0; i < 5; i++)
+        // {
+        //     AddDebrisToSimulation(DebrisData.RandomDebris());
+        // }
     }
 
     void Update()
@@ -70,10 +70,10 @@ public class SimulationManager : MonoBehaviour
         _simulationTime.addTick(Time.deltaTime * _simulationSpeed);
 
         // DEBUG: Remove selected debris on backspace
-        if (Input.GetKeyDown(KeyCode.Backspace))
-        {
-            RemoveDebris(_selectedDebris.GetComponent<DebrisController>().DebrisData.Id);
-        }
+        // if (Input.GetKeyDown(KeyCode.Backspace))
+        // {
+        //     RemoveDebris(_selectedDebris.GetComponent<DebrisController>().DebrisData.Id);
+        // }
     }
 
     /// <summary>
@@ -112,7 +112,7 @@ public class SimulationManager : MonoBehaviour
     /// Adds a debris object to the simulation.
     /// </summary>
     /// <param name="debrisData">The data of the debris to be added.</param>
-    public void AddDebrisToSimulation(DebrisData debrisData)
+    public GameObject AddDebrisToSimulation(DebrisData debrisData)
     {
         GameObject debrisObject = Instantiate(this.DebrisPrefab, this.transform);
         DebrisController debrisController = debrisObject.GetComponent<DebrisController>();
@@ -130,6 +130,8 @@ public class SimulationManager : MonoBehaviour
                 debrisObject.GetComponent<MeshFilter>().mesh = Resources.GetBuiltinResource<Mesh>("Cylinder.fbx");
                 break;
         }
+
+        return debrisObject;
     }
 
     /// <summary>
