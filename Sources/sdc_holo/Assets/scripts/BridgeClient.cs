@@ -240,26 +240,26 @@ public class BridgeClient : MonoBehaviour
     {
         try
         {
-            HololensMessage message = JsonUtility.FromJson<HololensMessage>(msg);
-
-            Debug.Log("Type du message JSON = " + message.targetType);
-
-            if(message.targetType == "DEBRIS")
+            string type=HololensMessage.GetMessageTargetType(msg);
+            Debug.Log("Type du message JSON = " + type);
+            
+            if(type == "DEBRIS")
             {
-                DebrisDTO data=message.data as DebrisDTO;
-                string name=(data.name==null)?"Unknown":data.name;
-                double revolution=data.revolutionsPerDay;
-                double mass=data.mass;
+                DebrisDTO debrisDTO=HololensMessage.ReadDebrisMessage(msg);
+                string name=(debrisDTO.name==null)?"Unknown":debrisDTO.name;
+                double revolution=debrisDTO.revolutionsPerDay;
+                double mass=debrisDTO.mass;
                 double position=0;
                 SpawnCube(name, revolution, mass, position);
             }
-            else if(message.targetType == "CATCHER")
+            /*
+            else if(type == "CATCHER")
             {
 
-                CatcherDTO data=message.data as CatcherDTO;
-                string name=(data.targetName==null)?"Unknown":data.targetName;
-                double speed=data.speed;
-                double distance=data.targetDistance;
+                CatcherDTO catcherDTO=HololensMessage.ReadCatcherMessage(msg);
+                string name=(catcherDTO.targetName==null)?"Unknown":catcherDTO.targetName;
+                double speed=catcherDTO.currentSpeed;
+                double distance=catcherDTO.distanceToTarget;
                 SpawnCatcher(name, speed, distance);
 
             }
@@ -267,11 +267,11 @@ public class BridgeClient : MonoBehaviour
                 Debug.Log("Type de message incorrect");
                 return;
             }
-            var data = message.messageData;
+            var data = msg;
             if (data != null)
             {
                 Debug.Log("Donnée JSON [0] = " + data[0]);
-            }
+            }*/
             
         }
         catch

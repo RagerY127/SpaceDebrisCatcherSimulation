@@ -1,40 +1,49 @@
 using System;
 using UnityEngine;
+using System.Runtime.Serialization;
 
 [Serializable]
 public class HololensMessage
 {
     public string command;
     public string targetType;
-    public ISerializable data;
+    public DebrisDTO debrisData;
+    public CatcherDTO catcherData;
 
     private HololensMessage() { }
 
-    public static void SendDebrisMessage(MessageCommand cmd, DebrisData data)
+    public static string GetMessageCommand(string json)
     {
-        var msg = new HololensMessage();
-        msg.command = cmd.ToString();
-        msg.targetType = TargetType.DEBRIS.ToString();
-        msg.debrisData = new DebrisDTO(data);
-        msg.catcherData = null;
-
-        string json = msg.ToJson();
-
-        BridgeServer.Instance.SendMessageToHoloLens(json);
+        var msg = JsonUtility.FromJson<HololensMessage>(json);
+        if (msg != null)
+        {
+            return msg.command;
+        }
+        else return null;
+    }
+    public static string GetMessageTargetType(string json)
+    {
+        var msg = JsonUtility.FromJson<HololensMessage>(json);
+        if (msg != null)
+        {
+            return msg.targetType;
+        }
+        return null;
+    }
+    public static DebrisDTO ReadDebrisMessage(string json)
+    {
+        var msg = JsonUtility.FromJson<HololensMessage>(json);
+        return msg.debrisData;
     }
 
-
-    public static void SendCatcherMessage(MessageCommand cmd, CatcherData data)
+    public static CatcherDTO ReadCatcherMessage(string json)
     {
-        var msg = new HololensMessage();
-        msg.command = cmd.ToString();
-        msg.targetType = TargetType.CATCHER.ToString();
-        msg.catcherData = new CatcherDTO(data);
-        msg.debrisData = null;
-
-        string json = msg.ToJson();
-        
-        BridgeServer.Instance.SendMessageToHoloLens(json);
+        var msg = JsonUtility.FromJson<HololensMessage>(json);
+        if (msg != null && msg.targetType == TargetType.CATCHER.ToString())
+        {
+            return msg.catcherData;
+        }
+        return null;
     }
 
     public string ToJson()

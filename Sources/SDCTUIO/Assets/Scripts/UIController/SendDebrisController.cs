@@ -27,10 +27,7 @@ public class SendDebrisController : MonoBehaviour
         {
             Debug.Log("The button is clicked, demande the server...");
 
-            HololensMessage message=new HololensMessage(MessageType.CATCHER);
-            
-            string json=JsonUtility.ToJson(message);
-            BridgeServer.Instance.SendMessageToHoloLens(json);
+            HololensMessage.SendDebrisMessage(MessageCommand.SPAWN, new DebrisData("nom", 7000, 7000, 0, 15, 100, DebrisShape.Cube, 1, 1, 1));
         }
         else
         {
