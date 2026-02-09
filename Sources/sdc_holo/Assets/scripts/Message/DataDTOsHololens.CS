@@ -15,6 +15,7 @@ public class DebrisDTO
 [Serializable]
 public class CatcherDTO
 {
+    public string id;
     public string targetId;
     public string targetName;
     public double currentSpeed;

@@ -27,7 +27,8 @@ public class SendDebrisController : MonoBehaviour
         {
             Debug.Log("The button is clicked, demande the server...");
 
-            HololensMessage.SendDebrisMessage(MessageCommand.SPAWN, new DebrisData("nom", 7000, 7000, 0, 15, 100, DebrisShape.Cube, 1, 1, 1));
+            //HololensMessage.SendDebrisMessage(MessageCommand.SPAWN, new DebrisData("nom", 7000, 7000, 0, 15, 100, DebrisShape.Cube, 1, 1, 1));
+            HololensMessage.SendCatcherMessage(MessageCommand.SPAWN, new CatcherData(12, new DebrisData("nom", 7000, 7000, 0, 15, 100, DebrisShape.Cube, 1, 1, 1)));
         }
         else
         {

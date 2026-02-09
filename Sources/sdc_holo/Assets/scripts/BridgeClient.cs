@@ -30,7 +30,7 @@ public class BridgeClient : MonoBehaviour
     public GameObject debrisPrefab;
     public GameObject catcherPrefab;
 
-    private List<GameObject> spawnedObjects = new List<GameObject>();
+    private Dictionary<string, GameObject> spawnedObjects = new Dictionary<string, GameObject>();
     // File thread-safe pour transférer les messages du thread réseau vers le thread principal
     private ConcurrentQueue<string> messageQueue = new ConcurrentQueue<string>();
 
@@ -141,7 +141,7 @@ public class BridgeClient : MonoBehaviour
     // ===============================
     void ClearSpawnedObjects()
     {
-        foreach (var obj in spawnedObjects)
+        foreach (var obj in spawnedObjects.Values)
         {
             Destroy(obj);
         }
@@ -151,7 +151,7 @@ public class BridgeClient : MonoBehaviour
     // ===============================
     // Génération du cube 
     // ===============================
-    GameObject SpawnCube(string debrisName="debris", double revolution=0, double mass=1, double position=0)
+    GameObject SpawnCube(string id="",string debrisName="debris", double revolution=0, double mass=1, double position=0)
     {
         if (debrisPrefab != null)
         {
@@ -171,14 +171,14 @@ public class BridgeClient : MonoBehaviour
                     script.mass=mass;
                     script.position=position;
                 }
-                spawnedObjects.Add(obj);
+                spawnedObjects.Add(id,obj);
                 Debug.Log("Cube apparu !");
                 return obj;
             }
             else
             {
                 var obj = Instantiate(debrisPrefab, new Vector3(0, 0, 1f), Quaternion.identity);
-                spawnedObjects.Add(obj);
+                spawnedObjects.Add(id,obj);
                 Debug.Log("Cube apparu !");
                 return obj;
             }
@@ -193,7 +193,7 @@ public class BridgeClient : MonoBehaviour
     // ===============================
     // Génération du catcher
     // ===============================
-    GameObject SpawnCatcher(string targetName, double speed, double targetDistance)
+    GameObject SpawnCatcher(string id="", string targetName="", double speed=0, double targetDistance=0)
     {
         if (catcherPrefab != null)
         {
@@ -212,14 +212,14 @@ public class BridgeClient : MonoBehaviour
                     script.speed=speed;
                     script.targetDistance=targetDistance;
                 }
-                spawnedObjects.Add(obj);
+                spawnedObjects.Add(id,obj);
                 Debug.Log("Catcher apparu !");
                 return obj;
             }
             else
             {
                 var obj = Instantiate(catcherPrefab, new Vector3(0, 0, 1f), Quaternion.identity);
-                spawnedObjects.Add(obj);
+                spawnedObjects.Add(id,obj);
                 Debug.Log("Catcher apparu !");
                 return obj;
             }
@@ -240,32 +240,52 @@ public class BridgeClient : MonoBehaviour
     {
         try
         {
-            string type=HololensMessage.GetMessageTargetType(msg);
-            Debug.Log("Type du message JSON = " + type);
+            string command=HololensMessage.GetMessageCommand(msg);
+            Debug.Log("Command du message JSON = " + command);
+            switch (command)
+            {
+                case "DELETE":
+                    ClearSpawnedObjects();
+                    return;
+                case "SPAWN":
+                    string type=HololensMessage.GetMessageTargetType(msg);
+                        Debug.Log("Type du message JSON = " + type);
+                        
+                        if(type == "DEBRIS")
+                        {
+                            DebrisDTO debrisDTO=HololensMessage.ReadDebrisMessage(msg);
+                            string id=(debrisDTO.id==null)?"":debrisDTO.id;
+                            string name=(debrisDTO.name==null)?"Unknown":debrisDTO.name;
+                            double revolution=debrisDTO.revolutionsPerDay;
+                            double mass=debrisDTO.mass;
+                            double position=0;
+                            SpawnCube(id,name, revolution, mass, position);
+                        }
+                        else if(type == "CATCHER")
+                        {
+
+                            CatcherDTO catcherDTO=HololensMessage.ReadCatcherMessage(msg);
+                            string id=(catcherDTO.id==null)?"":catcherDTO.id;
+                            string name=(catcherDTO.targetName==null)?"Unknown":catcherDTO.targetName;
+                            double speed=catcherDTO.currentSpeed;
+                            double distance=catcherDTO.distanceToTarget;
+                            SpawnCatcher(id, name, speed, distance);
+
+                        }
+                        else{
+                            Debug.Log("Type de message incorrect");
+                            return;
+                        }
+                    return;
+                case "UPDATE":
+                    Debug.Log("Message de mise à jour reçu");
+
+                    return;
+                default:
+                    Debug.Log("Command de message JSON inconnue");
+                    break;
+            }
             
-            if(type == "DEBRIS")
-            {
-                DebrisDTO debrisDTO=HololensMessage.ReadDebrisMessage(msg);
-                string name=(debrisDTO.name==null)?"Unknown":debrisDTO.name;
-                double revolution=debrisDTO.revolutionsPerDay;
-                double mass=debrisDTO.mass;
-                double position=0;
-                SpawnCube(name, revolution, mass, position);
-            }
-            else if(type == "CATCHER")
-            {
-
-                CatcherDTO catcherDTO=HololensMessage.ReadCatcherMessage(msg);
-                string name=(catcherDTO.targetName==null)?"Unknown":catcherDTO.targetName;
-                double speed=catcherDTO.currentSpeed;
-                double distance=catcherDTO.distanceToTarget;
-                SpawnCatcher(name, speed, distance);
-
-            }
-            else{
-                Debug.Log("Type de message incorrect");
-                return;
-            }
             var data = msg;
             if (data != null)
             {
