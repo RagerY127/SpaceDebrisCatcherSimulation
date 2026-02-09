@@ -6,7 +6,8 @@ public class HololensMessage
 {
     public string command;
     public string targetType;
-    public object data;
+    public DebrisDTO debrisData;
+    public CatcherDTO catcherData;
 
     private HololensMessage() { }
 
@@ -15,7 +16,8 @@ public class HololensMessage
         var msg = new HololensMessage();
         msg.command = cmd.ToString();
         msg.targetType = TargetType.DEBRIS.ToString();
-        msg.data = new DebrisDTO(data);
+        msg.debrisData = new DebrisDTO(data);
+        msg.catcherData = null;
 
         string json = msg.ToJson();
 
@@ -28,7 +30,8 @@ public class HololensMessage
         var msg = new HololensMessage();
         msg.command = cmd.ToString();
         msg.targetType = TargetType.CATCHER.ToString();
-        msg.data = new CatcherDTO(data);
+        msg.catcherData = new CatcherDTO(data);
+        msg.debrisData = null;
 
         string json = msg.ToJson();
         
