@@ -11,6 +11,13 @@ public class Catcher : MonoBehaviour
 
     public GameObject infoInstance;
 
+    [Header("Debug Status")]
+    public bool isDragging = false;
+
+    private float dragStartTime;
+
+    private const float CLICK_THRESHOLD = 0.3f;
+
     void Start()
     {
 
@@ -21,14 +28,44 @@ public class Catcher : MonoBehaviour
 
     }
 
+    public void OnDragStarted()
+    {
+        isDragging = true;
+        dragStartTime = Time.time; 
+    }
+
+
+    public void OnDragEnded()
+    {
+        float duration = Time.time - dragStartTime;
+
+
+        if (duration < CLICK_THRESHOLD)
+        {
+            isDragging = false;
+        }
+        else
+        {
+            Invoke("ResetDragStatus", 0.2f);
+        }
+    }
+
+    private void ResetDragStatus()
+    {
+        isDragging = false;
+    }
+
     public void onClick()
     {
+        if (isDragging)
+        {
+            return;
+        }
+
         if (infoInstance == null)
         {
             Transform camTransform = Camera.main.transform;
-
-            Vector3 spawnPosition = this.transform.position - Vector3.forward * 1.2f + Vector3.right * 0.5f + Vector3.down * 0.1f;
-
+            Vector3 spawnPosition = this.transform.position - Vector3.forward * 1.2f + Vector3.right * 0.6f + Vector3.down * 0.1f;
             infoInstance = Instantiate(infoPrefab, spawnPosition, camTransform.rotation);
 
             var script = infoInstance.GetComponent<CatcherInfo>();

@@ -5,12 +5,18 @@ public class Debris : MonoBehaviour
     [Header("Info prefab")]
     public GameObject infoPrefab;
 
-    public GameObject infoInstance{ get; set; }
+    public GameObject infoInstance { get; set; }
 
     public string debrisName { get; set; }
     public double revolution { get; set; }
     public double mass { get; set; }
     public double position { get; set; }
+
+
+    [Header("Debug Status")]
+    public bool isDragging = false; 
+    private float dragStartTime;
+    private const float CLICK_THRESHOLD = 0.3f; 
 
     void Start()
     {
@@ -22,8 +28,36 @@ public class Debris : MonoBehaviour
 
     }
 
+    public void OnDragStarted()
+    {
+        isDragging = true;
+        dragStartTime = Time.time;
+    }
+
+    public void OnDragEnded()
+    {
+        float duration = Time.time - dragStartTime;
+
+        if (duration < CLICK_THRESHOLD)
+        {
+            isDragging = false;
+        }
+        else
+        {
+            Invoke("ResetDragStatus", 0.2f);
+        }
+    }
+
+    private void ResetDragStatus()
+    {
+        isDragging = false;
+    }
+
     public void onClick()
     {
+
+        if (isDragging) return;
+
         if (infoInstance == null)
         {
             Transform camTransform = Camera.main.transform;
