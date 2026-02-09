@@ -105,7 +105,7 @@ public class BridgeClient : MonoBehaviour
 
         if (statusText != null)
         {
-            // 如果是系统消息，显示状态；如果是数据，显示内容
+
             if (msg == "SYS_CONNECTED")
             {
                 statusText.text = "<color=green>Connected to PC!</color>";
@@ -116,7 +116,7 @@ public class BridgeClient : MonoBehaviour
             }
             else
             {
-                // 显示收到的具体信息
+
                 statusText.text = $"Received: {msg}";
             }
         }

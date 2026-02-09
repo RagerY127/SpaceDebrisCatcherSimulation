@@ -1,46 +1,52 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Catcher : MonoBehaviour
 {
-    [Header ("Info prefab")]
+    [Header("Info prefab")]
     public GameObject infoPrefab;
 
     public string targetName { get; set; }
     public double speed { get; set; }
     public double targetDistance { get; set; }
+
     public GameObject infoInstance;
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-     public void onClick()
+    public void onClick()
     {
-       if(infoInstance == null)
+        if (infoInstance == null)
         {
             Transform camTransform = Camera.main.transform;
-            infoInstance = Instantiate(infoPrefab, camTransform.position - camTransform.forward * 0.2f + camTransform.right*0.5f + camTransform.up*0.2f,
-             camTransform.rotation);
+
+            Vector3 spawnPosition = this.transform.position - Vector3.forward * 1.2f + Vector3.right * 0.5f + Vector3.down * 0.1f;
+
+            infoInstance = Instantiate(infoPrefab, spawnPosition, camTransform.rotation);
+
             var script = infoInstance.GetComponent<CatcherInfo>();
-            script.UpdateInfo(targetName, speed, targetDistance);
+            if (script != null)
+            {
+                script.UpdateInfo(targetName, speed, targetDistance);
+            }
         }
-       else
+        else
         {
-            Destroy(infoInstance);
-            infoInstance = null;
+            bool isActive = infoInstance.activeSelf;
+            infoInstance.SetActive(!isActive);
         }
     }
+
     void OnDestroy()
     {
-        if(infoInstance != null)
+        if (infoInstance != null)
         {
             Destroy(infoInstance);
             infoInstance = null;

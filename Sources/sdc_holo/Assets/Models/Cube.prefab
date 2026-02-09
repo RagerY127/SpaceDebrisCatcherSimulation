@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1524765681523576468}
   - component: {fileID: 3463951865858686559}
   - component: {fileID: -7836687553491992026}
-  - component: {fileID: 2234338323993117309}
   - component: {fileID: 491052532488266208}
   - component: {fileID: 1204208210681282526}
   - component: {fileID: 1031217140893932316}
@@ -131,49 +130,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Microsoft.MixedReality.Toolkit.SDK::Microsoft.MixedReality.Toolkit.UI.ConstraintManager
   autoConstraintSelection: 1
   selectedConstraints: []
---- !u!114 &2234338323993117309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 285981770586061605}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 181cd563a8349c34ea8978b0bc8d9c7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Microsoft.MixedReality.Toolkit.SDK::Microsoft.MixedReality.Toolkit.UI.ObjectManipulator
-  hostTransform: {fileID: 5850332420751012215}
-  manipulationType: 3
-  twoHandedManipulationType: 7
-  allowFarManipulation: 1
-  useForcesForNearManipulation: 0
-  oneHandRotationModeNear: 1
-  oneHandRotationModeFar: 1
-  releaseBehavior: 3
-  transformSmoothingLogicType:
-    reference: Microsoft.MixedReality.Toolkit.Utilities.DefaultTransformSmoothingLogic,
-      Microsoft.MixedReality.Toolkit.SDK
-  smoothingFar: 1
-  smoothingNear: 1
-  moveLerpTime: 0.001
-  rotateLerpTime: 0.001
-  scaleLerpTime: 0.001
-  enableConstraints: 1
-  constraintsManager: {fileID: -7836687553491992026}
-  elasticsManager: {fileID: 0}
-  onManipulationStarted:
-    m_PersistentCalls:
-      m_Calls: []
-  onManipulationEnded:
-    m_PersistentCalls:
-      m_Calls: []
-  onHoverEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  onHoverExited:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &491052532488266208
 MonoBehaviour:
   m_ObjectHideFlags: 0
