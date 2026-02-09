@@ -151,7 +151,7 @@ public class BridgeClient : MonoBehaviour
     // ===============================
     // Génération du cube 
     // ===============================
-    void SpawnCube(string debrisName="debris", double revolution=0, double mass=1, double position=0)
+    GameObject SpawnCube(string debrisName="debris", double revolution=0, double mass=1, double position=0)
     {
         if (debrisPrefab != null)
         {
@@ -172,24 +172,28 @@ public class BridgeClient : MonoBehaviour
                     script.position=position;
                 }
                 spawnedObjects.Add(obj);
+                Debug.Log("Cube apparu !");
+                return obj;
             }
             else
             {
                 var obj = Instantiate(debrisPrefab, new Vector3(0, 0, 1f), Quaternion.identity);
                 spawnedObjects.Add(obj);
+                Debug.Log("Cube apparu !");
+                return obj;
             }
-
-            Debug.Log("Cube apparu !");
+            
         }
         else
         {
             Debug.LogError("Prefab non assigné dans l'inspecteur");
+            return null;
         }
     }
     // ===============================
     // Génération du catcher
     // ===============================
-    void SpawnCatcher(string targetName, double speed, double targetDistance)
+    GameObject SpawnCatcher(string targetName, double speed, double targetDistance)
     {
         if (catcherPrefab != null)
         {
@@ -209,18 +213,23 @@ public class BridgeClient : MonoBehaviour
                     script.targetDistance=targetDistance;
                 }
                 spawnedObjects.Add(obj);
+                Debug.Log("Catcher apparu !");
+                return obj;
             }
             else
             {
                 var obj = Instantiate(catcherPrefab, new Vector3(0, 0, 1f), Quaternion.identity);
                 spawnedObjects.Add(obj);
+                Debug.Log("Catcher apparu !");
+                return obj;
             }
 
-            Debug.Log("Catcher apparu !");
+            
         }
         else
         {
             Debug.LogError("Prefab non assigné dans l'inspecteur");
+            return null;
         }
     }
 
@@ -258,8 +267,10 @@ public class BridgeClient : MonoBehaviour
                 double debrisPosition=double.Parse((debris.GetValue("position")==null)?"0":debris.GetValue("position"),CultureInfo.InvariantCulture);
                 
                 ClearSpawnedObjects();
-                SpawnCatcher(name, speed, distance);
-                SpawnCube(debrisName, debrisRevolution, debrisMass, debrisPosition);
+                var catcherObj = SpawnCatcher(name, speed, distance);
+                var debrisObj = SpawnCube(debrisName, debrisRevolution, debrisMass, debrisPosition);
+                catcherObj.transform.LookAt(debrisObj.transform);
+
             }
             else{
                 Debug.Log("Type de message incorrect");

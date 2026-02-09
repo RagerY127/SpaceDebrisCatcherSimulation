@@ -5,7 +5,7 @@ public class Debris : MonoBehaviour
     [Header ("Info prefab")]
     public GameObject infoPrefab;
 
-    public GameObject infoInstance;
+    public GameObject infoInstance{ get; set; }
 
     public string debrisName { get; set; }
     public double revolution { get; set; }
@@ -32,6 +32,7 @@ public class Debris : MonoBehaviour
             infoInstance = Instantiate(infoPrefab, camTransform.position - camTransform.forward * 0.2f + camTransform.right*0.5f + camTransform.up*0.2f,
              camTransform.rotation);
             var script = infoInstance.GetComponent<DebrisInfo>();
+            script.originalDebris = this;
             script.UpdateInfo(debrisName, revolution, mass, position);
         }
        else

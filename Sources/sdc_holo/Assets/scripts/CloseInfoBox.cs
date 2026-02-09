@@ -15,8 +15,8 @@ public class CloseInfoBox : MonoBehaviour
     }
     public void close(){
         Debug.Log("Close Info Box");
-        GameObject parent = this.transform.parent.gameObject;
-        Destroy(parent);
+        GameObject parent = this.transform.parent.gameObject;//appWindow
+        Destroy(parent.transform.parent.gameObject);//objet info panel
 
     }
 }

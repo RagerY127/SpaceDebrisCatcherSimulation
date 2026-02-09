@@ -8,6 +8,8 @@ public class DebrisInfo : MonoBehaviour
     public GameObject revolutionField;
     public GameObject massField;
     public GameObject positionField;
+
+    public Debris originalDebris { get; set; }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -25,5 +27,10 @@ public class DebrisInfo : MonoBehaviour
         revolutionField.GetComponent<TextMeshPro>().text = revolution.ToString("F2") + "/day";
         massField.GetComponent<TextMeshPro>().text = mass.ToString("F2") + " kg";
         positionField.GetComponent<TextMeshPro>().text = position.ToString("F2") + "°";
+    }
+    void OnDestroy()
+    {
+        Debug.Log("Destroying info panel");
+        originalDebris.infoInstance = null;
     }
 }

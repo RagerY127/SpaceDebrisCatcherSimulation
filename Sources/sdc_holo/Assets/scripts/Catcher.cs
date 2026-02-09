@@ -8,7 +8,7 @@ public class Catcher : MonoBehaviour
     public string targetName { get; set; }
     public double speed { get; set; }
     public double targetDistance { get; set; }
-    public GameObject infoInstance;
+    public GameObject infoInstance{get; set;}
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -30,6 +30,7 @@ public class Catcher : MonoBehaviour
             infoInstance = Instantiate(infoPrefab, camTransform.position - camTransform.forward * 0.2f + camTransform.right*0.5f + camTransform.up*0.2f,
              camTransform.rotation);
             var script = infoInstance.GetComponent<CatcherInfo>();
+            script.Original = this;
             script.UpdateInfo(targetName, speed, targetDistance);
         }
        else

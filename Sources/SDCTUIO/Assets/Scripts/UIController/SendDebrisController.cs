@@ -43,6 +43,9 @@ public class SendDebrisController : MonoBehaviour
             catcher.data.Add(new ObjectDataEntry(){key="targetName",value="debris1"});
             catcher.data.Add(new ObjectDataEntry(){key="speed",value="1542.36"});
             catcher.data.Add(new ObjectDataEntry(){key="targetDistance",value="14.67"});
+            catcher.data.Add(new ObjectDataEntry(){key="distanceX",value="1"});
+            catcher.data.Add(new ObjectDataEntry(){key="distanceY",value="1"});
+            catcher.data.Add(new ObjectDataEntry(){key="distanceZ",value="1"});
 
             message.messageData.Add(new DataEntry(){key="catcher",value=catcher});
 
