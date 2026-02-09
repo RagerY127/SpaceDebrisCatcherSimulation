@@ -1,22 +1,33 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CloseInfoBox : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void close()
     {
-        
-    }
+        Debug.Log("Close Info Box - Universal");
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    public void close(){
-        Debug.Log("Close Info Box");
-        GameObject parent = this.transform.parent.gameObject;//appWindow
-        Destroy(parent.transform.parent.gameObject);//objet info panel
+        DebrisInfo debrisRoot = GetComponentInParent<DebrisInfo>();
+        if (debrisRoot != null)
+        {
+            debrisRoot.gameObject.SetActive(false);
+            return; 
+        }
 
+        CatcherInfo catcherRoot = GetComponentInParent<CatcherInfo>();
+        if (catcherRoot != null)
+        {
+            catcherRoot.gameObject.SetActive(false);
+            return; 
+        }
+
+
+        if (transform.parent != null && transform.parent.parent != null)
+        {
+            transform.parent.parent.gameObject.SetActive(false);
+        }
+        else if (transform.parent != null)
+        {
+            transform.parent.gameObject.SetActive(false);
+        }
     }
 }
