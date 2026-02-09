@@ -1332,6 +1332,7 @@ GameObject:
   - component: {fileID: 1472755246}
   - component: {fileID: 1472755247}
   - component: {fileID: 1472755248}
+  - component: {fileID: 1472755249}
   m_Layer: 5
   m_Name: MainUI
   m_TagString: Untagged
@@ -1416,10 +1417,19 @@ MonoBehaviour:
   uiDocument: {fileID: 1116618940}
   menuOffset: {x: -165, y: -135}
   selectionDistance: 80
-  hoverDurationToActivate: 1
-  iconDelete: {fileID: 0}
-  iconHolo: {fileID: 0}
-  iconFocas: {fileID: 0}
+--- !u!114 &1472755249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472755243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc9f43774ceb04db48aad7677efc19b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DebrisListUI
+  rowTemplate: {fileID: 9197481963319205126, guid: cde31d14d8f684b6a88f5b3f5a130775, type: 3}
 --- !u!1 &1928563196
 GameObject:
   m_ObjectHideFlags: 0

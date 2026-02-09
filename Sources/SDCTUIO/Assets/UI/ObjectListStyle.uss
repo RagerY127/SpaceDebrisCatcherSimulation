@@ -1,0 +1,60 @@
+#Sidebar {
+    width: 300px; 
+    height: 500px; 
+}
+
+#button-container {
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+#button-container > ui:Button {
+    flex-grow: 1;
+    height: 30px;
+    margin: 2px;
+}
+
+.delete-btn {
+    background-color: #a33;
+}
+
+.window {
+    overflow: hidden; 
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10px; 
+}
+
+#button-container {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    flex-shrink: 0; 
+    margin-top: 5px;
+    padding: 0 10px;
+}
+
+#debris-scroll-view {
+    flex-grow: 1; 
+    flex-shrink: 1; 
+    margin-bottom: 5px;
+}
+
+.selected-row {
+    background-color: rgb(84, 123, 146);
+    border-left-width: 4px;
+    border-left-color: rgb(65, 81, 109);
+}
+
+.delete-btn {
+    background-color: #FF4444;
+    color: white;
+    opacity: 1;
+}
+
+.delete-btn:disabled {
+    background-color: #444;
+    color: #888;
+    opacity: 0.5;
+}

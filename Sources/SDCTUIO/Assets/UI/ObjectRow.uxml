@@ -1,0 +1,7 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/GlobalStyles.uss?fileID=7433441132597879392&amp;guid=4f3d59cb90662203e8a3fbc8b91a18d8&amp;type=3#GlobalStyles" />
+    <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; padding: 8px; border-bottom-width: 1px; border-color: rgba(255, 255, 255, 0.1); background-color: rgba(45, 45, 45, 0.3);">
+        <ui:Button name="focus-button" text="FOCUS" class="unity-button" />
+        <ui:Label name="debris-name" text="Debris Name" style="color: white; -unity-font-style: bold; flex-grow: 1;" />
+    </ui:VisualElement>
+</ui:UXML>
