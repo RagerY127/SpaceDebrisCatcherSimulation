@@ -1331,7 +1331,7 @@ GameObject:
   - component: {fileID: 1472755244}
   - component: {fileID: 1472755246}
   - component: {fileID: 1472755247}
-  - component: {fileID: 1472755248}
+  - component: {fileID: 1472755250}
   - component: {fileID: 1472755249}
   m_Layer: 5
   m_Name: MainUI
@@ -1421,7 +1421,7 @@ MonoBehaviour:
   iconDelete: {fileID: 0}
   iconHolo: {fileID: 0}
   iconFocas: {fileID: 0}
---- !u!114 &1472755248
+--- !u!114 &1472755250
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
