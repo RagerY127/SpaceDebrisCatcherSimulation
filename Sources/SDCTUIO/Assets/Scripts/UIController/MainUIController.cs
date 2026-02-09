@@ -17,4 +17,22 @@ public class MainUIController : MonoBehaviour
                 if (e.pointerType == "touch") OnScreenKeyboard.ShowTouchKeyboard(); });
         });
     }
+
+    void Update()
+    {
+        // DEBUG: test if debris creation ui pops (to remove)
+        if (Input.GetKeyDown(KeyCode.Equals))
+        {
+            SpawnDebrisCreationModal();
+        }
+    }
+
+    private void SpawnDebrisCreationModal()
+    {
+        var root = GetComponent<UIDocument>().rootVisualElement;
+        var wizard = root.Q<VisualElement>("DebrisCreationWizard");
+        var modals = root.Q<VisualElement>("Modals");
+        wizard.visible = true;
+        modals.visible = true;
+    }
 }
