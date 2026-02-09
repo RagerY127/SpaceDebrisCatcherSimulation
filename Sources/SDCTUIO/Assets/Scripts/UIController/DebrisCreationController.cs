@@ -22,17 +22,31 @@ public class DebrisCreationController : MonoBehaviour
         _cancelButton = root.Q<Button>("Cancel");
         _createButton = root.Q<Button>("Create");
 
+        if (_cancelButton != null)
+            _cancelButton.clicked += OnCancelButtonClicked;
+            
         if (_createButton != null)
             _createButton.clicked += OnCreateButtonClicked;
     }
 
     private void OnCreateButtonClicked()
     {
+        // TODO: verify if input is valid
         DebrisData data = new DebrisData(_dataSource.debrisName, _dataSource.orbitFirstAxis,
         _dataSource.orbitSecondAxis, _dataSource.initialPosition, _dataSource.distanceFromEarthKm, _dataSource.mass, _dataSource.shape,
         _dataSource.height, _dataSource.length, _dataSource.width);
 
         SimulationManager.Instance.AddDebrisToSimulation(data);
+        DisableModal();
+    }
+
+    private void OnCancelButtonClicked()
+    {
+        DisableModal();
+    }
+
+    private void DisableModal()
+    {
         _wizard.visible = false;
         _modals.visible = false;
     }
