@@ -1,12 +1,12 @@
 using System;
-using System.Runtime.Serialization;
+using UnityEngine;
 
 [Serializable]
 public class HololensMessage
 {
     public string command;
     public string targetType;
-    public ISerializable data;
+    public object data;
 
     private HololensMessage() { }
 
