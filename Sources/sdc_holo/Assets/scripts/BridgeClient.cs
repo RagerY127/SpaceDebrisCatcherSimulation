@@ -252,7 +252,6 @@ public class BridgeClient : MonoBehaviour
                 double position=0;
                 SpawnCube(name, revolution, mass, position);
             }
-            /*
             else if(type == "CATCHER")
             {
 
@@ -271,7 +270,7 @@ public class BridgeClient : MonoBehaviour
             if (data != null)
             {
                 Debug.Log("Donnée JSON [0] = " + data[0]);
-            }*/
+            }
             
         }
         catch
