@@ -16,8 +16,8 @@ public class PreviewSceneOrbit : MonoBehaviour
         Vector3[] orbitPoints = new Vector3[posPointCount];
         for (int i = 0; i < posPointCount; i++)
         {
-            float ratio = (i / posPointCount) * MathF.PI * 2f;
-            orbitPoints[i] = new Vector3(MathF.Sin(ratio) * 1.1f, 0f, MathF.Cos(ratio) * 1.1f);
+            float ratio = ((float)i / posPointCount) * MathF.PI * 2f;
+            orbitPoints[i] = new Vector3(MathF.Cos(ratio) * 1.1f, 0.04f, MathF.Sin(ratio) * 1.1f);
         }
 
         posLineRenderer.SetPositions(orbitPoints);

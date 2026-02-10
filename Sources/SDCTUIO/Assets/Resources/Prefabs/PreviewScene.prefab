@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 471409974141143152}
   - component: {fileID: 2335856916059619143}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TiltAxis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -152,7 +152,7 @@ GameObject:
   m_Component:
   - component: {fileID: 162307247774107919}
   - component: {fileID: 2957900266633825355}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PreviewScene
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 9219762673267613774}
   - component: {fileID: 3137728038465278933}
   - component: {fileID: 2953893021732111500}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Quad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -291,7 +291,7 @@ GameObject:
   - component: {fileID: 730749758679144222}
   - component: {fileID: 1238127913231007753}
   - component: {fileID: 6739135122978403897}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -352,7 +352,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8
   m_RenderingPath: 1
   m_TargetTexture: {fileID: 8400000, guid: 814aaf19033f99b5cba101041c5cb754, type: 2}
   m_TargetDisplay: 0
@@ -382,7 +382,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3056225762389196244}
   - component: {fileID: 1116204860112604749}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: AscendingNodeAxis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -524,7 +524,7 @@ GameObject:
   m_Component:
   - component: {fileID: 382959923275831107}
   - component: {fileID: 660390380887506791}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PositionAxis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -665,7 +665,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6684768880438455905}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: CameraPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -699,7 +699,7 @@ GameObject:
   - component: {fileID: 4012403418838170566}
   - component: {fileID: 6903595854882782865}
   - component: {fileID: 3140868802782257783}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
