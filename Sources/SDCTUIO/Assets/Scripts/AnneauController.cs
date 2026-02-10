@@ -157,6 +157,11 @@ public class AnneauController : MonoBehaviour
         if (Input.touchCount > 0) currentScreenPos = Input.GetTouch(0).position;
         else currentScreenPos = Input.mousePosition;
 
+        Vector2 mousePanelPos = RuntimePanelUtils.ScreenToPanel(
+                _menuContainer.panel, 
+                new Vector2(currentScreenPos.x, Screen.height - currentScreenPos.y)
+        );
+        
         if (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
         {
             _pointerDownPos = currentScreenPos;
@@ -208,7 +213,7 @@ public class AnneauController : MonoBehaviour
             }
             if (_state == State.Sel) 
             {
-                var btn = FindBtn(_selectionLayer, panelPos, "btnDelete", "btnHolo", "btnFocas");
+                var btn = FindBtn(_selectionLayer, mousePanelPos, "btnDelete", "btnHolo", "btnFocas");
                 
                 if (btn != null) 
                 {
@@ -224,18 +229,18 @@ public class AnneauController : MonoBehaviour
             }
             else if (_state == State.Val) 
             {
-                ExecuteIfConfirmed(panelPos); 
+                ExecuteIfConfirmed(mousePanelPos); 
             }
             return;
         }
 
         if (_state == State.Sel) 
         {
-            HandleSel(panelPos); 
+            HandleSel(mousePanelPos); 
         }
         else 
         {
-            HandleVal(panelPos);
+            HandleVal(mousePanelPos);
         }
     }
 
