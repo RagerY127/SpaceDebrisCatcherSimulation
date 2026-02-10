@@ -33,7 +33,11 @@ public class HololensMessage
     public static DebrisDTO ReadDebrisMessage(string json)
     {
         var msg = JsonUtility.FromJson<HololensMessage>(json);
-        return msg.debrisData;
+        if (msg != null && msg.targetType == TargetType.DEBRIS.ToString())
+        {
+            return msg.debrisData;
+        }
+        return null;
     }
 
     public static CatcherDTO ReadCatcherMessage(string json)
@@ -42,6 +46,15 @@ public class HololensMessage
         if (msg != null && msg.targetType == TargetType.CATCHER.ToString())
         {
             return msg.catcherData;
+        }
+        return null;
+    }
+    public static UpdateDTO ReadUpdateMessage(string json)
+    {
+        var msg = JsonUtility.FromJson<HololensMessage>(json);
+        if (msg != null && msg.command == "UPDATE")
+        {
+            return JsonUtility.FromJson<UpdateDTO>(json);
         }
         return null;
     }

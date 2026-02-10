@@ -26,8 +26,10 @@ public class SendDebrisController : MonoBehaviour
         if (BridgeServer.Instance != null)
         {
             Debug.Log("The button is clicked, demande the server...");
-
-            HololensMessage.SendDebrisMessage(MessageCommand.SPAWN, new DebrisData("nom", 7000, 7000, 0, 15, 100, DebrisShape.Cube, 1, 1, 1));
+            var debrisData = new DebrisData("nom", 7000, 7000, 0, 15, 100, DebrisShape.Cube, 1, 1, 1);
+            string id= debrisData.Id;
+            HololensMessage.SendDebrisMessage(MessageCommand.SPAWN, debrisData);
+            HololensMessage.SendUpdateMessage(MessageCommand.UPDATE, id, 0, 0, 0, 0, 0, 0);
             //HololensMessage.SendCatcherMessage(MessageCommand.SPAWN, new CatcherData("Catcher1", new DebrisData("Debris1", 7000, 7000, 0, 15, 100, DebrisShape.Cube, 1, 1, 1)));
         }
         else

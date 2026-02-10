@@ -117,7 +117,24 @@ public class ObjectManager : MonoBehaviour
             Debug.LogError("Prefab non assigné dans l'inspecteur");
             return null;
         }
-    }    
-
+    }
+    
+    // ===============================
+    // Mise à jour d'un objet
+    // ===============================  
+    public static void UpdateObject(string id, Vector3 newPosition, Vector3 newRotation)
+    {
+        if (spawnedObjects.ContainsKey(id))
+        {
+            GameObject obj = spawnedObjects[id];
+            obj.transform.position = newPosition;
+            obj.transform.rotation = Quaternion.Euler(newRotation);
+            Debug.Log($"Objet {id} mis à jour !");
+        }
+        else
+        {
+            Debug.LogWarning($"Objet avec l'ID {id} non trouvé pour la mise à jour.");
+        }
+    }
 
 }

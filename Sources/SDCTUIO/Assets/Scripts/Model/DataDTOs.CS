@@ -48,3 +48,20 @@ public class CatcherDTO
         this.distanceToTarget = this.currentSpeed * (this.minutesBeforeCatch * 60.0);
     }
 }
+[Serializable]
+public class UpdateDTO
+{
+    public string id;
+    public double xPos,yPos,zPos;
+    public double xRot,yRot,zRot;
+    public UpdateDTO(string id, double xPos, double yPos, double zPos, double xRot, double yRot, double zRot)
+    {
+        this.id = id;
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.zPos = zPos;
+        this.xRot = xRot;
+        this.yRot = yRot;
+        this.zRot = zRot;
+    }
+}

@@ -21,3 +21,11 @@ public class CatcherDTO
     public double distanceToTarget;
     public double minutesBeforeCatch;
 }
+
+[Serializable]
+public class UpdateDTO
+{
+    public string id;
+    public double xPos,yPos,zPos;
+    public double xRot,yRot,zRot;
+}

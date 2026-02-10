@@ -181,7 +181,19 @@ public class BridgeClient : MonoBehaviour
                     return;
                 case "UPDATE":
                     Debug.Log("Message de mise à jour reçu");
-
+                    UpdateDTO updateDTO=HololensMessage.ReadUpdateMessage(msg);
+                    if(updateDTO!=null)
+                    {
+                        string id=updateDTO.id;
+                        double xPos=updateDTO.xPos;
+                        double yPos=updateDTO.yPos;
+                        double zPos=updateDTO.zPos;
+                        double xRot=updateDTO.xRot;
+                        double yRot=updateDTO.yRot;
+                        double zRot=updateDTO.zRot;
+                        ObjectManager.UpdateObject(id, new Vector3((float)xPos, (float)yPos, (float)zPos),
+                         new Vector3((float)xRot, (float)yRot, (float)zRot));
+                    }
                     return;
                 default:
                     Debug.Log("Command de message JSON inconnue");
