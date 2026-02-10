@@ -1,6 +1,7 @@
 using System;
 using TouchScript.Gestures.TransformGestures;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraManager : MonoBehaviour
 {
@@ -73,6 +74,14 @@ public class CameraManager : MonoBehaviour
 
     private void OnPanGesture(object sender, EventArgs e)
     {
+        if (EventSystem.current != null)
+        {
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
+        }
+
         Quaternion rotation = Quaternion.Euler(
             _panGesture.DeltaPosition.y / Screen.height * _rotationSpeed,
             _panGesture.DeltaPosition.x / Screen.width * _rotationSpeed,

@@ -27,7 +27,7 @@ public class MainUIController : MonoBehaviour
 
     private void SpawnTouchKeyboard(PointerUpEvent e)
     {
-        if (e.pointerType == "mouse") // touch
+        if (e.pointerType == "touch") // touch
         {
             OnScreenKeyboard.ShowTouchKeyboard();
         }
