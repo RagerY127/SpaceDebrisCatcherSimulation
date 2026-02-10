@@ -147,6 +147,11 @@ public class SimulationManager : MonoBehaviour
         if (_debrisObjects.ContainsKey(debrisId))
         {
             GameObject debrisObject = _debrisObjects[debrisId];
+            if (_selectedDebris == debrisObject)
+            {
+                DeselectDebris();
+            }
+
             _debrisObjects.Remove(debrisId);
             Destroy(debrisObject);
         }
