@@ -9,6 +9,8 @@ public class SimulationManager : MonoBehaviour
 
     public const float EARTH_RADIUS_KM = 6371.0f;
 
+    public const double DEFAULT_CATCHER_LAG_MINUTES = 5.0;
+
     // Simulation data
     [SerializeField]
     private EarthScript _earth;
@@ -55,9 +57,9 @@ public class SimulationManager : MonoBehaviour
         _simulationTime = new EpochTime(System.DateTime.UtcNow);
         _scaleFactor = _earth.Radius / EARTH_RADIUS_KM;
 
-        // DebrisData test = DebrisData.RandomDebris();
-        // AddDebrisToSimulation(test);
-        // AssignCatcherToDebris(test.Id);
+         //DebrisData test = DebrisData.RandomDebris();
+         //AddDebrisToSimulation(test);
+         //AssignCatcherToDebris(test.Id);
 
         // for (int i = 0; i < 5; i++)
         // {
@@ -219,6 +221,22 @@ public class SimulationManager : MonoBehaviour
         _lineRenderer.SetPositions(orbitPoints);
     }
 
+    /// <summary>
+    /// Selects the catcher. Since the catcher follows a debris orbit, we draw the target debris's orbit.
+    /// </summary>
+    /// <param name="catcherData">The data of the catcher to be selected.</param>
+    public void SelectCatcher(CatcherData catcherData)
+    {
+        if (catcherData == null || catcherData.TargetDebris == null)
+        {
+            return;
+        }
+
+        DrawDebrisOrbit(catcherData.TargetDebris.Id);
+        
+        // _selectedCatcherData = catcherData; 
+    }
+
     public void AssignCatcherToDebris(string debrisId)
     {
         if (!_debrisObjects.ContainsKey(debrisId))
@@ -232,9 +250,10 @@ public class SimulationManager : MonoBehaviour
 
         _catcher = Instantiate(this.CatcherPrefab, this.transform);
         CatcherController controller = _catcher.GetComponent<CatcherController>();
-        controller.AssignTargetDebris(_targetDebris);
+        DebrisController targetDebrisController = _targetDebris.GetComponent<DebrisController>();
+        controller.AssignTargetDebris(targetDebrisController);
     }
-
+    
     public void DestroyCatcher()
     {
         if (_catcher)

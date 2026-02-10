@@ -1,42 +1,34 @@
-using UnityEngine;
+using One_Sgp4;
 using System;
-public class CatcherData : MonoBehaviour
+using UnityEngine;
+
+public class CatcherData
 {
-    public DebrisData Target{get;private set;}
-    public double MinutesBeforeCatch{get;set;}//in minutes
-    public Vector3 LastPos=new Vector3(0,0,0);
+    public string Id { get; private set; }
+    public string Name { get; private set; }
+    public DebrisData TargetDebris { get; private set; }
     
-    public double GetSpeed(){
-        Vector3 posDiff=(transform.position-LastPos)*SimulationManager.ScaleFactor;
-        double distance=Math.Sqrt(posDiff.x*posDiff.x+posDiff.y*posDiff.y+posDiff.z*posDiff.z);
+    public double InitialTimeLagMinutes { get; private set; }
 
-        return distance/Time.deltaTime;
-        }
-
-    public double GetTargetDistance(){
-        var speed=GetSpeed();
-        return speed*MinutesBeforeCatch*60;
-        }
-
-    public CatcherData(double MinutesBeforeCatch,DebrisData Target){
-        this.MinutesBeforeCatch=MinutesBeforeCatch;
-        this.Target=Target;
-
-    }
-    public string GetTargetName(){
-        return "";
-        //return Target.GetInfos["name"];
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public CatcherData(string name, DebrisData target, double initialTimeLagMinutes = 5.0)
     {
-        
+        this.Id = $"{target.Id}-Catcher";
+        this.Name = name;
+        this.TargetDebris = target;
+        this.InitialTimeLagMinutes = initialTimeLagMinutes;
     }
 
-    // Update is called once per frame
-    void Update()
+    public Vector3 GetPositionAtTime(EpochTime simulationTime, double catchProgressSeconds)
     {
-        LastPos=transform.position;
+        if (TargetDebris == null) return Vector3.zero;
+
+        EpochTime calcTime = new EpochTime(simulationTime);
+
+        calcTime.addMinutes(-this.InitialTimeLagMinutes);
+        calcTime.addMinutes(catchProgressSeconds / 60.0f);
+
+        var rawPos = TargetDebris.GetPositionKmAtTime(calcTime);
+
+        return new Vector3((float)rawPos.X, (float)rawPos.Y, (float)rawPos.Z);
     }
 }

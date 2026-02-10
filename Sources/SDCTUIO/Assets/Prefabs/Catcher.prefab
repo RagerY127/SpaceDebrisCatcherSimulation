@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1659566027737463187}
   - component: {fileID: 2141743371706367040}
   - component: {fileID: 742245167730093678}
+  - component: {fileID: -2386886674824206469}
   m_Layer: 0
   m_Name: Catcher
   m_TagString: Untagged
@@ -51,8 +52,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b718f6a915e88d41a971ed35d27cd59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CatcherController
-  TapGesture: {fileID: 0}
-  LongPressGesture: {fileID: 0}
+  TapGesture: {fileID: -2386886674824206469}
+  LongPressGesture: {fileID: 1659566027737463187}
 --- !u!114 &1659566027737463187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,6 +156,42 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-2386886674824206469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766560007459443654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a878a6ff128243dfb1d89ca0273f059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TouchScript.Gestures.TapGesture
+  OnStateChange:
+    m_PersistentCalls:
+      m_Calls: []
+  basicEditor: 1
+  generalProps: 0
+  limitsProps: 0
+  advancedProps: 0
+  minPointers: 0
+  maxPointers: 0
+  useSendMessage: 0
+  sendStateChangeMessages: 0
+  sendMessageTarget: {fileID: 0}
+  useUnityEvents: 0
+  sendStateChangeEvents: 0
+  requireGestureToFail: {fileID: 0}
+  friendlyGestures: []
+  OnTap:
+    m_PersistentCalls:
+      m_Calls: []
+  numberOfTapsRequired: 1
+  timeLimit: Infinity
+  distanceLimit: Infinity
+  combinePointers: 0
+  combinePointersInterval: 0.3
 --- !u!1 &1258674501524835598
 GameObject:
   m_ObjectHideFlags: 0
