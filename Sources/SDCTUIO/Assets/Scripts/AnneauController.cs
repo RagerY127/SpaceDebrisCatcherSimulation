@@ -10,6 +10,8 @@ public class AnneauController : MonoBehaviour
     [Header("UI settings")]
     public UIDocument uiDocument;
     public Vector2 menuOffset = new Vector2(-165f, -135f);
+
+    public Vector2 catcherMenuOffset = new Vector2(-225f,-145f);
     public float selectionDistance = 80f;
 
     // This debris
@@ -53,7 +55,7 @@ public class AnneauController : MonoBehaviour
             {
                 if (_targetDebris != null)
                 {
-                    HololensMessage.SendDebrisMessage(MessageCommand.DELETE, _targetDebris.DebrisData);
+                    //HololensMessage.SendDebrisMessage(MessageCommand.DELETE, _targetDebris.DebrisData);
                     SimulationManager.Instance.RemoveDebris(_targetDebris.DebrisData.Id);
                 }
                 else if (_targetCatcher != null)
@@ -69,7 +71,6 @@ public class AnneauController : MonoBehaviour
                 {
                     // La logique pour envoyer debris et catcher, on envoye un d'entre les deux est-ce qu'on voit aussi l'autre dans Hololens?
                     HololensMessage.SendDebrisMessage(MessageCommand.SPAWN, _targetDebris.DebrisData);
-                    Debug.Log("11111");
                 }
                 else if (_targetCatcher != null)
                 {
@@ -146,10 +147,15 @@ public class AnneauController : MonoBehaviour
 
         // Depends on if we choose DEBRIS or CATCHER
         Vector3 targetPosition = Vector3.zero;
-        if (_targetDebris != null) 
+        Vector2 currentOffset = menuOffset;
+        if (_targetDebris != null){
             targetPosition = _targetDebris.transform.position;
-        else if (_targetCatcher != null) 
+            currentOffset = menuOffset;
+        }
+        else if (_targetCatcher != null){
             targetPosition = _targetCatcher.transform.position;
+            currentOffset = catcherMenuOffset;
+        }
 
         // Position follow logic
         Vector2 wp = RuntimePanelUtils.CameraTransformWorldToPanel(
@@ -158,8 +164,8 @@ public class AnneauController : MonoBehaviour
             Camera.main
         );
         
-        _menuContainer.style.left = wp.x + menuOffset.x; 
-        _menuContainer.style.top = wp.y + menuOffset.y;
+        _menuContainer.style.left = wp.x + currentOffset.x; 
+        _menuContainer.style.top = wp.y + currentOffset.y;
 
         // Input detection
         bool isTouch = Input.touchCount > 0;
@@ -191,7 +197,7 @@ public class AnneauController : MonoBehaviour
                 }
                 else
                 {
-                    if (Time.time - _openTime > 0.5f)
+                    if (Time.time - _openTime > 1f)
                     {
                         HideMenu();
                     }

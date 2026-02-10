@@ -24,6 +24,7 @@ public class DebrisDTO
 [Serializable]
 public class CatcherDTO
 {
+    public string Id;
     public string targetId;
     public string targetName;
     public double currentSpeed;
@@ -33,15 +34,17 @@ public class CatcherDTO
     public CatcherDTO(CatcherData source)
     {
         if (source == null) return;
-        
-        this.currentSpeed = source.GetSpeed();
-        this.distanceToTarget = source.GetTargetDistance();
-        this.minutesBeforeCatch = source.MinutesBeforeCatch;
 
-        if (source.Target != null)
-        {
-            this.targetId = source.Target.Id;
-            this.targetName = source.Target.Name;
-        }
+        this.Id = source.Id;
+        
+        this.minutesBeforeCatch = source.InitialTimeLagMinutes;
+
+        if (source.TargetDebris == null) return;
+
+        var t = source.TargetDebris;
+        this.targetId = t.Id;
+        this.targetName = t.Name;
+        this.currentSpeed = (2 * Math.PI * t.OrbitFirstAxis * t.RevolutionsPerDay) / 86400.0;
+        this.distanceToTarget = this.currentSpeed * (this.minutesBeforeCatch * 60.0);
     }
 }
