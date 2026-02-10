@@ -3,39 +3,42 @@ using UnityEngine.UIElements;
 
 public class AnneauController : MonoBehaviour
 {
-    //Instance
+    // Instance
     public static AnneauController Instance { get; private set; }
 
-    // The relevent position of anneau, could be adjust in Unity
-    [Header("UI settings")]
+    [Header("UI settings")] 
     public UIDocument uiDocument;
-    public Vector2 menuOffset = new Vector2(-165f, -135f);
-
-    public Vector2 catcherMenuOffset = new Vector2(-225f,-145f);
+    
+    // Corrrection of the offset (No used for now)
+    public Vector2 centerCorrection = Vector2.zero; 
+    
     public float selectionDistance = 80f;
 
-    // This debris
-    private DebrisController _targetDebris;
+    // 🔥 新增：判定为“拖拽”的最小像素距离 (比如 20 像素)
+    public float dragThreshold = 20f; 
+    
+    // 🔥 新增：记录按下时的屏幕坐标
+    private Vector2 _pointerDownPos;
 
-    // This catcher
+    // Targets
+    private DebrisController _targetDebris;
     private CatcherController _targetCatcher;
 
     // UI Elements
     private VisualElement _root;
     private VisualElement _menuContainer;
-    
     private VisualElement _selectionLayer;
+    
+    // Validation Layers
     private VisualElement _valLayerDelete;
     private VisualElement _valLayerHolo;
     private VisualElement _valLayerFocus;
     private VisualElement _activeValLayer;
 
+    // State tracking
     private VisualElement _curHoverBtn;
     private VisualElement _pendingOpBtn;
-
-    //private float _hoverTimer;
     private bool _isOpen;
-
     private float _openTime;
 
     
@@ -145,27 +148,45 @@ public class AnneauController : MonoBehaviour
             return;
         }
 
-        // Depends on if we choose DEBRIS or CATCHER
-        Vector3 targetPosition = Vector3.zero;
-        Vector2 currentOffset = menuOffset;
-        if (_targetDebris != null){
-            targetPosition = _targetDebris.transform.position;
-            currentOffset = menuOffset;
+
+        Vector3 targetWorldPos = Vector3.zero;
+        Vector2 currentScreenCorrection = centerCorrection; 
+
+        // Control slide on the screen
+        Vector2 currentScreenPos;
+        if (Input.touchCount > 0) currentScreenPos = Input.GetTouch(0).position;
+        else currentScreenPos = Input.mousePosition;
+
+        if (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
+        {
+            _pointerDownPos = currentScreenPos;
         }
-        else if (_targetCatcher != null){
-            targetPosition = _targetCatcher.transform.position;
-            currentOffset = catcherMenuOffset;
+        // 
+
+        if (_targetDebris != null) 
+        {
+            targetWorldPos = _targetDebris.transform.position;
+        }
+        else if (_targetCatcher != null) 
+        {
+            Transform bodyTransform = _targetCatcher.transform.Find("CatcherBody");
+            targetWorldPos = bodyTransform.position;
         }
 
-        // Position follow logic
-        Vector2 wp = RuntimePanelUtils.CameraTransformWorldToPanel(
+        Vector2 panelPos = RuntimePanelUtils.CameraTransformWorldToPanel(
             _menuContainer.panel, 
-            targetPosition, 
+            targetWorldPos, 
             Camera.main
         );
-        
-        _menuContainer.style.left = wp.x + currentOffset.x; 
-        _menuContainer.style.top = wp.y + currentOffset.y;
+
+        float width = _menuContainer.layout.width;
+        float height = _menuContainer.layout.height;
+
+        if (float.IsNaN(width) || width == 0) width = 300; 
+        if (float.IsNaN(height) || height == 0) height = 300;
+
+        _menuContainer.style.left = panelPos.x - (width / 2f) + currentScreenCorrection.x;
+        _menuContainer.style.top = panelPos.y - (height / 2f) + currentScreenCorrection.y;
 
         // Input detection
         bool isTouch = Input.touchCount > 0;
@@ -175,18 +196,16 @@ public class AnneauController : MonoBehaviour
         bool isReleased = isTouchRelease || isMouseRelease;
         bool isPressing = isTouch || Input.GetMouseButton(0);
 
-        Vector2 screenPos;
-        if (isTouch) screenPos = Input.GetTouch(0).position;
-        else screenPos = Input.mousePosition;
-
-        Vector2 panelPos = RuntimePanelUtils.ScreenToPanel(
-            _menuContainer.panel, 
-            new Vector2(screenPos.x, Screen.height - screenPos.y)
-        );
 
         // Interaction logic
         if (!isPressing && isReleased) 
         {
+            float dragDist = Vector2.Distance(_pointerDownPos, currentScreenPos);
+
+            if (dragDist > dragThreshold)
+            {
+                return; 
+            }
             if (_state == State.Sel) 
             {
                 var btn = FindBtn(_selectionLayer, panelPos, "btnDelete", "btnHolo", "btnFocas");
