@@ -26,11 +26,6 @@ public class BridgeClient : MonoBehaviour
     private Thread clientThread;
     private bool isRunning = false;
 
-    [Header("Paramètres de génération")]
-    public GameObject debrisPrefab;
-    public GameObject catcherPrefab;
-
-    private Dictionary<string, GameObject> spawnedObjects = new Dictionary<string, GameObject>();
     // File thread-safe pour transférer les messages du thread réseau vers le thread principal
     private ConcurrentQueue<string> messageQueue = new ConcurrentQueue<string>();
 
@@ -124,7 +119,7 @@ public class BridgeClient : MonoBehaviour
         // génération d'un cube
         if (msg.Trim() == "SPAWN_CUBE")
         {
-            SpawnCube();
+            ObjectManager.SpawnDebris("cube", "cube", 0, 1, 0);
             return;
         }
 
@@ -136,102 +131,9 @@ public class BridgeClient : MonoBehaviour
         TryHandleJsonMessage(msg);
         
     }
-    // ===============================
-    // Nettoyage des objets spawnés 
-    // ===============================
-    void ClearSpawnedObjects()
-    {
-        foreach (var obj in spawnedObjects.Values)
-        {
-            Destroy(obj);
-        }
-        spawnedObjects.Clear();
-    }
 
-    // ===============================
-    // Génération du cube 
-    // ===============================
-    GameObject SpawnCube(string id="",string debrisName="debris", double revolution=0, double mass=1, double position=0)
-    {
-        if (debrisPrefab != null)
-        {
-            if (Camera.main != null)
-            {
-                Transform camTransform = Camera.main.transform;
-                var obj = Instantiate(
-                    debrisPrefab,
-                    camTransform.position + camTransform.forward * 1.5f,
-                    camTransform.rotation
-                );
-                var script=obj.GetComponent<Debris>();
-                if(script!=null)
-                {
-                    script.debrisName=debrisName;
-                    script.revolution=revolution;
-                    script.mass=mass;
-                    script.position=position;
-                }
-                spawnedObjects.Add(id,obj);
-                Debug.Log("Cube apparu !");
-                return obj;
-            }
-            else
-            {
-                var obj = Instantiate(debrisPrefab, new Vector3(0, 0, 1f), Quaternion.identity);
-                spawnedObjects.Add(id,obj);
-                Debug.Log("Cube apparu !");
-                return obj;
-            }
-            
-        }
-        else
-        {
-            Debug.LogError("Prefab non assigné dans l'inspecteur");
-            return null;
-        }
-    }
-    // ===============================
-    // Génération du catcher
-    // ===============================
-    GameObject SpawnCatcher(string id="", string targetName="", double speed=0, double targetDistance=0)
-    {
-        if (catcherPrefab != null)
-        {
-            if (Camera.main != null)
-            {
-                Transform camTransform = Camera.main.transform;
-                var obj = Instantiate(
-                    catcherPrefab,
-                    camTransform.position + camTransform.forward * 1.5f,
-                    camTransform.rotation
-                );
-                var script=obj.GetComponent<Catcher>();
-                if(script!=null)
-                {
-                    script.targetName=targetName;
-                    script.speed=speed;
-                    script.targetDistance=targetDistance;
-                }
-                spawnedObjects.Add(id,obj);
-                Debug.Log("Catcher apparu !");
-                return obj;
-            }
-            else
-            {
-                var obj = Instantiate(catcherPrefab, new Vector3(0, 0, 1f), Quaternion.identity);
-                spawnedObjects.Add(id,obj);
-                Debug.Log("Catcher apparu !");
-                return obj;
-            }
-
-            
-        }
-        else
-        {
-            Debug.LogError("Prefab non assigné dans l'inspecteur");
-            return null;
-        }
-    }
+    
+    
 
     // ===============================
     // Traitement des messages JSON (depuis le PC)
@@ -245,7 +147,7 @@ public class BridgeClient : MonoBehaviour
             switch (command)
             {
                 case "DELETE":
-                    ClearSpawnedObjects();
+                    ObjectManager.ClearSpawnedObjects();
                     return;
                 case "SPAWN":
                     string type=HololensMessage.GetMessageTargetType(msg);
@@ -259,17 +161,17 @@ public class BridgeClient : MonoBehaviour
                             double revolution=debrisDTO.revolutionsPerDay;
                             double mass=debrisDTO.mass;
                             double position=0;
-                            SpawnCube(id,name, revolution, mass, position);
+                            ObjectManager.SpawnDebris(id,name, revolution, mass, position);
                         }
                         else if(type == "CATCHER")
                         {
 
                             CatcherDTO catcherDTO=HololensMessage.ReadCatcherMessage(msg);
-                            string id=(catcherDTO.id==null)?"":catcherDTO.id;
+                            string id=(catcherDTO.Id==null)?"":catcherDTO.Id;
                             string name=(catcherDTO.targetName==null)?"Unknown":catcherDTO.targetName;
                             double speed=catcherDTO.currentSpeed;
                             double distance=catcherDTO.distanceToTarget;
-                            SpawnCatcher(id, name, speed, distance);
+                            ObjectManager.SpawnCatcher(id, name, speed, distance);
 
                         }
                         else{

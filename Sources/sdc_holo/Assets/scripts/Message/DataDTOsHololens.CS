@@ -9,13 +9,12 @@ public class DebrisDTO
     public float mass;
     public string shape;
     public float revolutionsPerDay;
-
 }
 
 [Serializable]
 public class CatcherDTO
 {
-    public string id;
+    public string Id;
     public string targetId;
     public string targetName;
     public double currentSpeed;

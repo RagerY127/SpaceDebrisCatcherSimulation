@@ -916,8 +916,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1773871258}
   - component: {fileID: 1773871257}
+  - component: {fileID: 1773871259}
   m_Layer: 0
-  m_Name: testObject
+  m_Name: BridgeManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -938,8 +939,6 @@ MonoBehaviour:
   serverIP: 127.0.0.1
   port: 9999
   statusText: {fileID: 1340403676}
-  debrisPrefab: {fileID: 285981770586061605, guid: b4f3a55949ea2a345bb95217973ae5e2, type: 3}
-  catcherPrefab: {fileID: 766560007459443654, guid: 65932049454560146a72630dbea3337c, type: 3}
 --- !u!4 &1773871258
 Transform:
   m_ObjectHideFlags: 0
@@ -955,6 +954,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1773871259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1773871256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5504cf9823e1fa74cb2292bced731b3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  debrisPrefab: {fileID: 285981770586061605, guid: b4f3a55949ea2a345bb95217973ae5e2, type: 3}
+  catcherPrefab: {fileID: 766560007459443654, guid: 65932049454560146a72630dbea3337c, type: 3}
 --- !u!1 &2139457153
 GameObject:
   m_ObjectHideFlags: 0
