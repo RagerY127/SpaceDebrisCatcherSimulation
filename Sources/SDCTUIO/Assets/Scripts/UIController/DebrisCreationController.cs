@@ -1,5 +1,4 @@
 using System.ComponentModel.Design.Serialization;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,6 +10,7 @@ public class DebrisCreationController : MonoBehaviour
     private DebrisScriptableObject _dataSource;
     private VisualElement _wizard;
     private VisualElement _modals;
+    private GameObject previewScene;
 
     void OnEnable()
     {
@@ -27,6 +27,9 @@ public class DebrisCreationController : MonoBehaviour
 
         if (_createButton != null)
             _createButton.clicked += OnCreateButtonClicked;
+
+        // création de la scène
+        previewScene = (GameObject) Instantiate(Resources.Load("Prefabs/PreviewScene"));
     }
 
     private void OnCreateButtonClicked()
