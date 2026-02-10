@@ -1,4 +1,3 @@
-using System.ComponentModel.Design.Serialization;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,6 +10,7 @@ public class DebrisCreationController : MonoBehaviour
     private VisualElement _wizard;
     private VisualElement _modals;
     private GameObject previewScene;
+    private PreviewSceneOrbit previewScript;
 
     void OnEnable()
     {
@@ -30,6 +30,11 @@ public class DebrisCreationController : MonoBehaviour
 
         // création de la scène
         previewScene = (GameObject) Instantiate(Resources.Load("Prefabs/PreviewScene"));
+        previewScript = previewScene.GetComponent<PreviewSceneOrbit>();
+        _wizard.Q<Slider>("OrbitFirstAxis").RegisterValueChangedCallback(evt => previewScript.TiltAngle = evt.newValue);
+        _wizard.Q<Slider>("OrbitSecondAxis").RegisterValueChangedCallback(evt => previewScript.AscendingNodeAngle = evt.newValue);
+        _wizard.Q<Slider>("InitialPosition").RegisterValueChangedCallback(evt => previewScript.PositionAngle = evt.newValue);
+        _wizard.Q<IntegerField>("DistanceFromEarth").RegisterValueChangedCallback(evt => previewScript.Distance = evt.newValue);
     }
 
     private void OnCreateButtonClicked()
