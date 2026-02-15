@@ -14,10 +14,8 @@ public class AnneauController : MonoBehaviour
     
     public float selectionDistance = 80f;
 
-    // 🔥 新增：判定为“拖拽”的最小像素距离 (比如 20 像素)
     public float dragThreshold = 20f; 
     
-    // 🔥 新增：记录按下时的屏幕坐标
     private Vector2 _pointerDownPos;
 
     // Targets
@@ -77,7 +75,10 @@ public class AnneauController : MonoBehaviour
                 }
                 else if (_targetCatcher != null)
                 {
-                    HololensMessage.SendCatcherMessage(MessageCommand.SPAWN, _targetCatcher.CatcherData);
+                    HololensMessage.SendCatcherMessage(
+                        MessageCommand.SPAWN, 
+                        _targetCatcher.CatcherData,
+                        _targetCatcher.CurrentProgressSeconds);
                 }
             } 
             // FOCUS button
@@ -91,7 +92,8 @@ public class AnneauController : MonoBehaviour
                 else if (_targetCatcher != null)
                 {
                     //CameraManager.Instance.FollowCatcher(_targetCatcher.??);
-                    //CameraManager.Instance.FollowDebris(_targetCatcher.gameObject);
+                    SimulationManager.Instance.SelectCatcher(this._targetCatcher.CatcherData);
+                    CameraManager.Instance.FollowDebris(_targetCatcher.gameObject);
                 }
             }
         }

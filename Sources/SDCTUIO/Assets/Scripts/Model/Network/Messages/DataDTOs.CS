@@ -31,7 +31,7 @@ public class CatcherDTO
     public double distanceToTarget;
     public double minutesBeforeCatch;
 
-    public CatcherDTO(CatcherData source)
+    public CatcherDTO(CatcherData source, double currentProgressSeconds)
     {
         if (source == null) return;
 
@@ -45,6 +45,13 @@ public class CatcherDTO
         this.targetId = t.Id;
         this.targetName = t.Name;
         this.currentSpeed = (2 * Math.PI * t.OrbitFirstAxis * t.RevolutionsPerDay) / 86400.0;
-        this.distanceToTarget = this.currentSpeed * (this.minutesBeforeCatch * 60.0);
+        double totalSecondNeeded = this.minutesBeforeCatch * 60;
+
+        double remainingSeconds = totalSecondNeeded - currentProgressSeconds;
+
+        if(remainingSeconds < 0) remainingSeconds = 0;
+
+        this.distanceToTarget = this.currentSpeed * remainingSeconds;
+
     }
 }
