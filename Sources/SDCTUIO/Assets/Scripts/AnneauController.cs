@@ -75,10 +75,14 @@ public class AnneauController : MonoBehaviour
                 }
                 else if (_targetCatcher != null)
                 {
+                    MessageCommand cmd = _targetCatcher.HasBeenSpawned ? MessageCommand.UPDATE : MessageCommand.SPAWN;
+                    
                     HololensMessage.SendCatcherMessage(
-                        MessageCommand.SPAWN, 
+                        cmd, 
                         _targetCatcher.CatcherData,
                         _targetCatcher.CurrentProgressSeconds);
+
+                    _targetCatcher.HasBeenSpawned = true;
                 }
             } 
             // FOCUS button
@@ -128,6 +132,7 @@ public class AnneauController : MonoBehaviour
 
     void OnEnable()
     {
+        if (uiDocument == null) return;
         _root = uiDocument.rootVisualElement;
 
         _menuContainer = _root.Q("RadialMenu");

@@ -15,6 +15,9 @@ public class CatcherController : MonoBehaviour
     private double _currentCatchProgressSeconds;
     public double CurrentProgressSeconds => _currentCatchProgressSeconds;
 
+    // If already sent to Hololens
+    public bool HasBeenSpawned { get; set; } = false;
+
     public DebrisData TargetDebris 
     { 
         get { return CatcherData?.TargetDebris; } 
