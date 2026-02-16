@@ -11,6 +11,9 @@ public class DebrisListUI : MonoBehaviour
     private string _selectedDebrisId;
     private Button _deleteButton;
 
+    private VisualElement _catcherTargetInfo;
+    private Label _catcherNameLabel;
+    private Label _debrisNameLabel;
     void Awake()
     {
         uiDocument = GetComponent<UIDocument>();
@@ -90,6 +93,7 @@ public class DebrisListUI : MonoBehaviour
         _selectedDebrisId = null;
         _deleteButton?.SetEnabled(false);
         SimulationManager.Instance.DeselectDebris();
+        CameraManager.Instance.UnfollowDebris();
     }
 
     public void DeleteSelected()
@@ -113,7 +117,31 @@ public class DebrisListUI : MonoBehaviour
         }
         
         scrollView = root.Q<ScrollView>("debris-scroll-view");
+        _catcherTargetInfo = root.Q<VisualElement>("catcher-target-info");
+        _catcherNameLabel = root.Q<Label>("catcher-name");
+        _debrisNameLabel = root.Q<Label>("debris-name");
+
+        //hide in the beginning
+        if (_catcherTargetInfo != null) 
+            _catcherTargetInfo.style.display = DisplayStyle.None;
     }
+
+        public void UpdateCatcherInfo(string catcherName, string targetDebrisName)
+        {
+            if (_catcherTargetInfo == null) return;
+
+            if (string.IsNullOrEmpty(catcherName))
+            {
+                _catcherTargetInfo.style.display = DisplayStyle.None;
+            }
+            else
+            {
+                _catcherTargetInfo.style.display = DisplayStyle.Flex;
+                
+                if (_catcherNameLabel != null) _catcherNameLabel.text = catcherName;
+                if (_debrisNameLabel != null) _debrisNameLabel.text = targetDebrisName;
+            }
+        }
 
 
 }

@@ -274,6 +274,7 @@ public class SimulationManager : MonoBehaviour
         CatcherController controller = _catcher.GetComponent<CatcherController>();
         DebrisController targetDebrisController = _targetDebris.GetComponent<DebrisController>();
         controller.AssignTargetDebris(targetDebrisController);
+        _debrisListUI.UpdateCatcherInfo(_catcher.name, _targetDebris.name);
     }
     
     public void DestroyCatcher()
@@ -285,5 +286,6 @@ public class SimulationManager : MonoBehaviour
         }
 
         _targetDebris = null;
+        _debrisListUI.UpdateCatcherInfo(null, null);
     }
 }
