@@ -11,7 +11,7 @@ public class SimulationManager : MonoBehaviour
 
     public const double DEFAULT_CATCHER_LAG_MINUTES = 5.0;
     //Ui List element
-    private DebrisListUI _debrisListUI;
+    public DebrisListUI DebrisListUI { get; private set; }
 
     // Simulation data
     [SerializeField]
@@ -52,9 +52,9 @@ public class SimulationManager : MonoBehaviour
         _debrisObjects = new();
         _catcher = null;
         _targetDebris = null;
-        _debrisListUI = Object.FindFirstObjectByType<DebrisListUI>();
+        DebrisListUI = Object.FindFirstObjectByType<DebrisListUI>();
         
-        if (_debrisListUI == null)
+        if (DebrisListUI == null)
         {
             Debug.LogError("SimulationManager: DebrisListUI not found!");
         }
@@ -141,9 +141,9 @@ public class SimulationManager : MonoBehaviour
                 break;
         }
 
-        if (_debrisListUI != null)
+        if (DebrisListUI != null)
         {
-            _debrisListUI.AddDebrisToList(debrisController);
+            DebrisListUI.AddDebrisToList(debrisController);
         }
 
         return debrisObject;
@@ -168,9 +168,9 @@ public class SimulationManager : MonoBehaviour
             _debrisObjects.Remove(debrisId);
             Destroy(debrisObject);
         }
-        if (_debrisListUI != null)
+        if (DebrisListUI != null)
         {
-            _debrisListUI.RemoveDebrisFromList(debrisId);
+            DebrisListUI.RemoveDebrisFromList(debrisId);
         }
     }
 
@@ -274,7 +274,7 @@ public class SimulationManager : MonoBehaviour
         CatcherController controller = _catcher.GetComponent<CatcherController>();
         DebrisController targetDebrisController = _targetDebris.GetComponent<DebrisController>();
         controller.AssignTargetDebris(targetDebrisController);
-        _debrisListUI.UpdateCatcherInfo(_catcher.name, _targetDebris.name);
+        DebrisListUI.UpdateCatcherInfo(_catcher.name, _targetDebris.name);
     }
     
     public void DestroyCatcher()
@@ -286,6 +286,6 @@ public class SimulationManager : MonoBehaviour
         }
 
         _targetDebris = null;
-        _debrisListUI.UpdateCatcherInfo(null, null);
+        DebrisListUI.UpdateCatcherInfo(null, null);
     }
 }

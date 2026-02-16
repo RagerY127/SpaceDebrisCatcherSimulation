@@ -39,6 +39,7 @@ public class DebrisController : MonoBehaviour
     private void OnDebrisTapped(object sender, System.EventArgs e)
     {
         SimulationManager.Instance.SelectDebris(this.DebrisData.Id);
+        SimulationManager.Instance.DebrisListUI.SelectDebrisRow(this.DebrisData.Id);
         CameraManager.Instance.FollowDebris(this.gameObject);
     }
 

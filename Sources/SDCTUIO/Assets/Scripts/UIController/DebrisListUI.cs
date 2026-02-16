@@ -53,6 +53,17 @@ public class DebrisListUI : MonoBehaviour
         }
 
         scrollView.Add(row);
+
+        SelectRow(row, controller.DebrisData.Id, true);
+    }
+
+    public void SelectDebrisRow(string debrisId)
+    {
+        VisualElement row = scrollView.Q<VisualElement>(debrisId);
+        if (row != null)
+        {
+            SelectRow(row, debrisId, true);
+        }
     }
 
     public void RemoveDebrisFromList(string debrisId)
@@ -86,6 +97,7 @@ public class DebrisListUI : MonoBehaviour
         _currentlySelectedRow.AddToClassList("selected-row");
 
         _deleteButton?.SetEnabled(true);
+
         SimulationManager.Instance.SelectDebris(id);
     }
 
