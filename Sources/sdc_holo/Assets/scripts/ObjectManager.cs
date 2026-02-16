@@ -39,6 +39,12 @@ public class ObjectManager : MonoBehaviour
     // ===============================
     public static GameObject SpawnDebris(string id="",string debrisName="debris", double revolution=0, double mass=1, double position=0)
     {
+        if(spawnedObjects.ContainsKey(id))
+        {
+            Debug.LogWarning($"Un objet avec l'ID {id} existe déjà. Suppression de l'ancien objet avant de créer le nouveau.");
+            Destroy(spawnedObjects[id]);
+            spawnedObjects.Remove(id);
+        }
         if (debrisPrefabInstance != null)
         {
             if (Camera.main != null)
@@ -81,6 +87,12 @@ public class ObjectManager : MonoBehaviour
     // ===============================
     public static GameObject SpawnCatcher(string id="", string targetName="", double speed=0, double targetDistance=0)
     {
+        if(spawnedObjects.ContainsKey(id))
+        {
+            Debug.LogWarning($"Un objet avec l'ID {id} existe déjà. Suppression de l'ancien objet avant de créer le nouveau.");
+            Destroy(spawnedObjects[id]);
+            spawnedObjects.Remove(id);
+        }
         if (catcherPrefabInstance != null)
         {
             if (Camera.main != null)
