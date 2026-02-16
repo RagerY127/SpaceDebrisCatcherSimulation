@@ -14,10 +14,8 @@ public class AnneauController : MonoBehaviour
     
     public float selectionDistance = 80f;
 
-    // 🔥 新增：判定为“拖拽”的最小像素距离 (比如 20 像素)
     public float dragThreshold = 20f; 
     
-    // 🔥 新增：记录按下时的屏幕坐标
     private Vector2 _pointerDownPos;
 
     // Targets
@@ -77,7 +75,14 @@ public class AnneauController : MonoBehaviour
                 }
                 else if (_targetCatcher != null)
                 {
-                    HololensMessage.SendCatcherMessage(MessageCommand.SPAWN, _targetCatcher.CatcherData);
+                    MessageCommand cmd = _targetCatcher.HasBeenSpawned ? MessageCommand.UPDATE : MessageCommand.SPAWN;
+                    
+                    HololensMessage.SendCatcherMessage(
+                        cmd, 
+                        _targetCatcher.CatcherData,
+                        _targetCatcher.CurrentProgressSeconds);
+
+                    _targetCatcher.HasBeenSpawned = true;
                 }
             } 
             // FOCUS button
@@ -91,7 +96,8 @@ public class AnneauController : MonoBehaviour
                 else if (_targetCatcher != null)
                 {
                     //CameraManager.Instance.FollowCatcher(_targetCatcher.??);
-                    //CameraManager.Instance.FollowDebris(_targetCatcher.gameObject);
+                    SimulationManager.Instance.SelectCatcher(this._targetCatcher.CatcherData);
+                    CameraManager.Instance.FollowDebris(_targetCatcher.gameObject);
                 }
             }
         }
@@ -126,6 +132,7 @@ public class AnneauController : MonoBehaviour
 
     void OnEnable()
     {
+        if (uiDocument == null) return;
         _root = uiDocument.rootVisualElement;
 
         _menuContainer = _root.Q("RadialMenu");
@@ -157,6 +164,11 @@ public class AnneauController : MonoBehaviour
         if (Input.touchCount > 0) currentScreenPos = Input.GetTouch(0).position;
         else currentScreenPos = Input.mousePosition;
 
+        Vector2 mousePanelPos = RuntimePanelUtils.ScreenToPanel(
+                _menuContainer.panel, 
+                new Vector2(currentScreenPos.x, Screen.height - currentScreenPos.y)
+        );
+        
         if (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
         {
             _pointerDownPos = currentScreenPos;
@@ -208,7 +220,7 @@ public class AnneauController : MonoBehaviour
             }
             if (_state == State.Sel) 
             {
-                var btn = FindBtn(_selectionLayer, panelPos, "btnDelete", "btnHolo", "btnFocas");
+                var btn = FindBtn(_selectionLayer, mousePanelPos, "btnDelete", "btnHolo", "btnFocas");
                 
                 if (btn != null) 
                 {
@@ -224,18 +236,18 @@ public class AnneauController : MonoBehaviour
             }
             else if (_state == State.Val) 
             {
-                ExecuteIfConfirmed(panelPos); 
+                ExecuteIfConfirmed(mousePanelPos); 
             }
             return;
         }
 
         if (_state == State.Sel) 
         {
-            HandleSel(panelPos); 
+            HandleSel(mousePanelPos); 
         }
         else 
         {
-            HandleVal(panelPos);
+            HandleVal(mousePanelPos);
         }
     }
 

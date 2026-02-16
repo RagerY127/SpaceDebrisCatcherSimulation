@@ -25,12 +25,12 @@ public class HololensMessage
     }
 
 
-    public static void SendCatcherMessage(MessageCommand cmd, CatcherData data)
+    public static void SendCatcherMessage(MessageCommand cmd, CatcherData data,double progresSeconds)
     {
         var msg = new HololensMessage();
         msg.command = cmd.ToString();
         msg.targetType = TargetType.CATCHER.ToString();
-        msg.catcherData = new CatcherDTO(data);
+        msg.catcherData = new CatcherDTO(data,progresSeconds);
         msg.debrisData = null;
 
         string json = msg.ToJson();

@@ -13,6 +13,10 @@ public class CatcherController : MonoBehaviour
     
     // Timer : How many seconds have been running to cath up the debris
     private double _currentCatchProgressSeconds;
+    public double CurrentProgressSeconds => _currentCatchProgressSeconds;
+
+    // If already sent to Hololens
+    public bool HasBeenSpawned { get; set; } = false;
 
     public DebrisData TargetDebris 
     { 
