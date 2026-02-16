@@ -6,9 +6,9 @@ public class CreateDebrisController : MonoBehaviour
     void OnCreateDebris()
     {
         var dd = DebrisData.RandomDebris();
-        DebrisManager.Instance.AddDebrisToSimulation(dd);
-        DebrisManager.Instance.SelectDebris(dd.Id);
-        var debris = DebrisManager.Instance.FindDebrisFromId(dd.Id);
+        SimulationManager.Instance.AddDebrisToSimulation(dd);
+        SimulationManager.Instance.SelectDebris(dd.Id);
+        var debris = SimulationManager.Instance.FindDebrisFromId(dd.Id);
         if (debris != null)
             CameraManager.Instance.FollowDebris(debris);
     }
@@ -17,8 +17,8 @@ public class CreateDebrisController : MonoBehaviour
     void Start()
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
-        var createButton = root.Q<Button>("CreateDebrisButton");
-        createButton.clicked += OnCreateDebris;
+        // var createButton = root.Q<Button>("CreateDebrisButton");
+        // createButton.clicked += OnCreateDebris;
     }
 
     // Update is called once per frame

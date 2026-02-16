@@ -9,16 +9,16 @@ public class SendDebrisController : MonoBehaviour
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
         
-        var createButton = root.Q<Button>("sendDebrisBoutton");
+        // var createButton = root.Q<Button>("sendDebrisBoutton");
 
-        if (createButton != null)
-        {
-            createButton.clicked += OnSendDebris;
-        }
-        else
-        {
-            Debug.LogError("Cannot find botton, exam the name of UI Builder");
-        }
+        // if (createButton != null)
+        // {
+        //     createButton.clicked += OnSendDebris;
+        // }
+        // else
+        // {
+        //     Debug.LogError("Cannot find botton, exam the name of UI Builder");
+        // }
     }
 
     void OnSendDebris()
