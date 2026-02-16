@@ -23,7 +23,7 @@
                             </Bindings>
                         </ui:TextField>
                         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: center;">
-                            <ui:VisualElement style="width: 200px; height: 200px; background-color: rgb(0, 0, 0);" />
+                            <ui:VisualElement style="width: 200px; height: 200px; background-color: rgb(0, 0, 0); background-image: url(&quot;project://database/Assets/UI/PreviewRT.renderTexture?fileID=8400000&amp;guid=814aaf19033f99b5cba101041c5cb754&amp;type=2#PreviewRT&quot;);" />
                         </ui:VisualElement>
                         <ui:Label text="Tilt (First axis of rotation)" class="label-for-below" style="-unity-font-style: bold;" />
                         <ui:Slider label="0" value="0" high-value="360" fill="false" direction="Horizontal" name="OrbitFirstAxis" style="margin-bottom: 2px; margin-top: 2px;">
