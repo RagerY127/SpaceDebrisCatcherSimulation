@@ -7,7 +7,6 @@ public class DebrisController : MonoBehaviour
     public Tle Tle { get; set; }
     public DebrisData DebrisData { get; private set; }
 
-
     [SerializeField]
     private TapGesture TapGesture;
     // Long gesture in anneau Controller
