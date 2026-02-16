@@ -58,3 +58,46 @@
     color: #888;
     opacity: 0.5;
 }
+
+#separation{
+    height:1px;
+    width: 90%;
+    background-color:white;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#catcher-target-info {
+    flex-direction: row;
+    flex-shrink: 0;
+    width: 100%;
+    height: 60px;
+    align-items: center;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+#catcher-target-info > .row {
+    flex-direction: row;
+    flex-grow: 1;
+    flex-basis: 0;
+    overflow: hidden;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0 2px;
+}
+
+.catcher-label, .debris-label {
+    flex-shrink: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.catcher-icon, .debris-type-icon, .focus-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+}
+
+

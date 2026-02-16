@@ -13,8 +13,8 @@
         <ui:VisualElement name="BottomTools" style="flex-grow: 0; flex-direction: row; align-items: flex-end;">
             <ui:Instance template="SimulationBar" style="width: 25%;" />
             <ui:VisualElement name="Spacer" style="flex-grow: 1;" />
-            <ui:Instance template="DistMeasureUI" name="MeasureWidget" style="width: 55px; height: 34px;" />
-            <ui:Instance template="ObjectList" style="height: 333px; width: 304px;" />
+            <ui:Instance template="DistMeasureUI" name="MeasureWidget" style="width: 142px; height: 21px;" />
+            <ui:Instance template="ObjectList" style="height: 371px; width: 302px;" />
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="HelpOverlay" class="overlay-hidden">

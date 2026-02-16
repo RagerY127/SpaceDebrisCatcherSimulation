@@ -1,9 +1,25 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/GlobalStyles.uss?fileID=7433441132597879392&amp;guid=4f3d59cb90662203e8a3fbc8b91a18d8&amp;type=3#GlobalStyles" />
     <Style src="project://database/Assets/UI/ObjectListStyle.uss?fileID=7433441132597879392&amp;guid=5e765a4ce987d4469b92050c764ab74f&amp;type=3#ObjectListStyle" />
-    <ui:VisualElement name="Sidebar" class="window">
+    <Style src="project://database/Assets/UI/ObjectRowStyle.uss?fileID=7433441132597879392&amp;guid=0e11885b518904a5e91b4ef82e3ebbff&amp;type=3#ObjectRowStyle" />
+    <ui:VisualElement name="Sidebar" class="window" style="width: 295px;">
         <ui:Label text="Debris" style="-unity-font-style: bold; color: white; margin: 10px;" />
         <ui:ScrollView name="debris-scroll-view" style="flex-grow: 1;" />
+        <ui:VisualElement name="separation" />
+        <ui:VisualElement name="catcher-target-info">
+            <ui:VisualElement name="catcher-block" class="row">
+                <ui:VisualElement class="catcher-icon" />
+                <ui:Label name="catcher-name" text="Catcher-1" />
+            </ui:VisualElement>
+
+            <ui:Label name="target-separator" text=" ➔ " />
+
+            <ui:VisualElement name="target-block" class="row">
+                <ui:VisualElement class="debris-type-icon" />
+                <ui:Label name="debris-name" text="Debris Name" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="separation" />
         <ui:VisualElement name="button-container">
             <ui:Button name="createDebris" text="Add D" />
             <ui:Button name="createCatcher" text="Add C" />
