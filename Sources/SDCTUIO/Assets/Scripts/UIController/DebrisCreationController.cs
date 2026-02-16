@@ -61,4 +61,11 @@ public class DebrisCreationController : MonoBehaviour
         _wizard.visible = false;
         _modals.visible = false;
     }
+
+    public void ShowWizard()
+    {
+        if (_wizard != null) _wizard.visible = true;
+        if (_modals != null) _modals.visible = true;
+        
+    }
 }

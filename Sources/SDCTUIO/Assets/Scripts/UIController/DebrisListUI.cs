@@ -4,6 +4,8 @@ using UnityEngine.UIElements;
 public class DebrisListUI : MonoBehaviour
 {
     [SerializeField] private VisualTreeAsset rowTemplate;
+    private DebrisCreationController _creationController;    
+    private Button _addDebrisButton;
     private ScrollView scrollView;
     private UIDocument uiDocument;
 
@@ -14,6 +16,7 @@ public class DebrisListUI : MonoBehaviour
     private VisualElement _catcherTargetInfo;
     private Label _catcherNameLabel;
     private Label _debrisNameLabel;
+
     void Awake()
     {
         uiDocument = GetComponent<UIDocument>();
@@ -123,25 +126,41 @@ public class DebrisListUI : MonoBehaviour
 
         //hide in the beginning
         if (_catcherTargetInfo != null) 
+        {
             _catcherTargetInfo.style.display = DisplayStyle.None;
+        }
+        _creationController = FindFirstObjectByType<DebrisCreationController>();
+        _addDebrisButton = root.Q<Button>("createDebris");
+        if (_addDebrisButton != null)
+        {
+            _addDebrisButton.clicked += OpenCreationWizard;
+        }
     }
 
-        public void UpdateCatcherInfo(string catcherName, string targetDebrisName)
-        {
-            if (_catcherTargetInfo == null) return;
+    public void UpdateCatcherInfo(string catcherName, string targetDebrisName)
+    {
+        if (_catcherTargetInfo == null) return;
 
-            if (string.IsNullOrEmpty(catcherName))
-            {
-                _catcherTargetInfo.style.display = DisplayStyle.None;
-            }
-            else
-            {
-                _catcherTargetInfo.style.display = DisplayStyle.Flex;
-                
-                if (_catcherNameLabel != null) _catcherNameLabel.text = catcherName;
-                if (_debrisNameLabel != null) _debrisNameLabel.text = targetDebrisName;
-            }
+        if (string.IsNullOrEmpty(catcherName))
+        {
+            _catcherTargetInfo.style.display = DisplayStyle.None;
         }
+        else
+        {
+            _catcherTargetInfo.style.display = DisplayStyle.Flex;
+            
+            if (_catcherNameLabel != null) _catcherNameLabel.text = catcherName;
+            if (_debrisNameLabel != null) _debrisNameLabel.text = targetDebrisName;
+        }
+    }
+
+    private void OpenCreationWizard()
+    {
+        if (_creationController != null)
+        {
+            _creationController.ShowWizard();
+        }
+    }
 
 
 }
