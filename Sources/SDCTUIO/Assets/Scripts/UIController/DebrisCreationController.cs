@@ -3,6 +3,10 @@ using UnityEngine.UIElements;
 
 public class DebrisCreationController : MonoBehaviour
 {
+    private const string INITIAL_DEBRIS_NAME = "New debris";
+    private const float INITIAL_DEBRIS_DISTANCE_FROM_EARTH_KM = 200f;
+    private const float INITIAL_DEBRIS_MASS_KG = 1f;
+
     private Button _cancelButton;
     private Button _createButton;
 
@@ -66,6 +70,20 @@ public class DebrisCreationController : MonoBehaviour
     {
         if (_wizard != null) _wizard.visible = true;
         if (_modals != null) _modals.visible = true;
-        
+
+        ResetData();
+    }
+
+    private void ResetData()
+    {
+        _dataSource.debrisName = INITIAL_DEBRIS_NAME;
+        _dataSource.orbitFirstAxis = 0;
+        _dataSource.orbitSecondAxis = 0;
+        _dataSource.initialPosition = 0;
+        _dataSource.distanceFromEarthKm = INITIAL_DEBRIS_DISTANCE_FROM_EARTH_KM;
+        _dataSource.mass = INITIAL_DEBRIS_MASS_KG;
+        _dataSource.width = 0;
+        _dataSource.height = 0;
+        _dataSource.length = 0;
     }
 }
