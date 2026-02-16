@@ -58,10 +58,10 @@ public class BridgeServer : MonoBehaviour
     // function to send message to HoloLens
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SendMessageToHoloLens("Hello HoloLens, this is PC!");
-        }
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     SendMessageToHoloLens("Hello HoloLens, this is PC!");
+        // }
     }
 
     /*public void OnClickSpawnButton()
