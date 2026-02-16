@@ -1,0 +1,69 @@
+.debris-item-container {
+    background-color: rgba(45, 45, 45, 0.3);
+    padding: 4px;
+}
+
+.row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+}
+
+.focus-button {
+    width: 45px;
+    height: 32px;
+    border-radius: 8px;
+    margin: 0 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.focus-icon {
+    width: 85%;
+    height: 85%;
+    background-image: url('project://database/Assets/UI/Icons/focus.png');
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.unity-button.focus-button {
+    min-height: auto;
+    padding: 0;
+}
+
+.name-with-icon-container {
+    flex-direction: row;
+    align-items: center;
+    flex-grow: 1;
+    margin-left: 5px;
+}
+
+.debris-type-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 6px;
+    background-image: url('project://database/Assets/UI/Icons/debris.png');
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.debris-label {
+    color: white;
+    -unity-font-style: bold;
+    margin: 0;
+    padding: 0;
+}
+
+.catcher-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 6px;
+    background-image: url('project://database/Assets/UI/Icons/catcher.png');
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.catcher-label {
+    color: white;
+    -unity-font-style: bold;
+    margin: 0;
+    padding: 0;
+}

@@ -1,0 +1,15 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/GlobalStyles.uss?fileID=7433441132597879392&amp;guid=4f3d59cb90662203e8a3fbc8b91a18d8&amp;type=3#GlobalStyles" />
+    <Style src="project://database/Assets/UI/ObjectRowStyle.uss?fileID=7433441132597879392&amp;guid=0e11885b518904a5e91b4ef82e3ebbff&amp;type=3#ObjectRowStyle" />
+    <ui:VisualElement class="debris-item-container">
+        <ui:VisualElement class="row">
+        <ui:Button name="focus-button" class="focus-button">
+            <ui:VisualElement class="focus-icon" />
+        </ui:Button>            
+        <ui:VisualElement class="name-with-icon-container">
+            <ui:VisualElement name="debris-icon" class="debris-type-icon" />
+            <ui:Label name="debris-name" text="Debris Name" class="debris-label" />
+        </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

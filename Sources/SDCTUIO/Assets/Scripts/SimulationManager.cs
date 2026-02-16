@@ -10,6 +10,8 @@ public class SimulationManager : MonoBehaviour
     public const float EARTH_RADIUS_KM = 6371.0f;
 
     public const double DEFAULT_CATCHER_LAG_MINUTES = 5.0;
+    //Ui List element
+    private DebrisListUI _debrisListUI;
 
     // Simulation data
     [SerializeField]
@@ -50,6 +52,12 @@ public class SimulationManager : MonoBehaviour
         _debrisObjects = new();
         _catcher = null;
         _targetDebris = null;
+        _debrisListUI = Object.FindFirstObjectByType<DebrisListUI>();
+        
+        if (_debrisListUI == null)
+        {
+            Debug.LogError("SimulationManager: DebrisListUI not found!");
+        }
     }
 
     void Start()
@@ -133,6 +141,11 @@ public class SimulationManager : MonoBehaviour
                 break;
         }
 
+        if (_debrisListUI != null)
+        {
+            _debrisListUI.AddDebrisToList(debrisController);
+        }
+
         return debrisObject;
     }
 
@@ -143,7 +156,7 @@ public class SimulationManager : MonoBehaviour
     public void RemoveDebris(string debrisId)
     {
         // TODO: affichier une alerte pour dire un debris a ete supprime
-        
+
         if (_debrisObjects.ContainsKey(debrisId))
         {
             GameObject debrisObject = _debrisObjects[debrisId];
@@ -154,6 +167,10 @@ public class SimulationManager : MonoBehaviour
 
             _debrisObjects.Remove(debrisId);
             Destroy(debrisObject);
+        }
+        if (_debrisListUI != null)
+        {
+            _debrisListUI.RemoveDebrisFromList(debrisId);
         }
     }
 
