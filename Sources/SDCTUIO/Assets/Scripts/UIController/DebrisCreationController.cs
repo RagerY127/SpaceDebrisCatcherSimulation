@@ -7,6 +7,9 @@ public class DebrisCreationController : MonoBehaviour
     private const string INITIAL_DEBRIS_NAME = "New debris";
     private const float INITIAL_DEBRIS_DISTANCE_FROM_EARTH_KM = 200f;
     private const float INITIAL_DEBRIS_MASS_KG = 1f;
+    private const float INITIAL_DEBRIS_WIDTH_M = 1f;
+    private const float INITIAL_DEBRIS_HEIGHT_M = 1f;
+    private const float INITIAL_DEBRIS_LENGTH_M = 1f;
 
     private Button _cancelButton;
     private Button _createButton;
@@ -83,8 +86,8 @@ public class DebrisCreationController : MonoBehaviour
         _dataSource.initialPosition = 0;
         _dataSource.distanceFromEarthKm = INITIAL_DEBRIS_DISTANCE_FROM_EARTH_KM;
         _dataSource.mass = INITIAL_DEBRIS_MASS_KG;
-        _dataSource.width = 0;
-        _dataSource.height = 0;
-        _dataSource.length = 0;
+        _dataSource.width = INITIAL_DEBRIS_WIDTH_M;
+        _dataSource.height = INITIAL_DEBRIS_HEIGHT_M;
+        _dataSource.length = INITIAL_DEBRIS_LENGTH_M;
     }
 }
