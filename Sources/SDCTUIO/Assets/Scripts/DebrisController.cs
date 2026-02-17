@@ -2,21 +2,14 @@ using One_Sgp4;
 using TouchScript.Gestures;
 using UnityEngine;
 
-public class DebrisController : MonoBehaviour
+public class DebrisController : ObjectController<DebrisData>
 {
     public Tle Tle { get; set; }
-    public DebrisData DebrisData { get; private set; }
-
-    [SerializeField]
-    private TapGesture TapGesture;
-    // Long gesture in anneau Controller
-    [SerializeField]
-    public LongPressGesture LongPressGesture;
 
     public void AssignDebrisData(DebrisData debrisData)
     {
         this.Tle = debrisData.ToTle();
-        this.DebrisData = debrisData;
+        this.ObjectData = debrisData;
     }
 
     public void OnEnable()
@@ -33,13 +26,13 @@ public class DebrisController : MonoBehaviour
 
     private void Update()
     {
-        transform.position = this.DebrisData.GetPositionKmAtTime(SimulationManager.SimulationTime).ToUnityVector3() * SimulationManager.ScaleFactor;
+        transform.position = this.ObjectData.GetPositionKmAtTime(SimulationManager.SimulationTime).ToUnityVector3() * SimulationManager.ScaleFactor;
     }
 
     private void OnDebrisTapped(object sender, System.EventArgs e)
     {
-        SimulationManager.Instance.SelectDebris(this.DebrisData.Id);
-        SimulationManager.Instance.DebrisListUI.SelectDebrisRow(this.DebrisData.Id);
+        SimulationManager.Instance.SelectDebris(this.ObjectData.Id);
+        SimulationManager.Instance.DebrisListUI.SelectDebrisRow(this.ObjectData.Id);
         CameraManager.Instance.FollowDebris(this.gameObject);
     }
 

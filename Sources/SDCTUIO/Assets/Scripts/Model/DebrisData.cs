@@ -8,10 +8,8 @@ public enum DebrisShape
     Cylinder
 }
 
-public class DebrisData
+public class DebrisData : ObjectData
 {
-    public string Id { get; private set; }
-    public string Name { get; private set; }
     public float OrbitFirstAxis { get; private set; }
     public float OrbitSecondAxis { get; private set; }
     public float InitialPosition { get; private set; }

@@ -2,10 +2,8 @@ using One_Sgp4;
 using System;
 using UnityEngine;
 
-public class CatcherData
+public class CatcherData : ObjectData
 {
-    public string Id { get; private set; }
-    public string Name { get; private set; }
     public DebrisData TargetDebris { get; private set; }
     
     public double InitialTimeLagMinutes { get; private set; }

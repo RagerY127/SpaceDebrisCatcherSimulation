@@ -57,7 +57,7 @@ public class AnneauController : MonoBehaviour
                 if (_targetDebris != null)
                 {
                     //HololensMessage.SendDebrisMessage(MessageCommand.DELETE, _targetDebris.DebrisData);
-                    SimulationManager.Instance.RemoveDebris(_targetDebris.DebrisData.Id);
+                    SimulationManager.Instance.RemoveDebris(_targetDebris.ObjectData.Id);
                 }
                 else if (_targetCatcher != null)
                 {
@@ -71,7 +71,7 @@ public class AnneauController : MonoBehaviour
                 if (_targetDebris != null)
                 {
                     // La logique pour envoyer debris et catcher, on envoye un d'entre les deux est-ce qu'on voit aussi l'autre dans Hololens?
-                    HololensMessage.SendDebrisMessage(MessageCommand.SPAWN, _targetDebris.DebrisData);
+                    HololensMessage.SendDebrisMessage(MessageCommand.SPAWN, _targetDebris.ObjectData);
                 }
                 else if (_targetCatcher != null)
                 {
@@ -79,7 +79,7 @@ public class AnneauController : MonoBehaviour
                     
                     HololensMessage.SendCatcherMessage(
                         cmd, 
-                        _targetCatcher.CatcherData,
+                        _targetCatcher.ObjectData,
                         _targetCatcher.CurrentProgressSeconds);
 
                     _targetCatcher.HasBeenSpawned = true;
@@ -90,13 +90,13 @@ public class AnneauController : MonoBehaviour
             { 
                 if (_targetDebris != null)
                 {
-                    SimulationManager.Instance.SelectDebris(_targetDebris.DebrisData.Id);
+                    SimulationManager.Instance.SelectDebris(_targetDebris.ObjectData.Id);
                     CameraManager.Instance.FollowDebris(_targetDebris.gameObject);
                 }
                 else if (_targetCatcher != null)
                 {
                     //CameraManager.Instance.FollowCatcher(_targetCatcher.??);
-                    SimulationManager.Instance.SelectCatcher(this._targetCatcher.CatcherData);
+                    SimulationManager.Instance.SelectCatcher(this._targetCatcher.ObjectData);
                     CameraManager.Instance.FollowDebris(_targetCatcher.gameObject);
                 }
             }
