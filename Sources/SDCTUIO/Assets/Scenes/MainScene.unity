@@ -534,7 +534,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraManager
   _mainCamera: {fileID: 1316160846}
   _rotationSpeed: 135
-  minCameraDistance: 50
+  minCameraDistance: 30
   maxCameraDistance: 300
   _trackingSpeed: 5
   _panGesture: {fileID: 736798984}
