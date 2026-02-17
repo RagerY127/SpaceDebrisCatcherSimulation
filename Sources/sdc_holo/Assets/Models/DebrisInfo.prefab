@@ -554,6 +554,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6373803791940052036}
   - component: {fileID: 3275401102090575726}
+  - component: {fileID: -4394918936821315373}
+  - component: {fileID: -1105631317803688614}
   m_Layer: 0
   m_Name: DebrisInfo
   m_TagString: Untagged
@@ -593,6 +595,41 @@ MonoBehaviour:
   revolutionField: {fileID: 1522893703477568747}
   massField: {fileID: 4422237851357083348}
   positionField: {fileID: 1572619764636348708}
+--- !u!65 &-4394918936821315373
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3758598746463649504}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-1105631317803688614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3758598746463649504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5afd5316c63705643b3daba5a6e923bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Microsoft.MixedReality.Toolkit.Services.InputSystem::Microsoft.MixedReality.Toolkit.Input.NearInteractionGrabbable
+  ShowTetherWhenManipulating: 0
+  IsBoundsHandles: 0
 --- !u!1 &3939717602243813825
 GameObject:
   m_ObjectHideFlags: 0
@@ -1331,6 +1368,7 @@ GameObject:
   - component: {fileID: 777063102210750613}
   - component: {fileID: 7577738081946963463}
   - component: {fileID: 4618212390114473524}
+  - component: {fileID: 3281651318136386073}
   m_Layer: 0
   m_Name: AppWindow
   m_TagString: Untagged
@@ -1466,6 +1504,27 @@ MonoBehaviour:
   executionOrder: 0
   constraintOnRotation: 5
   useLocalSpaceForConstraint: 0
+--- !u!65 &3281651318136386073
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8308055480128372266}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8601101529660026527
 GameObject:
   m_ObjectHideFlags: 0

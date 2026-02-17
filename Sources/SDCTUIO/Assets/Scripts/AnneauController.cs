@@ -210,7 +210,7 @@ public class AnneauController : MonoBehaviour
 
 
         // Interaction logic
-        if (!isPressing && isReleased) 
+        if (isReleased) 
         {
             float dragDist = Vector2.Distance(_pointerDownPos, currentScreenPos);
 
