@@ -10,4 +10,5 @@
 }
 
 #InitialPosition #unity-tracker {
+    background-color: rgb(254, 64, 64);
 }
