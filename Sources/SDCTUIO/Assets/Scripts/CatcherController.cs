@@ -2,15 +2,8 @@ using One_Sgp4;
 using UnityEngine;
 using TouchScript.Gestures;
 
-public class CatcherController : MonoBehaviour
-{
-    public CatcherData CatcherData { get; private set; }
-
-    // TouchScript gestures
-    [SerializeField] private TapGesture TapGesture;
-    
-    [SerializeField] private LongPressGesture LongPressGesture;
-    
+public class CatcherController : ObjectController<CatcherData>
+{    
     // Timer : How many seconds have been running to cath up the debris
     private double _currentCatchProgressSeconds;
     public double CurrentProgressSeconds => _currentCatchProgressSeconds;
@@ -20,15 +13,15 @@ public class CatcherController : MonoBehaviour
 
     public DebrisData TargetDebris 
     { 
-        get { return CatcherData?.TargetDebris; } 
+        get { return ObjectData?.TargetDebris; } 
     }
     
     // Accept DebrisController, Initial lag time
     public void AssignTargetDebris(DebrisController targetController, double initialLagMinutes = SimulationManager.DEFAULT_CATCHER_LAG_MINUTES)
     {
-        this.CatcherData = new CatcherData(
-            $"Catcher-{targetController.DebrisData.Name}", 
-            targetController.DebrisData, 
+        this.ObjectData = new CatcherData(
+            $"Catcher-{targetController.ObjectData.Name}", 
+            targetController.ObjectData, 
             initialLagMinutes
         );
         
@@ -37,17 +30,17 @@ public class CatcherController : MonoBehaviour
 
     void Update()
     {
-        if (CatcherData == null) return;
+        if (ObjectData == null) return;
 
         _currentCatchProgressSeconds += Time.deltaTime * SimulationManager.SimulationSpeed;
         
-        Vector3 targetPositionKm = CatcherData.GetPositionAtTime(SimulationManager.SimulationTime, _currentCatchProgressSeconds);
+        Vector3 targetPositionKm = ObjectData.GetPositionAtTime(SimulationManager.SimulationTime, _currentCatchProgressSeconds);
         
         Vector3 newLocalPosition = targetPositionKm * (float)SimulationManager.ScaleFactor;
 
         transform.localPosition = newLocalPosition;
         
-        var debrisRawPos = CatcherData.TargetDebris.GetPositionKmAtTime(SimulationManager.SimulationTime);
+        var debrisRawPos = ObjectData.TargetDebris.GetPositionKmAtTime(SimulationManager.SimulationTime);
         
         Vector3 debrisTargetPos = new Vector3((float)debrisRawPos.X, (float)debrisRawPos.Y, (float)debrisRawPos.Z) * (float)SimulationManager.ScaleFactor;
 
@@ -69,7 +62,7 @@ public class CatcherController : MonoBehaviour
     // If clicked (Like debrisManager)
     private void OnCatcherTapped(object sender, System.EventArgs e)
     {
-        SimulationManager.Instance.SelectCatcher(this.CatcherData);
+        SimulationManager.Instance.SelectCatcher(this.ObjectData);
         CameraManager.Instance.FollowDebris(this.gameObject);
     }
 

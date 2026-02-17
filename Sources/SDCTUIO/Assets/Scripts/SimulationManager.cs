@@ -45,6 +45,13 @@ public class SimulationManager : MonoBehaviour
 
     public EarthScript Earth => _earth;
 
+    public delegate void ControllerChangeHandler<T> (ObjectController<T> instance) where T : ObjectData;
+    public event ControllerChangeHandler<DebrisData> DebrisAdded;
+    public delegate void IdChangeHandler(string id);
+    public event IdChangeHandler DebrisRemoving;
+    public delegate void CatcherInfoUpdateHandler(string catcherName, string debrisName);
+    public event CatcherInfoUpdateHandler CatcherInfoUpdate;
+
     void Awake()
     {
         Instance = this;
@@ -52,12 +59,6 @@ public class SimulationManager : MonoBehaviour
         _debrisObjects = new();
         _catcher = null;
         _targetDebris = null;
-        DebrisListUI = Object.FindFirstObjectByType<DebrisListUI>();
-        
-        if (DebrisListUI == null)
-        {
-            Debug.LogError("SimulationManager: DebrisListUI not found!");
-        }
     }
 
     void Start()
@@ -140,11 +141,7 @@ public class SimulationManager : MonoBehaviour
                 debrisObject.GetComponent<MeshFilter>().mesh = Resources.GetBuiltinResource<Mesh>("Cylinder.fbx");
                 break;
         }
-
-        if (DebrisListUI != null)
-        {
-            DebrisListUI.AddDebrisToList(debrisController);
-        }
+        DebrisAdded?.Invoke(debrisController);
 
         return debrisObject;
     }
@@ -164,13 +161,11 @@ public class SimulationManager : MonoBehaviour
             {
                 DeselectDebris();
             }
+            // Event dispatch avant que le débris soit supprimé
+            DebrisRemoving?.Invoke(debrisId);
 
             _debrisObjects.Remove(debrisId);
             Destroy(debrisObject);
-        }
-        if (DebrisListUI != null)
-        {
-            DebrisListUI.RemoveDebrisFromList(debrisId);
         }
     }
 
@@ -226,7 +221,7 @@ public class SimulationManager : MonoBehaviour
 
         Vector3[] orbitPoints = new Vector3[_orbitPointCount];
 
-        float meanMotion = debrisController.DebrisData.RevolutionsPerDay;
+        float meanMotion = debrisController.ObjectData.RevolutionsPerDay;
         float periodMinutes = 60f * 24f / meanMotion;
 
         EpochTime startTime = new EpochTime(SimulationTime);
@@ -237,7 +232,7 @@ public class SimulationManager : MonoBehaviour
             EpochTime time = new EpochTime(startTime);
             time.addMinutes(timeOffsetMinutes);
 
-            orbitPoints[i] = debrisController.DebrisData.GetPositionKmAtTime(time).ToUnityVector3() * ScaleFactor;
+            orbitPoints[i] = debrisController.ObjectData.GetPositionKmAtTime(time).ToUnityVector3() * ScaleFactor;
         }
 
         _lineRenderer.SetPositions(orbitPoints);
@@ -274,7 +269,8 @@ public class SimulationManager : MonoBehaviour
         CatcherController controller = _catcher.GetComponent<CatcherController>();
         DebrisController targetDebrisController = _targetDebris.GetComponent<DebrisController>();
         controller.AssignTargetDebris(targetDebrisController);
-        DebrisListUI.UpdateCatcherInfo(_catcher.name, _targetDebris.name);
+
+        CatcherInfoUpdate?.Invoke(_catcher.name, _targetDebris.name);
     }
     
     public void DestroyCatcher()
@@ -286,6 +282,7 @@ public class SimulationManager : MonoBehaviour
         }
 
         _targetDebris = null;
-        DebrisListUI.UpdateCatcherInfo(null, null);
+        
+        CatcherInfoUpdate?.Invoke(null, null);
     }
 }

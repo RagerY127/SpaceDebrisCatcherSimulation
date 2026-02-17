@@ -20,9 +20,14 @@ public class DebrisListUI : MonoBehaviour
     void Awake()
     {
         uiDocument = GetComponent<UIDocument>();
+
+        var sim = SimulationManager.Instance;
+        sim.CatcherInfoUpdate += UpdateCatcherInfo;
+        sim.DebrisRemoving += RemoveDebrisFromList;
+        sim.DebrisAdded += AddDebrisToList;
     }
 
-    public void AddDebrisToList(DebrisController controller)
+    public void AddDebrisToList(ObjectController<DebrisData> controller)
     {
         if (uiDocument == null || uiDocument.rootVisualElement == null) return;
 
@@ -34,17 +39,17 @@ public class DebrisListUI : MonoBehaviour
         if (scrollView == null || rowTemplate == null) return;
 
         VisualElement row = rowTemplate.Instantiate();
-        row.name = controller.DebrisData.Id; 
-        row.Q<Label>("debris-name").text = controller.DebrisData.Name;
+        row.name = controller.ObjectData.Id; 
+        row.Q<Label>("debris-name").text = controller.ObjectData.Name;
         
-        row.RegisterCallback<ClickEvent>(evt => SelectRow(row, controller.DebrisData.Id));
+        row.RegisterCallback<ClickEvent>(evt => SelectRow(row, controller.ObjectData.Id));
 
         Button focusBtn = row.Q<Button>("focus-button");
         if (focusBtn != null)
         {
             focusBtn.RegisterCallback<ClickEvent>(evt => 
             {
-                SelectRow(row, controller.DebrisData.Id, true);
+                SelectRow(row, controller.ObjectData.Id, true);
                 
                 CameraManager.Instance.FollowDebris(controller.gameObject);
                 
@@ -54,7 +59,7 @@ public class DebrisListUI : MonoBehaviour
 
         scrollView.Add(row);
 
-        SelectRow(row, controller.DebrisData.Id, true);
+        SelectRow(row, controller.ObjectData.Id, true);
     }
 
     public void SelectDebrisRow(string debrisId)
@@ -173,6 +178,4 @@ public class DebrisListUI : MonoBehaviour
             _creationController.ShowWizard();
         }
     }
-
-
 }
