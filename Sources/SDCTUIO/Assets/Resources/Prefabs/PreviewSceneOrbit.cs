@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 
 public class PreviewSceneOrbit : MonoBehaviour
@@ -49,18 +50,18 @@ public class PreviewSceneOrbit : MonoBehaviour
     {
         lineRenderer.positionCount = 0;
 
-        var pointCount = 64;
-        Vector3[] points = new Vector3[pointCount];
-        for (int i = 0; i < pointCount; i++)
+        var pointCount = (int) SDC.Maths.Map(angle, 0f, 360f, 2f, 64f);
+        Vector3[] points = new Vector3[pointCount + 1];
+        for (int i = 0; i <= pointCount; i++)
         {
-            float ratio = ((float)i / pointCount) * angle * Mathf.Deg2Rad;
+            float ratio = angle / pointCount * i * Mathf.Deg2Rad;
             if (z)
                 points[i] = new Vector3(MathF.Cos(ratio) * .5f, MathF.Sin(ratio) * .5f, 0f);
             else
                 points[i] = new Vector3(MathF.Sin(ratio) * .5f, 0f, MathF.Cos(ratio) * .5f);
         }
 
-        lineRenderer.positionCount = pointCount;
+        lineRenderer.positionCount = pointCount + 1;
         lineRenderer.SetPositions(points);
     }
 
