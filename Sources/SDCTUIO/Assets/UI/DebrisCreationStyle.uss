@@ -1,0 +1,13 @@
+:root {
+}
+
+#OrbitFirstAxis #unity-tracker {
+    background-color: rgb(46, 109, 181);
+}
+
+#OrbitSecondAxis #unity-tracker {
+    background-color: rgb(75, 181, 46);
+}
+
+#InitialPosition #unity-tracker {
+}
