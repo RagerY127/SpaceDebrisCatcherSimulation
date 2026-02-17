@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using TouchScript; // Wichtig!
 
+[RequireComponent(typeof(UIDocument))]
 public class UIController : MonoBehaviour
 {
     void OnEnable()

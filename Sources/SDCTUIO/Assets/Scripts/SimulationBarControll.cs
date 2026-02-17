@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
+[RequireComponent(typeof(UIDocument))]
 public class SimulationStateController : MonoBehaviour
 {
     private Button _playPauseButton;

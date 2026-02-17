@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
+[RequireComponent(typeof(UIDocument))]
 public class DebrisCreationController : MonoBehaviour
 {
     private const string INITIAL_DEBRIS_NAME = "New debris";

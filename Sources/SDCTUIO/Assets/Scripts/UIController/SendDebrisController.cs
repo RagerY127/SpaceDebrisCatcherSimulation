@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
+[RequireComponent(typeof(UIDocument))]
 public class SendDebrisController : MonoBehaviour
 {
     [SerializeField] private string messageToSend = "SPAWN_CUBE"; 

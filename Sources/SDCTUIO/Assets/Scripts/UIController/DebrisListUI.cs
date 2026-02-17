@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
+[RequireComponent(typeof(UIDocument))]
 public class DebrisListUI : MonoBehaviour
 {
     [SerializeField] private VisualTreeAsset rowTemplate;
