@@ -42,7 +42,7 @@ public class HololensMessage
     {
         var msg = new HololensMessage();
         msg.command = cmd.ToString();
-        msg.targetType = TargetType.CATCHERandDEBRIS.ToString();
+        msg.targetType = TargetType.CATCHER.ToString();
         msg.debrisData = new DebrisDTO(debrisData);
         msg.catcherData = new CatcherDTO(catcherData,progresSeconds);
 
