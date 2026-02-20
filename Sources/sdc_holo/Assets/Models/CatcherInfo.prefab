@@ -371,7 +371,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6373803791940052036}
   - component: {fileID: 1275570056162940856}
-  - component: {fileID: -8598858002371645899}
   m_Layer: 0
   m_Name: CatcherInfo
   m_TagString: Untagged
@@ -410,27 +409,6 @@ MonoBehaviour:
   targetNameField: {fileID: 1851788215060529475}
   speedField: {fileID: 5067229797980897572}
   targetDistanceField: {fileID: 1477642679704767732}
---- !u!65 &-8598858002371645899
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3758598746463649504}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4710857003193896528
 GameObject:
   m_ObjectHideFlags: 0
@@ -1138,7 +1116,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.5, y: 0.3, z: 0.01}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8601101529660026527
 GameObject:
