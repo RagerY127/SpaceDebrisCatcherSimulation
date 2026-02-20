@@ -100,4 +100,34 @@
     height: 20px;
 }
 
+.dual-icon-button {
+    flex-direction: row;
+    width: 85px;
+    height: 50px;
+    justify-content: space-around;
+    align-items: center;
+}
 
+.catcher-image, .debris-image {
+    width: 28px;
+    height: 28px;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.plus-image {
+    width: 18px;
+    height: 18px;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.debris-image {
+    background-image: url("project:/Assets/UI/Icons/debris.png");
+}
+
+.plus-image {
+    background-image: url("project:/Assets/UI/Icons/plus.png");
+}
+
+.catcher-image {
+    background-image: url("project:/Assets/UI/Icons/catcher.png");
+}
