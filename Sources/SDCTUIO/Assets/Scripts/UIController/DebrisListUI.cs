@@ -25,6 +25,7 @@ public class DebrisListUI : MonoBehaviour
         var sim = SimulationManager.Instance;
         sim.CatcherInfoUpdate += UpdateCatcherInfo;
         sim.DebrisRemoving += RemoveDebrisFromList;
+        sim.DebrisTapped += SelectDebrisRow;
         sim.DebrisAdded += AddDebrisToList;
     }
 
