@@ -38,6 +38,19 @@ public class HololensMessage
         BridgeServer.Instance.SendMessageToHoloLens(json);
     }
 
+    public static void SendCatcherAndDebrisMessages(MessageCommand cmd, DebrisData debrisData, CatcherData catcherData, double progresSeconds)
+    {
+        var msg = new HololensMessage();
+        msg.command = cmd.ToString();
+        msg.targetType = TargetType.CATCHERandDEBRIS.ToString();
+        msg.debrisData = new DebrisDTO(debrisData);
+        msg.catcherData = new CatcherDTO(catcherData,progresSeconds);
+
+        string json = msg.ToJson();
+        
+        BridgeServer.Instance.SendMessageToHoloLens(json);
+    }
+
     public static void SendUpdateMessage(MessageCommand cmd, string id, double xPos, double yPos, double zPos, double xRot, double yRot, double zRot)
     {
         var msg = new HololensMessage();

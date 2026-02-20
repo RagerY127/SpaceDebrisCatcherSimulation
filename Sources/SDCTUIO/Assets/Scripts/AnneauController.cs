@@ -77,8 +77,9 @@ public class AnneauController : MonoBehaviour
                 {
                     MessageCommand cmd = _targetCatcher.HasBeenSpawned ? MessageCommand.UPDATE : MessageCommand.SPAWN;
                     
-                    HololensMessage.SendCatcherMessage(
+                    HololensMessage.SendCatcherAndDebrisMessages(
                         cmd, 
+                        _targetCatcher.TargetDebris,
                         _targetCatcher.ObjectData,
                         _targetCatcher.CurrentProgressSeconds);
 

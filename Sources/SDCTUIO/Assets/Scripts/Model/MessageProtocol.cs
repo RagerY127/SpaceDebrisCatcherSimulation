@@ -10,5 +10,6 @@ public enum MessageCommand
 public enum TargetType
 {
     DEBRIS,
-    CATCHER
+    CATCHER,
+    CATCHERandDEBRIS
 }
