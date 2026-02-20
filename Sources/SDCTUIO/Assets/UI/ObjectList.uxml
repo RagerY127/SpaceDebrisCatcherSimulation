@@ -21,8 +21,14 @@
         </ui:VisualElement>
         <ui:VisualElement name="separation" />
         <ui:VisualElement name="button-container">
-            <ui:Button name="createDebris" text="Add D" />
-            <ui:Button name="createCatcher" text="Add C" />
+            <ui:Button name="createDebris" class="dual-icon-button">
+                <ui:VisualElement class="plus-image" />
+                <ui:VisualElement class="debris-image" />
+            </ui:Button>
+            <ui:Button name="createCatcher" class="dual-icon-button">
+                <ui:VisualElement class="plus-image" />
+                <ui:VisualElement class="catcher-image" />
+            </ui:Button>
             <ui:Button name="delete" text="Delete" class="delete-btn" />
         </ui:VisualElement>
     </ui:VisualElement>
