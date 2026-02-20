@@ -664,6 +664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bb992bc2168794c8519efde6fdad2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimulationManager
+  _debrisListUI: {fileID: 2052408729}
   _earth: {fileID: 33535732}
   _simulationSpeed: 1
   _orbitPointCount: 30
@@ -1541,7 +1542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f6122b08b03b714db67ce236f0504b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SendDebrisController
-  messageToSend: SPAWN_CUBE
+  messageToSend: 
 --- !u!1 &1928563196
 GameObject:
   m_ObjectHideFlags: 0

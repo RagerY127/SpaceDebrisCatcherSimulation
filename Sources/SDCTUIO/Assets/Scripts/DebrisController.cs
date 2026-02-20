@@ -32,7 +32,10 @@ public class DebrisController : ObjectController<DebrisData>
     private void OnDebrisTapped(object sender, System.EventArgs e)
     {
         SimulationManager.Instance.SelectDebris(this.ObjectData.Id);
-        SimulationManager.Instance.DebrisListUI.SelectDebrisRow(this.ObjectData.Id);
+        if (SimulationManager.Instance.DebrisListUI != null)
+        {
+            SimulationManager.Instance.DebrisListUI.SelectDebrisRow(this.ObjectData.Id);
+        }
         CameraManager.Instance.FollowDebris(this.gameObject);
     }
 

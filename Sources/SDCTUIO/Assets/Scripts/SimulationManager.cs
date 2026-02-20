@@ -11,7 +11,10 @@ public class SimulationManager : MonoBehaviour
 
     public const double DEFAULT_CATCHER_LAG_MINUTES = 5.0;
     //Ui List element
-    public DebrisListUI DebrisListUI { get; private set; }
+    //public DebrisListUI DebrisListUI { get; private set; }
+    [SerializeField]
+    private DebrisListUI _debrisListUI;
+    public DebrisListUI DebrisListUI => _debrisListUI;
 
     // Simulation data
     [SerializeField]

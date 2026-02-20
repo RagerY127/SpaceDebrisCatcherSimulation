@@ -149,4 +149,38 @@ public class ObjectManager : MonoBehaviour
         }
     }
 
+    public void HandleNetworkMessage(string json)
+    {
+        NetMessage msg = JsonUtility.FromJson<NetMessage>(json);
+        if (msg == null) return;
+
+        if (msg.command == "SPAWN")
+        {
+            if (msg.targetType == "DEBRIS") SpawnDebris(msg.debrisData);
+            else if (msg.targetType == "CATCHER") SpawnCatcher(msg.catcherData);
+        }
+        else if (msg.command == "UPDATE")
+        {
+            if (msg.targetType == "CATCHER") UpdateCatcher(msg.catcherData);
+        }
+        else if (msg.command == "DELETE")
+        {
+            ClearSpawnedObjects();
+        }
+    }
+
+    private void SpawnDebris(DebrisData data)
+    {
+        
+    }
+
+    private void SpawnCatcher(CatcherData data)
+    {
+        
+    }
+    private void UpdateCatcher(CatcherData data)
+    {
+        
+    }
+
 }
