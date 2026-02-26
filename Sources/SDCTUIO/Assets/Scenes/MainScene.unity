@@ -1514,22 +1514,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd7b8b0fa4abe448b5acb89cc933ed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebrisCreationController
---- !u!114 &1472755267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2052408728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 189790ada21791443b4b7fffea8dfb36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AnneauController
-  uiDocument: {fileID: 1116618940}
-  centerCorrection: {x: 0, y: 0}
-  selectionDistance: 80
-  dragThreshold: 20
 --- !u!114 &1472755268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1602,9 +1586,9 @@ GameObject:
   - component: {fileID: 1472755250}
   - component: {fileID: 1472755249}
   - component: {fileID: 1472755248}
-  - component: {fileID: 1472755267}
   - component: {fileID: 1472755268}
   - component: {fileID: 2052408729}
+  - component: {fileID: 2052408730}
   m_Layer: 5
   m_Name: MainUI
   m_TagString: Untagged
@@ -1625,6 +1609,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebrisListUI
   rowTemplate: {fileID: 9197481963319205126, guid: cde31d14d8f684b6a88f5b3f5a130775, type: 3}
+--- !u!114 &2052408730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052408728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a82ee4cd9598454196794ce63b952dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnneauController
+  uiDocument: {fileID: 1116618940}
+  centerCorrection: {x: 0, y: 0}
+  selectionDistance: 80
+  dragThreshold: 20
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
