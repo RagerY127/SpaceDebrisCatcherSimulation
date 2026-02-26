@@ -1514,19 +1514,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd7b8b0fa4abe448b5acb89cc933ed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebrisCreationController
---- !u!114 &1472755268
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2052408728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f6122b08b03b714db67ce236f0504b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SendDebrisController
-  messageToSend: 
 --- !u!1 &1928563196
 GameObject:
   m_ObjectHideFlags: 0
@@ -1586,7 +1573,6 @@ GameObject:
   - component: {fileID: 1472755250}
   - component: {fileID: 1472755249}
   - component: {fileID: 1472755248}
-  - component: {fileID: 1472755268}
   - component: {fileID: 2052408729}
   - component: {fileID: 2052408730}
   m_Layer: 5
