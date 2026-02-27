@@ -1575,6 +1575,7 @@ GameObject:
   - component: {fileID: 1472755248}
   - component: {fileID: 2052408729}
   - component: {fileID: 2052408730}
+  - component: {fileID: 2052408731}
   m_Layer: 5
   m_Name: MainUI
   m_TagString: Untagged
@@ -1611,6 +1612,18 @@ MonoBehaviour:
   centerCorrection: {x: 0, y: 0}
   selectionDistance: 80
   dragThreshold: 20
+--- !u!114 &2052408731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052408728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281fe1a7d16f49c4c995ba1db59b13cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CatcherCreationController
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

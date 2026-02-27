@@ -10,6 +10,7 @@ public class DebrisCreationController : MonoBehaviour
     private const float INITIAL_DEBRIS_WIDTH_M = 1f;
     private const float INITIAL_DEBRIS_HEIGHT_M = 1f;
     private const float INITIAL_DEBRIS_LENGTH_M = 1f;
+    //private static int _debrisCounter = 1;
 
     private Button _cancelButton;
     private Button _createButton;
@@ -56,6 +57,8 @@ public class DebrisCreationController : MonoBehaviour
         SimulationManager.Instance.SelectDebris(data.Id);
         CameraManager.Instance.FollowDebris(debrisObject);
 
+        //_debrisCounter++;
+
         DisableModal();
     }
 
@@ -81,6 +84,7 @@ public class DebrisCreationController : MonoBehaviour
     private void ResetData()
     {
         _dataSource.debrisName = INITIAL_DEBRIS_NAME;
+        //_dataSource.debrisName = $"{INITIAL_DEBRIS_NAME} {_debrisCounter}";
         _dataSource.orbitFirstAxis = 0;
         _dataSource.orbitSecondAxis = 0;
         _dataSource.initialPosition = 0;

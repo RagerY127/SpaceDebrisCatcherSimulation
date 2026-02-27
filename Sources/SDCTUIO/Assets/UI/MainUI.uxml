@@ -5,6 +5,7 @@
     <ui:Template name="ObjectList" src="project://database/Assets/UI/ObjectList.uxml?fileID=9197481963319205126&amp;guid=277dfeba70d4f4cdd92bfdd01eab6d91&amp;type=3#ObjectList" />
     <ui:Template name="CreationUI" src="project://database/Assets/UI/CreationUI.uxml?fileID=9197481963319205126&amp;guid=99bf68f65a5550b4cadbc75c772b2acc&amp;type=3#CreationUI" />
     <ui:Template name="Help" src="project://database/Assets/UI/Help.uxml?fileID=9197481963319205126&amp;guid=166923f3a79e3452099d8390c3d3ac9b&amp;type=3#Help" />
+    <ui:Template name="CreationCatcherUI" src="project://database/Assets/UI/CreationCatcherUI.uxml?fileID=9197481963319205126&amp;guid=3ab1ce658f9470346bc01a03f82bc2c9&amp;type=3#CreationCatcherUI" />
     <Style src="project://database/Assets/UI/GlobalStyles.uss?fileID=7433441132597879392&amp;guid=4f3d59cb90662203e8a3fbc8b91a18d8&amp;type=3#GlobalStyles" />
     <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1; margin-top: 8px; margin-right: 8px; margin-bottom: 8px; margin-left: 8px;">
         <ui:VisualElement style="width: 35%;">
@@ -19,6 +20,9 @@
         </ui:VisualElement>
         <ui:VisualElement name="Modals" picking-mode="Ignore" style="flex-grow: 1; position: absolute; width: 100%; height: 100%; align-items: center; justify-content: center; align-content: center; align-self: center;">
             <ui:Instance template="CreationUI" style="width: 60%; height: 90%; visibility: hidden;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="CatcherModals" picking-mode="Ignore" style="flex-grow: 1; position: absolute; width: 100%; height: 100%; align-items: center; justify-content: center; align-content: center; align-self: center;">
+            <ui:Instance template="CreationCatcherUI" style="width: 50%; min-width: 500px; height: auto;" />
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="HelpOverlay" class="overlay-hidden">

@@ -6,7 +6,11 @@ public class DebrisListUI : MonoBehaviour
 {
     [SerializeField] private VisualTreeAsset rowTemplate;
     private DebrisCreationController _creationController;    
+    // new : catcher controller
+    private CatcherCreationController _catcherCreationController;
     private Button _addDebrisButton;
+    // new : catcher button
+    private Button _addCatcherButton;
     private ScrollView scrollView;
     private UIDocument uiDocument;
 
@@ -61,6 +65,9 @@ public class DebrisListUI : MonoBehaviour
         scrollView.Add(row);
 
         SelectRow(row, controller.ObjectData.Id, true);
+
+        // new : add catcher button
+        if (_addCatcherButton != null) _addCatcherButton.SetEnabled(true);
     }
 
     public void SelectDebrisRow(string debrisId)
@@ -86,6 +93,12 @@ public class DebrisListUI : MonoBehaviour
                 _deleteButton?.SetEnabled(false);
             }
             scrollView.Remove(rowToDelete);
+
+            // new : if no debris, setEnabled false
+            if (scrollView.childCount == 0 && _addCatcherButton != null)
+            {
+                _addCatcherButton.SetEnabled(false);
+            }
         }
     }
 
@@ -148,10 +161,23 @@ public class DebrisListUI : MonoBehaviour
             _catcherTargetInfo.style.display = DisplayStyle.None;
         }
         _creationController = FindFirstObjectByType<DebrisCreationController>();
+
+        // new : catcher controller
+        _catcherCreationController = FindFirstObjectByType<CatcherCreationController>();
+
         _addDebrisButton = root.Q<Button>("createDebris");
         if (_addDebrisButton != null)
         {
             _addDebrisButton.clicked += OpenCreationWizard;
+        }
+
+        // new : open catcher screen
+        _addCatcherButton = root.Q<Button>("createCatcher");
+        if (_addCatcherButton != null)
+        {
+            _addCatcherButton.clicked += OpenCatcherWizard;
+            
+            _addCatcherButton.SetEnabled(false); 
         }
     }
 
@@ -177,6 +203,15 @@ public class DebrisListUI : MonoBehaviour
         if (_creationController != null)
         {
             _creationController.ShowWizard();
+        }
+    }
+
+    // new : open catcher wizard
+    private void OpenCatcherWizard()
+    {
+        if (_catcherCreationController != null)
+        {
+            _catcherCreationController.ShowWizard();
         }
     }
 }

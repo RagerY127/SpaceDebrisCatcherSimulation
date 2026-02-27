@@ -32,6 +32,7 @@ public class SimulationManager : MonoBehaviour
     [SerializeField]
     private LineRenderer _lineRenderer;
     private Dictionary<string, GameObject> _debrisObjects; 
+    public Dictionary<string, GameObject> DebrisObjects => _debrisObjects;
     public GameObject DebrisPrefab;
     private GameObject _selectedDebris;
 
@@ -164,6 +165,11 @@ public class SimulationManager : MonoBehaviour
             {
                 DeselectDebris();
             }
+
+            if (_targetDebris == debrisObject)
+            {
+                DestroyCatcher(); 
+            }
             // Event dispatch avant que le débris soit supprimé
             DebrisRemoving?.Invoke(debrisId);
 
@@ -257,7 +263,7 @@ public class SimulationManager : MonoBehaviour
         // _selectedCatcherData = catcherData; 
     }
 
-    public void AssignCatcherToDebris(string debrisId)
+    public void AssignCatcherToDebris(string debrisId, double timeLagMinutes = DEFAULT_CATCHER_LAG_MINUTES)
     {
         if (!_debrisObjects.ContainsKey(debrisId))
         {
@@ -271,9 +277,9 @@ public class SimulationManager : MonoBehaviour
         _catcher = Instantiate(this.CatcherPrefab, this.transform);
         CatcherController controller = _catcher.GetComponent<CatcherController>();
         DebrisController targetDebrisController = _targetDebris.GetComponent<DebrisController>();
-        controller.AssignTargetDebris(targetDebrisController);
+        controller.AssignTargetDebris(targetDebrisController,timeLagMinutes);
 
-        CatcherInfoUpdate?.Invoke(_catcher.name, _targetDebris.name);
+        CatcherInfoUpdate?.Invoke("Catcher", targetDebrisController.ObjectData.Name);
     }
     
     public void DestroyCatcher()

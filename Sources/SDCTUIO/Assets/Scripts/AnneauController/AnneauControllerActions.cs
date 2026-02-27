@@ -26,7 +26,7 @@ public partial class AnneauController
                 else if (_targetCatcher != null)
                 {
                     // Logic to delete catcher 
-                    // Destroy(_targetCatcher.gameObject); 
+                    SimulationManager.Instance.DestroyCatcher();
                 }
             } 
             // --------------------------------------------------

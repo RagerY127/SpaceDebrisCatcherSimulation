@@ -1,0 +1,35 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    
+    <Style src="project://database/Assets/UI/GlobalStyles.uss?fileID=7433441132597879392&amp;guid=4f3d59cb90662203e8a3fbc8b91a18d8&amp;type=3#GlobalStyles" />
+
+    <ui:VisualElement name="CatcherCreationWizard" class="window" style="width: 100%; height: 100%; overflow: hidden; flex-grow: 1;">
+        
+        <ui:Label text="Catcher Creation Wizard" class="header" style="margin-left: 10px; margin-right: 10px; margin-top: 8px; margin-bottom: 6px;" />
+        
+        <ui:VisualElement name="WindowContent" style="padding: 15px; flex-grow: 1;">
+            
+            <ui:Label text="Look for existing debris to link to the catcher" style="margin-bottom: 10px; -unity-font-style: bold; font-size: 14px;" />
+            <ui:VisualElement name="Separator" class="separator-horizontal" style="height: 2px; background-color: rgb(100, 100, 100); margin-bottom: 15px;" />
+            
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between;">
+                
+                <ui:VisualElement style="flex-grow: 1; margin-right: 10px;">
+                    <ui:Label text="Choose an existing debris" class="label-for-below" style="-unity-font-style: bold; margin-bottom: 5px;" />
+                    <ui:DropdownField choices="List of existing debris" index="0" name="DebrisDropdown" />
+                </ui:VisualElement>
+
+                <ui:VisualElement style="flex-grow: 1; margin-left: 10px;">
+                    <ui:Label text="Time before catching (min)" class="label-for-below" style="-unity-font-style: bold; margin-bottom: 5px;" />
+                    <ui:IntegerField name="TimeInput" />
+                </ui:VisualElement>
+
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <ui:VisualElement name="WindowFooter" style="flex-direction: row; justify-content: space-around; padding: 15px; flex-shrink: 0;">
+            <ui:Button text="Cancel" name="CancelBtn" style="flex-grow: 1; margin-right: 20px;" />
+            <ui:Button text="Create" name="CreateBtn" style="flex-grow: 1; margin-left: 20px;" />
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>
