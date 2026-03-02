@@ -48,11 +48,11 @@
                             </Bindings>
                         </ui:Slider>
                         <ui:Label text="Distance from Earth (km)" class="label-for-below" style="-unity-font-style: bold;" />
-                        <ui:IntegerField value="42" name="DistanceFromEarth">
+                        <ui:FloatField value="42" name="DistanceFromEarth">
                             <Bindings>
                                 <ui:DataBinding property="value" data-source-path="distanceFromEarthKm" binding-mode="TwoWay" />
                             </Bindings>
-                        </ui:IntegerField>
+                        </ui:FloatField>
                         <ui:Label text="Mass (kg)" class="label-for-below" style="-unity-font-style: bold;" />
                         <ui:FloatField value="42.2" name="Mass">
                             <Bindings>
