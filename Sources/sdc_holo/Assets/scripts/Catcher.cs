@@ -25,6 +25,9 @@ public class Catcher : MonoBehaviour
 
     private LineRenderer distanceLine;
 
+    private CatcherInfo activeInfoScript;
+    private const double VISUAL_STOP_DISTANCE = 4.3;
+
     void Start()
     {
         distanceLine = gameObject.AddComponent<LineRenderer>();
@@ -38,26 +41,27 @@ public class Catcher : MonoBehaviour
     public void SetTarget(Transform target, double initialDistance, double minutesToCatch)
     {
         targetTransform = target;
-        targetDistance = initialDistance;
+        targetDistance = initialDistance + VISUAL_STOP_DISTANCE;
 
         double catchDurationSeconds = (minutesToCatch * 60.0) / simulationSpeedMultiplier;
 
         if (catchDurationSeconds > 0)
         {
-            catchSpeedKmPerSec = targetDistance / catchDurationSeconds;
+            catchSpeedKmPerSec = initialDistance / catchDurationSeconds;
         }
         else
         {
             catchSpeedKmPerSec = 0;
-            targetDistance = 0;
         }
 
         currentVisualDistance = (float)targetDistance * ObjectManager.Instance.distanceScale;
     }
 
-    public void UpdateTargetDistance(double newDistance, double newMinutesToCatch)
+    public void UpdateTargetDistance(double newDistance)
     {
-        SetTarget(targetTransform, newDistance, newMinutesToCatch);
+        targetDistance = newDistance + VISUAL_STOP_DISTANCE;
+
+        currentVisualDistance = (float)targetDistance * ObjectManager.Instance.distanceScale;
     }
 
     void Update()
@@ -67,20 +71,21 @@ public class Catcher : MonoBehaviour
             transform.LookAt(targetTransform);
             transform.Rotate(0, 180, 0, Space.Self);
 
-            if (targetDistance > 0)
+            if (targetDistance > VISUAL_STOP_DISTANCE)
             {
                 targetDistance -= catchSpeedKmPerSec * Time.deltaTime;
-                if (targetDistance <= 0) targetDistance = 0;
+                if (targetDistance < VISUAL_STOP_DISTANCE) targetDistance = VISUAL_STOP_DISTANCE;
+            }
+
+            if (infoInstance != null && infoInstance.activeSelf && activeInfoScript != null)
+            {
+                activeInfoScript.UpdateInfo(targetName, catchSpeedKmPerSec * 3600.0, targetDistance);
             }
 
             float targetVisual = (float)targetDistance * ObjectManager.Instance.distanceScale;
             currentVisualDistance = Mathf.Lerp(currentVisualDistance, targetVisual, Time.deltaTime * 5f);
 
-            Vector3 approachDirection = Vector3.left; 
-            if (Camera.main != null)
-            {
-                approachDirection = (-Camera.main.transform.right).normalized;
-            }
+            Vector3 approachDirection = Camera.main != null ? (-Camera.main.transform.right).normalized : Vector3.left;
             transform.position = targetTransform.position + approachDirection * currentVisualDistance;
 
             if (distanceLine != null)
@@ -102,18 +107,27 @@ public class Catcher : MonoBehaviour
     public void onClick()
     {
         if (isDragging) return;
+
         if (infoInstance == null)
         {
             Transform camTransform = Camera.main.transform;
             Vector3 spawnPosition = transform.position - Vector3.forward * 1.2f + Vector3.right * 0.6f + Vector3.down * 0.1f;
             infoInstance = Instantiate(infoPrefab, spawnPosition, camTransform.rotation);
 
-            var script = infoInstance.GetComponent<CatcherInfo>();
-            if (script != null) script.UpdateInfo(targetName, 0, targetDistance);
+            // 缓存脚本引用
+            activeInfoScript = infoInstance.GetComponent<CatcherInfo>();
+            if (activeInfoScript != null)
+            {
+                activeInfoScript.Original = this;
+                // 立即进行第一次更新
+                activeInfoScript.UpdateInfo(targetName, catchSpeedKmPerSec * 3600.0, targetDistance);
+            }
         }
         else
         {
-            infoInstance.SetActive(!infoInstance.activeSelf);
+            bool isActive = !infoInstance.activeSelf;
+            infoInstance.SetActive(isActive);
+            if (isActive) activeInfoScript = infoInstance.GetComponent<CatcherInfo>();
         }
     }
 

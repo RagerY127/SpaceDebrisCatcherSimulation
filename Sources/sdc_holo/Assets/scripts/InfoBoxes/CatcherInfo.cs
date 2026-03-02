@@ -19,14 +19,36 @@ public class CatcherInfo : MonoBehaviour
     {
         
     }
-    void OnDestroy()
-    {
-        Original.infoInstance = null;
-    }
+
     public void UpdateInfo(string targetName, double speed, double targetDistance)
     {
-        targetNameField.GetComponent<TextMeshPro>().text = targetName;
-        speedField.GetComponent<TextMeshPro>().text = speed.ToString("F2") + " km/h";
-        targetDistanceField.GetComponent<TextMeshPro>().text = targetDistance.ToString("F2") + " km";
+        if (targetNameField != null)
+            targetNameField.GetComponent<TextMeshPro>().text = targetName;
+
+        if (speedField != null)
+            speedField.GetComponent<TextMeshPro>().text = speed.ToString("F2") + " km/h";
+
+        if (targetDistanceField != null)
+        {
+            double displayDistance = targetDistance - 4.3;
+
+            if (displayDistance < 0.01)
+            {
+                targetDistanceField.GetComponent<TextMeshPro>().text = "Target Reached";
+            }
+            else
+            {
+                targetDistanceField.GetComponent<TextMeshPro>().text = displayDistance.ToString("F2") + " km";
+            }
+        }
     }
+
+    void OnDestroy()
+    {
+        if (Original != null)
+        {
+            Original.infoInstance = null;
+        }
+    }
+
 }

@@ -98,7 +98,7 @@ public class ObjectManager : MonoBehaviour
             Catcher script = catcherObj.GetComponent<Catcher>();
             if (script != null)
             {
-                script.UpdateTargetDistance(data.distanceToTarget, data.minutesBeforeCatch);
+                script.UpdateTargetDistance(data.distanceToTarget);
             }
         }
     }

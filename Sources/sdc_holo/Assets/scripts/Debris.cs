@@ -62,7 +62,7 @@ public class Debris : MonoBehaviour
         {
             Transform camTransform = Camera.main.transform;
 
-            Vector3 spawnPosition = this.transform.position - Vector3.forward * 1.3f + Vector3.right * 0.6f;
+            Vector3 spawnPosition = this.transform.position - Vector3.forward * 0.3f + Vector3.right * 0.6f;
 
             infoInstance = Instantiate(infoPrefab, spawnPosition, camTransform.rotation);
 
