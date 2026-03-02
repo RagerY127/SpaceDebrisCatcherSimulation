@@ -136,3 +136,42 @@
     background-color: rgb(80, 80, 80);
     -unity-background-image-tint-color: rgb(150, 150, 150);
 }
+
+#search-container {
+    flex-direction: row;
+    flex-shrink: 0; 
+    padding: 5px 10px;
+    align-items: center;
+}
+
+#object-search-input {
+    flex-grow: 1;
+    border-radius: 10px;
+    border-width: 1px;
+}
+
+#object-search-input > .unity-text-field__input {
+    border-radius: 10px;
+    background-color: rgb(84, 123, 146)
+}
+
+#search-button {
+    min-height: auto; 
+    height: 35px; 
+    width: 50px; 
+    border-width: 5px; 
+    padding: 0;
+    margin-left: 8px;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.search-icon {
+    width: 20px;
+    height: 20px;
+    background-image: url("project:/Assets/UI/Icons/search.png");
+    -unity-background-scale-mode: scale-to-fit;
+    
+}
