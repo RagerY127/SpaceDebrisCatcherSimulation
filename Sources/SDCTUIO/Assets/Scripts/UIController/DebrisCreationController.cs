@@ -73,6 +73,13 @@ public class DebrisCreationController : MonoBehaviour
         _wizard.Q<Label>("DistanceFromEarthLabel").text += $" (from {MIN_DEBRIS_DISTANCE_FROM_EARTH_KM}km to {MAX_DEBRIS_DISTANCE_FROM_EARTH_KM}km)";
         _wizard.Q<Label>("MassLabel").text += $" (from {MIN_MASS_KG}kg to {MAX_MASS_KG}kg)";
         _wizard.Q<Label>("DimensionsLabel").text += $" (from {MIN_DIMENSION_M}m to {MAX_DIMENSION_M}m)";
+
+        // prevent float inputs from putting letters
+        PreventLetters(distanceFromEarthField);
+        PreventLetters(massField);
+        PreventLetters(heightField);
+        PreventLetters(lengthField);
+        PreventLetters(widthField);
     }
 
     private void OnCreateButtonClicked()
@@ -153,4 +160,14 @@ public class DebrisCreationController : MonoBehaviour
         });
     }
 
+    private void PreventLetters(FloatField field)
+    {
+        field.Q<TextElement>().RegisterCallback<KeyDownEvent>(evt =>
+        {
+            if (!char.IsDigit(evt.character))
+            {
+                evt.StopPropagation();
+            }
+        }, TrickleDown.TrickleDown);
+    }
 }
