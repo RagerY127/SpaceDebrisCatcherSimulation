@@ -47,13 +47,13 @@
                                 <ui:DataBinding property="value" data-source-path="initialPosition" binding-mode="TwoWay" />
                             </Bindings>
                         </ui:Slider>
-                        <ui:Label text="Distance from Earth (km)" class="label-for-below" style="-unity-font-style: bold;" />
+                        <ui:Label text="Distance from Earth" name="DistanceFromEarthLabel" class="label-for-below" style="-unity-font-style: bold;" />
                         <ui:FloatField value="42" name="DistanceFromEarth">
                             <Bindings>
                                 <ui:DataBinding property="value" data-source-path="distanceFromEarthKm" binding-mode="TwoWay" />
                             </Bindings>
                         </ui:FloatField>
-                        <ui:Label text="Mass (kg)" class="label-for-below" style="-unity-font-style: bold;" />
+                        <ui:Label text="Mass" name="MassLabel" class="label-for-below" style="-unity-font-style: bold;" />
                         <ui:FloatField value="42.2" name="Mass">
                             <Bindings>
                                 <ui:DataBinding property="value" data-source-path="mass" binding-mode="TwoWay" />
@@ -66,7 +66,7 @@
                                 <ui:DataBinding property="index" data-source-path="shapeEnumIndex" binding-mode="TwoWay" />
                             </Bindings>
                         </ui:DropdownField>
-                        <ui:Label text="Dimensions (m)" class="label-for-below" style="-unity-font-style: bold;" />
+                        <ui:Label text="Dimensions" name="DimensionsLabel" class="label-for-below" style="-unity-font-style: bold;" />
                         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-around;">
                             <ui:FloatField label="H" value="0" name="Height" class="small-label" style="flex-grow: 1;">
                                 <Bindings>
