@@ -88,3 +88,8 @@
     border-width: 2px;
     border-color: white;
 }
+
+.name-with-icon-container {
+    border-width: 2px;
+    background-color: rgb(84, 123, 146)
+    }

@@ -43,8 +43,6 @@
 
 .selected-row {
     background-color: rgb(84, 123, 146);
-    border-left-width: 4px;
-    border-left-color: rgb(65, 81, 109);
 }
 
 .delete-btn {
@@ -157,7 +155,7 @@
     min-height: auto; 
     height: 35px; 
     width: 50px; 
-    border-width: 5px; 
+    border-width: 3px; 
     padding: 0;
     margin-left: 8px;
     flex-shrink: 0;
@@ -171,5 +169,15 @@
     height: 20px;
     background-image: url("project:/Assets/UI/Icons/search.png");
     -unity-background-scale-mode: scale-to-fit;
-    
+}
+
+#Sidebar.window {
+    background-color: rgb(40, 51, 73);
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10px;
+}
+
+#Sidebar > Label {
+    background-color: rgb(65, 81, 109);
 }
