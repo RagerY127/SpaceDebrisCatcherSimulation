@@ -132,7 +132,6 @@
 }
 
 #createCatcher:disabled > VisualElement {
-    background-color: rgb(80, 80, 80);
     -unity-background-image-tint-color: rgb(150, 150, 150);
 }
 
