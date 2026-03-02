@@ -1,186 +1,111 @@
+// scripts/ObjectManager.cs
 using UnityEngine;
 using System.Collections.Generic;
 
 public class ObjectManager : MonoBehaviour
 {
-    [Header("Préfabs d'objets")]
+    public static ObjectManager Instance;
+
+    [Header("Prefabs of objects")]
     public GameObject debrisPrefab;
     public GameObject catcherPrefab;
 
-    private static GameObject debrisPrefabInstance;
-    private static GameObject catcherPrefabInstance;
+    [Header("Scaling settings")]
+    public float distanceScale = 0.05f; 
+    public float modelScale = 0.1f; 
 
-    private static Dictionary<string, GameObject> spawnedObjects = new Dictionary<string, GameObject>();
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private Dictionary<string, GameObject> spawnedObjects = new Dictionary<string, GameObject>();
+
+    void Awake()
     {
-        debrisPrefabInstance = debrisPrefab;
-        catcherPrefabInstance = catcherPrefab;
+        if (Instance == null) Instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ProcessJsonMessage(string json)
     {
-        
-    }
-    // ===============================
-    // Nettoyage des objets spawnés 
-    // ===============================
-    public static void ClearSpawnedObjects()
-    {
-        foreach (var obj in spawnedObjects.Values)
+        try
         {
-            Destroy(obj);
-        }
-        spawnedObjects.Clear();
-    }
-    // ===============================
-    // Génération du débris 
-    // ===============================
-    public static GameObject SpawnDebris(string id="",string debrisName="debris", double revolution=0, double mass=1, double position=0)
-    {
-        if(spawnedObjects.ContainsKey(id))
-        {
-            Debug.LogWarning($"Un objet avec l'ID {id} existe déjà. Suppression de l'ancien objet avant de créer le nouveau.");
-            Destroy(spawnedObjects[id]);
-            spawnedObjects.Remove(id);
-        }
-        if (debrisPrefabInstance != null)
-        {
-            if (Camera.main != null)
+            NetMessage msg = JsonUtility.FromJson<NetMessage>(json);
+            if (msg == null || string.IsNullOrEmpty(msg.command)) return;
+
+            switch (msg.command)
             {
-                Transform camTransform = Camera.main.transform;
-                var obj = Instantiate(
-                    debrisPrefabInstance,
-                    camTransform.position + camTransform.forward * 1.5f,
-                    camTransform.rotation
-                );
-                var script=obj.GetComponent<Debris>();
-                if(script!=null)
-                {
-                    script.debrisName=debrisName;
-                    script.revolution=revolution;
-                    script.mass=mass;
-                    script.position=position;
-                }
-                spawnedObjects.Add(id,obj);
-                Debug.Log("Débris apparu !");
-                return obj;
+                case "SPAWN":
+                    if (msg.debrisData != null && !string.IsNullOrEmpty(msg.debrisData.id))
+                        SpawnDebris(msg.debrisData);
+                    if (msg.catcherData != null && !string.IsNullOrEmpty(msg.catcherData.Id))
+                        SpawnCatcher(msg.catcherData);
+                    break;
+                case "UPDATE":
+                    if (msg.catcherData != null && !string.IsNullOrEmpty(msg.catcherData.Id))
+                        UpdateCatcher(msg.catcherData);
+                    break;
+                case "DELETE":
+                    ClearSpawnedObjects();
+                    break;
             }
-            else
-            {
-                var obj = Instantiate(debrisPrefabInstance, new Vector3(0, 0, 1f), Quaternion.identity);
-                spawnedObjects.Add(id,obj);
-                Debug.Log("Débris apparu !");
-                return obj;
-            }
-            
         }
-        else
+        catch (System.Exception e)
         {
-            Debug.LogError("Prefab non assigné dans l'inspecteur");
-            return null;
-        }
-    }
-    // ===============================
-    // Génération du catcher
-    // ===============================
-    public static GameObject SpawnCatcher(string id="", string targetName="", double speed=0, double targetDistance=0)
-    {
-        if(spawnedObjects.ContainsKey(id))
-        {
-            Debug.LogWarning($"Un objet avec l'ID {id} existe déjà. Suppression de l'ancien objet avant de créer le nouveau.");
-            Destroy(spawnedObjects[id]);
-            spawnedObjects.Remove(id);
-        }
-        if (catcherPrefabInstance != null)
-        {
-            if (Camera.main != null)
-            {
-                Transform camTransform = Camera.main.transform;
-                var obj = Instantiate(
-                    catcherPrefabInstance,
-                    camTransform.position + camTransform.forward * 1.5f,
-                    camTransform.rotation
-                );
-                var script=obj.GetComponent<Catcher>();
-                if(script!=null)
-                {
-                    script.targetName=targetName;
-                    script.speed=speed;
-                    script.targetDistance=targetDistance;
-                }
-                spawnedObjects.Add(id,obj);
-                Debug.Log("Catcher apparu !");
-                return obj;
-            }
-            else
-            {
-                var obj = Instantiate(catcherPrefabInstance, new Vector3(0, 0, 1f), Quaternion.identity);
-                spawnedObjects.Add(id,obj);
-                Debug.Log("Catcher apparu !");
-                return obj;
-            }
-
-            
-        }
-        else
-        {
-            Debug.LogError("Prefab non assigné dans l'inspecteur");
-            return null;
-        }
-    }
-    
-    // ===============================
-    // Mise à jour d'un objet
-    // ===============================  
-    public static void UpdateObject(string id, Vector3 newPosition, Vector3 newRotation)
-    {
-        if (spawnedObjects.ContainsKey(id))
-        {
-            GameObject obj = spawnedObjects[id];
-            obj.transform.position = newPosition;
-            obj.transform.rotation = Quaternion.Euler(newRotation);
-            Debug.Log($"Objet {id} mis à jour !");
-        }
-        else
-        {
-            Debug.LogWarning($"Objet avec l'ID {id} non trouvé pour la mise à jour.");
-        }
-    }
-
-    public void HandleNetworkMessage(string json)
-    {
-        NetMessage msg = JsonUtility.FromJson<NetMessage>(json);
-        if (msg == null) return;
-
-        if (msg.command == "SPAWN")
-        {
-            if (msg.targetType == "DEBRIS") SpawnDebris(msg.debrisData);
-            else if (msg.targetType == "CATCHER") SpawnCatcher(msg.catcherData);
-        }
-        else if (msg.command == "UPDATE")
-        {
-            if (msg.targetType == "CATCHER") UpdateCatcher(msg.catcherData);
-        }
-        else if (msg.command == "DELETE")
-        {
-            ClearSpawnedObjects();
+            Debug.LogError($"Analyse JSON fail: {e.Message}");
         }
     }
 
     private void SpawnDebris(DebrisData data)
     {
-        
+        if (spawnedObjects.ContainsKey(data.id)) return;
+
+        Vector3 spawnPos = Camera.main != null 
+            ? Camera.main.transform.position + Camera.main.transform.forward * 0.8f 
+            : new Vector3(0, 0, 0.8f);
+
+        GameObject debris = Instantiate(debrisPrefab, spawnPos, Quaternion.identity);
+        debris.transform.localScale = Vector3.one * modelScale;
+
+        var script = debris.GetComponent<Debris>();
+        if (script != null)
+        {
+            script.debrisName = data.name;
+            script.mass = data.mass;
+            script.revolution = data.revolutionsPerDay;
+        }
+
+        spawnedObjects.Add(data.id, debris);
     }
 
     private void SpawnCatcher(CatcherData data)
     {
-        
-    }
-    private void UpdateCatcher(CatcherData data)
-    {
-        
+        if (spawnedObjects.ContainsKey(data.Id)) return;
+        if (!spawnedObjects.TryGetValue(data.targetId, out GameObject targetDebris)) return;
+
+        GameObject catcher = Instantiate(catcherPrefab, targetDebris.transform.position, Quaternion.identity);
+        catcher.transform.localScale = Vector3.one * modelScale;
+
+        Catcher chaseScript = catcher.GetComponent<Catcher>();
+        if (chaseScript != null)
+        {
+            chaseScript.targetName = data.targetName;
+            chaseScript.SetTarget(targetDebris.transform, data.distanceToTarget, data.minutesBeforeCatch);
+        }
+
+        spawnedObjects.Add(data.Id, catcher);
     }
 
+    private void UpdateCatcher(CatcherData data)
+    {
+        if (spawnedObjects.TryGetValue(data.Id, out GameObject catcherObj))
+        {
+            Catcher script = catcherObj.GetComponent<Catcher>();
+            if (script != null)
+            {
+                script.UpdateTargetDistance(data.distanceToTarget, data.minutesBeforeCatch);
+            }
+        }
+    }
+
+    public void ClearSpawnedObjects()
+    {
+        foreach (var obj in spawnedObjects.Values) Destroy(obj);
+        spawnedObjects.Clear();
+    }
 }

@@ -21,6 +21,6 @@ public class HololensClose : MonoBehaviour
     }
     public void onClick()
     {
-        ObjectManager.ClearSpawnedObjects();
+        //ObjectManager.ClearSpawnedObjects();
     }
 }

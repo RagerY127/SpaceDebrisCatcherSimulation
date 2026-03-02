@@ -5,8 +5,8 @@ public class NetMessage
 {
     public string command;
     public string targetType;
-    public DebrisData debrisData; 
-    public CatcherData catcherData; 
+    public DebrisData debrisData;
+    public CatcherData catcherData;
 }
 
 [Serializable]
@@ -14,9 +14,9 @@ public class DebrisData
 {
     public string id;
     public string name;
-    public float mass;
+    public double mass;
     public string shape;
-    public float revolutionsPerDay;
+    public double revolutionsPerDay;
 }
 
 [Serializable]
@@ -25,7 +25,7 @@ public class CatcherData
     public string Id;
     public string targetId;
     public string targetName;
-    public double currentSpeed;
-    public double distanceToTarget;
+    public double currentSpeed;       // 修复：必须是 double
+    public double distanceToTarget;   // 修复：必须是 double
     public double minutesBeforeCatch;
 }
