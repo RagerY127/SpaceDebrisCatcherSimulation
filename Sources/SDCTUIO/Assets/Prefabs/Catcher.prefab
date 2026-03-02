@@ -54,6 +54,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CatcherController
   TapGesture: {fileID: -2386886674824206469}
   LongPressGesture: {fileID: 1659566027737463187}
+  CaptureDistanceThreshold: 1
+  PlugInOffset: 0
 --- !u!114 &1659566027737463187
 MonoBehaviour:
   m_ObjectHideFlags: 0

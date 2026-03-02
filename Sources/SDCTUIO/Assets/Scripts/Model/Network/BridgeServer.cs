@@ -74,7 +74,6 @@ public class BridgeServer : MonoBehaviour
         if (connectedClient == null)
         {
             Debug.LogError("FAIL TO SEND");
-            return;
         }
         try
         {

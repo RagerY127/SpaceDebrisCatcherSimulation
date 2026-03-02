@@ -8,6 +8,16 @@ public class CatcherController : ObjectController<CatcherData>
     private double _currentCatchProgressSeconds;
     public double CurrentProgressSeconds => _currentCatchProgressSeconds;
 
+    // WHEN TOUCHED!
+    [Header("Capture Settings")]
+    public float CaptureDistanceThreshold = 1.0f;
+    public float PlugInOffset = 0.0f;
+    private bool _isCaptured = false;
+    private Vector3 _lastDebrisPos = Vector3.zero;
+    private Vector3 _lockedTangent = Vector3.forward;
+    
+    private Vector3 _lastPosition;
+
     // If already sent to Hololens
     public bool HasBeenSpawned { get; set; } = false;
 
@@ -26,25 +36,48 @@ public class CatcherController : ObjectController<CatcherData>
         );
         
         _currentCatchProgressSeconds = 0.0f;
+        _isCaptured = false;
+
+        Vector3 initialPosKm = ObjectData.GetPositionAtTime(SimulationManager.SimulationTime, 0.0);
+        _lastPosition = initialPosKm * (float)SimulationManager.ScaleFactor;
     }
 
     void Update()
     {
-        if (ObjectData == null) return;
+        if (ObjectData == null || ObjectData.TargetDebris == null) return;
 
-        _currentCatchProgressSeconds += Time.deltaTime * SimulationManager.SimulationSpeed;
-        
-        Vector3 targetPositionKm = ObjectData.GetPositionAtTime(SimulationManager.SimulationTime, _currentCatchProgressSeconds);
-        
-        Vector3 newLocalPosition = targetPositionKm * (float)SimulationManager.ScaleFactor;
-
-        transform.localPosition = newLocalPosition;
-        
         var debrisRawPos = ObjectData.TargetDebris.GetPositionKmAtTime(SimulationManager.SimulationTime);
-        
         Vector3 debrisTargetPos = new Vector3((float)debrisRawPos.X, (float)debrisRawPos.Y, (float)debrisRawPos.Z) * (float)SimulationManager.ScaleFactor;
 
-        transform.LookAt(transform.localPosition + (transform.localPosition - debrisTargetPos));
+        if (_lastDebrisPos != Vector3.zero && debrisTargetPos != _lastDebrisPos)
+        {
+            _lockedTangent = (debrisTargetPos - _lastDebrisPos).normalized;
+        }
+        _lastDebrisPos = debrisTargetPos;
+
+        if (!_isCaptured)
+        {
+            _currentCatchProgressSeconds += Time.deltaTime * SimulationManager.SimulationSpeed;
+            Vector3 targetPositionKm = ObjectData.GetPositionAtTime(SimulationManager.SimulationTime, _currentCatchProgressSeconds);
+            transform.localPosition = targetPositionKm * (float)SimulationManager.ScaleFactor;
+
+            if (Vector3.Distance(transform.localPosition, debrisTargetPos) <= CaptureDistanceThreshold)
+            {
+                _isCaptured = true;
+            }
+        }
+        else
+        {
+            transform.localPosition = debrisTargetPos - _lockedTangent * PlugInOffset;
+        }
+
+        Vector3 awayFromEarth = transform.localPosition.normalized;
+        
+        if (_lockedTangent != Vector3.zero) 
+        {
+            Quaternion baseRotation = Quaternion.LookRotation(_lockedTangent, awayFromEarth);
+            transform.rotation = baseRotation * Quaternion.Euler(180, 0, 0);
+        }
     }
 
     private void OnEnable()
