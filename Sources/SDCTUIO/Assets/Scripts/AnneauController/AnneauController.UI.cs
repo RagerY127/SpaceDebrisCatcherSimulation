@@ -78,6 +78,10 @@ public partial class AnneauController
     private void HandleSel(Vector2 p)
     {
         var btn = FindBtn(_selectionLayer, p, "btnDelete", "btnHolo", "btnFocas");
+        if (btn != null && btn.name == "btnFocas" && !_isFocusBtnActive)
+        {
+            btn = null; 
+        }
         UpdateHover(btn);
     }
 

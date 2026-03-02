@@ -664,7 +664,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bb992bc2168794c8519efde6fdad2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimulationManager
-  _debrisListUI: {fileID: 2052408729}
   _earth: {fileID: 33535732}
   _simulationSpeed: 1
   _orbitPointCount: 30
@@ -1609,6 +1608,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnneauController
   uiDocument: {fileID: 1116618940}
+  iconFocusNormal: {fileID: 2800000, guid: ec0dc77c29edca34898c5110ee3cc35b, type: 3}
+  iconFocusEmpty: {fileID: 2800000, guid: 21b821d270eaab64086849ada3be38d3, type: 3}
   centerCorrection: {x: 0, y: 0}
   selectionDistance: 80
   dragThreshold: 20

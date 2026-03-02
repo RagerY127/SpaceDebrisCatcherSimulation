@@ -8,6 +8,7 @@ public partial class AnneauController
     /// !!!!!!!!!!!!!!!!!!!!!! Operations of these buttons !!!!!!!!!!!!!!!!!!!!
     /// !!!!!!!!!!!!!!!!!!!!!! ADD LOGIC OF BUTTONS ON THE ANNEAU HERE !!!!!!!!
     /// </summary>
+    [System.Obsolete]
     private void ExecuteIfConfirmed(Vector2 p)
     {
         var btn = FindBtn(_activeValLayer, p, "btnConfirm", "btnCancel");
@@ -58,15 +59,15 @@ public partial class AnneauController
             // --------------------------------------------------
             else if (_pendingOpBtn.name == "btnFocas") 
             { 
-                if (_targetDebris != null)
+                if (_targetDebris != null && !SimulationManager.Instance.HasCatcher)
                 {
-                    SimulationManager.Instance.SelectDebris(_targetDebris.ObjectData.Id);
-                    CameraManager.Instance.FollowDebris(_targetDebris.gameObject);
+                    CatcherCreationController catcherUI = Object.FindObjectOfType<CatcherCreationController>();
+                    catcherUI.ShowWizard(_targetDebris.ObjectData.Id);
+                    //ameraManager.Instance.FollowDebris(_targetDebris.gameObject);
                 }
                 else if (_targetCatcher != null)
                 {
-                    SimulationManager.Instance.SelectCatcher(this._targetCatcher.ObjectData);
-                    CameraManager.Instance.FollowDebris(_targetCatcher.gameObject);
+                    
                 }
             }
         }

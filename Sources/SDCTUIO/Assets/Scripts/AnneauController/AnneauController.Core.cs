@@ -9,6 +9,11 @@ public partial class AnneauController : MonoBehaviour
 
     [Header("UI settings")] 
     public UIDocument uiDocument;
+
+    [Header("Dynamic Icons")]
+    public Texture2D iconFocusNormal;
+    public Texture2D iconFocusEmpty;
+    private bool _isFocusBtnActive = true;
     
     // Correction of the offset (Not used for now)
     public Vector2 centerCorrection = Vector2.zero; 
@@ -50,6 +55,7 @@ public partial class AnneauController : MonoBehaviour
         }
     }
 
+    [System.Obsolete]
     void Update()
     {
         // 1. Check if targets exist and menu is ready
@@ -125,13 +131,16 @@ public partial class AnneauController : MonoBehaviour
             {
                 var btn = FindBtn(_selectionLayer, mousePanelPos, "btnDelete", "btnHolo", "btnFocas");
                 
+                if (btn != null && btn.name == "btnFocas" && !_isFocusBtnActive) 
+                {
+                    btn = null;
+                }
                 if (btn != null) 
                 {
                     ToValMode(btn);
                 }
                 else
                 {
-                    // Close menu if user clicks outside after opening
                     if (Time.time - _openTime > 1f)
                     {
                         HideMenu();
@@ -162,6 +171,16 @@ public partial class AnneauController : MonoBehaviour
     {
         _targetDebris = d; 
         _targetCatcher = null;
+
+        _isFocusBtnActive = !SimulationManager.Instance.HasCatcher;
+
+        var btn = _root.Q<VisualElement>("btnFocas");
+        if (btn != null)
+        {
+            btn.style.backgroundImage = new StyleBackground(_isFocusBtnActive ? iconFocusNormal : iconFocusEmpty);
+            btn.style.opacity = 1f;
+        }
+
         OpenMenuInternal();
     }
 
@@ -169,6 +188,16 @@ public partial class AnneauController : MonoBehaviour
     {
         _targetCatcher = c;
         _targetDebris = null;
+
+        _isFocusBtnActive = false;
+
+        var btn = _root.Q<VisualElement>("btnFocas");
+        if (btn != null)
+        {
+            btn.style.backgroundImage = new StyleBackground(iconFocusEmpty);
+            btn.style.opacity = 1f;
+        }
+        
         OpenMenuInternal();
     }
 }

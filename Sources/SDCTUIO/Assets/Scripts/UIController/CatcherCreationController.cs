@@ -35,7 +35,7 @@ public class CatcherCreationController : MonoBehaviour
         if (_modals != null) _modals.visible = false;
     }
 
-    public void ShowWizard()
+    public void ShowWizard(string preselectedDebrisId = null)
     {
 
         _debrisDropdown.choices.Clear();
@@ -49,8 +49,21 @@ public class CatcherCreationController : MonoBehaviour
             _availableDebrisIds.Add(debrisCtrl.ObjectData.Id);
         }
         // TODO : ALERTE, FAUT CHOISIR UN DEBRIS
-        _debrisDropdown.index = -1;
-        _debrisDropdown.value = "List of existing debris...";
+        if (!string.IsNullOrEmpty(preselectedDebrisId) && _availableDebrisIds.Contains(preselectedDebrisId))
+        {
+            _debrisDropdown.index = _availableDebrisIds.IndexOf(preselectedDebrisId);
+            
+            int targetIndex = _availableDebrisIds.IndexOf(preselectedDebrisId);
+            
+            _debrisDropdown.index = targetIndex;
+            
+            _debrisDropdown.value = _debrisDropdown.choices[targetIndex];
+        }
+        else{
+            _debrisDropdown.index = -1;
+            _debrisDropdown.value = "List of existing debris...";
+        }
+
         if (_timeInput != null) _timeInput.value = 5;
 
         _wizard.visible = true;
