@@ -10,11 +10,6 @@ public class SimulationManager : MonoBehaviour
     public const float EARTH_RADIUS_KM = 6371.0f;
 
     public const double DEFAULT_CATCHER_LAG_MINUTES = 5.0;
-    //Ui List element
-    //public DebrisListUI DebrisListUI { get; private set; }
-    [SerializeField]
-    private DebrisListUI _debrisListUI;
-    public DebrisListUI DebrisListUI => _debrisListUI;
 
     // Simulation data
     [SerializeField]
@@ -41,6 +36,9 @@ public class SimulationManager : MonoBehaviour
     private GameObject _catcher;
     private GameObject _targetDebris;
 
+    // If existe already a catcher
+    public bool HasCatcher => _catcher != null;
+
     // Static passthroughs
     public static float SimulationSpeed => Instance._simulationSpeed;
     public static EpochTime SimulationTime => Instance._simulationTime;
@@ -53,6 +51,7 @@ public class SimulationManager : MonoBehaviour
     public event ControllerChangeHandler<DebrisData> DebrisAdded;
     public delegate void IdChangeHandler(string id);
     public event IdChangeHandler DebrisRemoving;
+    public event IdChangeHandler DebrisTapped;
     public delegate void CatcherInfoUpdateHandler(string catcherName, string debrisName);
     public event CatcherInfoUpdateHandler CatcherInfoUpdate;
 

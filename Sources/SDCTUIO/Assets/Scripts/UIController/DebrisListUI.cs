@@ -22,6 +22,8 @@ public class DebrisListUI : MonoBehaviour
     private Label _catcherNameLabel;
     private Label _debrisNameLabel;
 
+    private TextField _searchField;
+
     void Awake()
     {
         uiDocument = GetComponent<UIDocument>();
@@ -29,6 +31,7 @@ public class DebrisListUI : MonoBehaviour
         var sim = SimulationManager.Instance;
         sim.CatcherInfoUpdate += UpdateCatcherInfo;
         sim.DebrisRemoving += RemoveDebrisFromList;
+        sim.DebrisTapped += SelectDebrisRow;
         sim.DebrisAdded += AddDebrisToList;
     }
 
@@ -68,6 +71,10 @@ public class DebrisListUI : MonoBehaviour
 
         // new : add catcher button
         if (_addCatcherButton != null) _addCatcherButton.SetEnabled(true);
+        if (_searchField != null)
+        {
+            FilterList(_searchField.value);
+        }
     }
 
     public void SelectDebrisRow(string debrisId)
@@ -177,7 +184,20 @@ public class DebrisListUI : MonoBehaviour
         {
             _addCatcherButton.clicked += OpenCatcherWizard;
             
-            _addCatcherButton.SetEnabled(false); 
+            // new : button catcher state
+            RefreshAddCatcherButtonState();
+        }
+
+        _searchField = root.Q<TextField>("object-search-input");
+        if (_searchField != null)
+        {
+            _searchField.RegisterValueChangedCallback(evt => FilterList(evt.newValue));
+        }
+        
+        var searchBtn = root.Q<Button>("search-button");
+        if (searchBtn != null)
+        {
+            searchBtn.clicked += () => FilterList(_searchField.value);
         }
     }
 
@@ -188,6 +208,9 @@ public class DebrisListUI : MonoBehaviour
         if (string.IsNullOrEmpty(catcherName))
         {
             _catcherTargetInfo.style.display = DisplayStyle.None;
+
+            // new : button catcher state
+            RefreshAddCatcherButtonState();
         }
         else
         {
@@ -195,6 +218,8 @@ public class DebrisListUI : MonoBehaviour
             
             if (_catcherNameLabel != null) _catcherNameLabel.text = catcherName;
             if (_debrisNameLabel != null) _debrisNameLabel.text = targetDebrisName;
+            // new : button catcher state
+            RefreshAddCatcherButtonState();
         }
     }
 
@@ -212,6 +237,35 @@ public class DebrisListUI : MonoBehaviour
         if (_catcherCreationController != null)
         {
             _catcherCreationController.ShowWizard();
+        }
+    }
+    
+    // new : button catcher state
+    private void RefreshAddCatcherButtonState()
+    {
+        if (_addCatcherButton != null && scrollView != null)
+        {
+            _addCatcherButton.SetEnabled(scrollView.childCount > 0 && !SimulationManager.Instance.HasCatcher);
+        }
+    }
+
+    // new : filters list of existing debris based on the user input
+    private void FilterList(string searchTerm)
+    {
+        if (scrollView == null) return;
+
+        string lowerSearch = searchTerm.ToLower().Trim();
+
+        foreach (VisualElement row in scrollView.Children())
+        {
+            Label nameLabel = row.Q<Label>("debris-name");
+            if (nameLabel != null)
+            {
+                bool matches = string.IsNullOrEmpty(lowerSearch) || 
+                            nameLabel.text.ToLower().Contains(lowerSearch);
+                
+                row.style.display = matches ? DisplayStyle.Flex : DisplayStyle.None;
+            }
         }
     }
 }
