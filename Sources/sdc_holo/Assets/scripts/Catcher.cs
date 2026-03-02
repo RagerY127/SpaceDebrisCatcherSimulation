@@ -114,12 +114,11 @@ public class Catcher : MonoBehaviour
             Vector3 spawnPosition = transform.position - Vector3.forward * 1.2f + Vector3.right * 0.6f + Vector3.down * 0.1f;
             infoInstance = Instantiate(infoPrefab, spawnPosition, camTransform.rotation);
 
-            // 缓存脚本引用
             activeInfoScript = infoInstance.GetComponent<CatcherInfo>();
             if (activeInfoScript != null)
             {
                 activeInfoScript.Original = this;
-                // 立即进行第一次更新
+
                 activeInfoScript.UpdateInfo(targetName, catchSpeedKmPerSec * 3600.0, targetDistance);
             }
         }

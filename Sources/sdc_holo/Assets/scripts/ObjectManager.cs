@@ -2,12 +2,19 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+[System.Serializable]
+public struct DebrisPrefabMap
+{
+    public string shapeName; 
+    public GameObject prefab;
+}
+
 public class ObjectManager : MonoBehaviour
 {
     public static ObjectManager Instance;
 
     [Header("Prefabs of objects")]
-    public GameObject debrisPrefab;
+    public List<DebrisPrefabMap> debrisPrefabs;
     public GameObject catcherPrefab;
 
     [Header("Scaling settings")]
@@ -55,11 +62,29 @@ public class ObjectManager : MonoBehaviour
     {
         if (spawnedObjects.ContainsKey(data.id)) return;
 
-        Vector3 spawnPos = Camera.main != null 
-            ? Camera.main.transform.position + Camera.main.transform.forward * 0.8f 
+        GameObject selectedPrefab = null;
+        foreach (var map in debrisPrefabs)
+        {
+   
+            if (map.shapeName.Equals(data.shape, System.StringComparison.OrdinalIgnoreCase))
+            {
+                selectedPrefab = map.prefab;
+                break;
+            }
+        }
+
+        if (selectedPrefab == null)
+        {
+            Debug.LogWarning($"Shape '{data.shape}' not found, using default.");
+            if (debrisPrefabs.Count > 0) selectedPrefab = debrisPrefabs[0].prefab;
+            else return;
+        }
+
+        Vector3 spawnPos = Camera.main != null
+            ? Camera.main.transform.position + Camera.main.transform.forward * 0.8f
             : new Vector3(0, 0, 0.8f);
 
-        GameObject debris = Instantiate(debrisPrefab, spawnPos, Quaternion.identity);
+        GameObject debris = Instantiate(selectedPrefab, spawnPos, Quaternion.identity);
         debris.transform.localScale = Vector3.one * modelScale;
 
         var script = debris.GetComponent<Debris>();
