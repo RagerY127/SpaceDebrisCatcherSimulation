@@ -3,7 +3,7 @@
     <Style src="project://database/Assets/UI/ObjectListStyle.uss?fileID=7433441132597879392&amp;guid=5e765a4ce987d4469b92050c764ab74f&amp;type=3#ObjectListStyle" />
     <Style src="project://database/Assets/UI/ObjectRowStyle.uss?fileID=7433441132597879392&amp;guid=0e11885b518904a5e91b4ef82e3ebbff&amp;type=3#ObjectRowStyle" />
     <ui:VisualElement name="Sidebar" class="window" style="width: 295px;">
-        <ui:Label text="Objects" style="-unity-font-style: bold; color: white; margin: 10px;" />
+        <ui:Label text="Objects" style="-unity-font-style: bold; color: white; margin: 10px; margin-top: 0; margin-right: 0; margin-left: 0; margin-bottom: 0; padding-left: 15px; padding-top: 8px; padding-bottom: 8px;" />
         <ui:VisualElement name="search-container" style="padding: 5px 10px;">
             <ui:TextField name="object-search-input" placeholder-text="Search debris by name" />
             <ui:Button name="search-button" class="icon-button-small">
@@ -17,9 +17,7 @@
                 <ui:VisualElement class="catcher-icon" />
                 <ui:Label name="catcher-name" text="Catcher-1" />
             </ui:VisualElement>
-
             <ui:Label name="target-separator" text=" ➔ " />
-
             <ui:VisualElement name="target-block" class="row">
                 <ui:VisualElement class="debris-type-icon" />
                 <ui:Label name="debris-name" text="Debris Name" />
