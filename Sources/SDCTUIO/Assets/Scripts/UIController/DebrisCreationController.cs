@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,6 +14,11 @@ public class DebrisCreationController : MonoBehaviour
     private const float INITIAL_DEBRIS_LENGTH_M = 1f;
     //private static int _debrisCounter = 1;
 
+    private const float MIN_DEBRIS_DISTANCE_FROM_EARTH_KM = 200f;
+    private const float MAX_DEBRIS_DISTANCE_FROM_EARTH_KM = 10000f;
+    private const float MIN_DIMENSION_M = 1f;
+    private const float MAX_DIMENSION_M = 10000f;
+
     private Button _cancelButton;
     private Button _createButton;
 
@@ -20,6 +27,8 @@ public class DebrisCreationController : MonoBehaviour
     private VisualElement _modals;
     private GameObject previewScene;
     private PreviewSceneOrbit previewScript;
+
+    private int errorCounter = 0;
 
     void OnEnable()
     {
@@ -43,7 +52,20 @@ public class DebrisCreationController : MonoBehaviour
         _wizard.Q<Slider>("OrbitFirstAxis").RegisterValueChangedCallback(evt => previewScript.TiltAngle = evt.newValue);
         _wizard.Q<Slider>("OrbitSecondAxis").RegisterValueChangedCallback(evt => previewScript.AscendingNodeAngle = evt.newValue);
         _wizard.Q<Slider>("InitialPosition").RegisterValueChangedCallback(evt => previewScript.PositionAngle = evt.newValue);
-        _wizard.Q<IntegerField>("DistanceFromEarth").RegisterValueChangedCallback(evt => previewScript.Distance = evt.newValue);
+        _wizard.Q<FloatField>("DistanceFromEarth").RegisterValueChangedCallback(evt => previewScript.Distance = evt.newValue);
+
+        // check for errors in fields
+        var distanceFromEarthField = _wizard.Q<FloatField>("DistanceFromEarth");
+        var massField = _wizard.Q<FloatField>("Mass");
+        var heightField = _wizard.Q<FloatField>("Height");
+        var lengthField = _wizard.Q<FloatField>("Length");
+        var widthField = _wizard.Q<FloatField>("Width");
+
+        RegisterRangeErrorCallback(distanceFromEarthField, MIN_DEBRIS_DISTANCE_FROM_EARTH_KM, MAX_DEBRIS_DISTANCE_FROM_EARTH_KM);
+        RegisterRangeErrorCallback(massField, 1, 10000);
+        RegisterRangeErrorCallback(heightField, MIN_DIMENSION_M, MAX_DIMENSION_M);
+        RegisterRangeErrorCallback(lengthField, MIN_DIMENSION_M, MAX_DIMENSION_M);
+        RegisterRangeErrorCallback(widthField, MIN_DIMENSION_M, MAX_DIMENSION_M);
     }
 
     private void OnCreateButtonClicked()
@@ -94,4 +116,37 @@ public class DebrisCreationController : MonoBehaviour
         _dataSource.height = INITIAL_DEBRIS_HEIGHT_M;
         _dataSource.length = INITIAL_DEBRIS_LENGTH_M;
     }
+
+    private void RegisterRangeErrorCallback(FloatField field, float min, float max)
+    {
+        field.RegisterCallback<ChangeEvent<float>>((evt) =>
+        {
+            float val = field.value;
+            if (val < min || val > max)
+            {
+                if (!field.GetClasses().Contains("base-field-error"))
+                {
+                    field.AddToClassList("base-field-error");
+                    errorCounter++;
+                    if (errorCounter > 0)
+                    {
+                        _createButton.SetEnabled(false);
+                    }   
+                }
+            }
+            else
+            {
+                if (field.GetClasses().Contains("base-field-error"))
+                {
+                    field.RemoveFromClassList("base-field-error");
+                    errorCounter--;
+                    if (errorCounter == 0)
+                    {
+                        _createButton.SetEnabled(true);
+                    }   
+                }
+            }
+        });
+    }
+
 }
