@@ -1,6 +1,11 @@
 .debris-item-container {
-    background-color: rgba(45, 45, 45, 0.3);
-    padding: 4px;
+    background-color: transparent;
+}
+
+.debris-item-container .row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 .row {
@@ -11,19 +16,25 @@
 }
 
 .focus-button {
-    width: 45px;
-    height: 32px;
-    border-radius: 8px;
-    margin: 0 10px;
+    width: 50px;
+    height: 40px;
+    min-height: auto;
+    background-color: rgb(65, 81, 109);
+    border-color: rgb(84, 123, 146);
+    border-width: 3px;
+    border-radius: 12px;
+    margin-right: 8px;
+    padding: 0;
     justify-content: center;
     align-items: center;
 }
 
 .focus-icon {
-    width: 85%;
-    height: 85%;
-    background-image: url('project://database/Assets/UI/Icons/focus.png');
+    width: 24px;
+    height: 24px;
+    background-image: url("project:/Assets/UI/Icons/focus.png");
     -unity-background-scale-mode: scale-to-fit;
+    -unity-background-image-tint-color: white;
 }
 
 .unity-button.focus-button {
@@ -32,30 +43,35 @@
 }
 
 .name-with-icon-container {
+    flex-grow: 1;
     flex-direction: row;
     align-items: center;
-    flex-grow: 1;
-    margin-left: 5px;
+    height: 40px;
+    background-color: rgb(84, 123, 146);
+    border-radius: 15px;
+    padding: 0 12px;
 }
 
 .debris-type-icon {
-    width: 18px;
-    height: 18px;
-    margin-right: 6px;
-    background-image: url('project://database/Assets/UI/Icons/debris.png');
+    width: 28px;
+    height: 28px;
+    margin-right: 10px;
+    background-image: url("project:/Assets/UI/Icons/debris.png");
     -unity-background-scale-mode: scale-to-fit;
+    -unity-background-image-tint-color: white;
 }
 
 .debris-label {
     color: white;
     -unity-font-style: bold;
-    margin: 0;
+    font-size: 12px;
     padding: 0;
+    margin: 0;
 }
 
 .catcher-icon {
-    width: 18px;
-    height: 18px;
+    width: 28px;
+    height: 28px;
     margin-right: 6px;
     background-image: url('project://database/Assets/UI/Icons/catcher.png');
     -unity-background-scale-mode: scale-to-fit;
@@ -66,4 +82,9 @@
     -unity-font-style: bold;
     margin: 0;
     padding: 0;
+}
+
+.selected-row .name-with-icon-container {
+    border-width: 2px;
+    border-color: white;
 }

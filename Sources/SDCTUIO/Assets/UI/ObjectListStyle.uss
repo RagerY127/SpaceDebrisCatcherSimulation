@@ -74,17 +74,16 @@
     height: 60px;
     align-items: center;
     padding: 5px;
-
+    justify-content: center;
 }
 
 #catcher-target-info > .row {
     flex-direction: row;
-    flex-grow: 1;
-    flex-basis: 0;
     overflow: hidden;
     align-items: center;
     justify-content: flex-start;
     margin: 0 2px;
+    flex-shrink: 1;
 }
 
 .catcher-label, .debris-label {
