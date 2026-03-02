@@ -51,7 +51,7 @@ public class HololensMessage
         BridgeServer.Instance.SendMessageToHoloLens(json);
     }
 
-    public static void SendUpdateMessage(MessageCommand cmd, string id, double xPos, double yPos, double zPos, double xRot, double yRot, double zRot)
+    /*public static void SendUpdateMessage(MessageCommand cmd, string id, double xPos, double yPos, double zPos, double xRot, double yRot, double zRot)
     {
         var msg = new HololensMessage();
         msg.command = cmd.ToString();
@@ -63,7 +63,7 @@ public class HololensMessage
         string json = JsonUtility.ToJson(updateData);
 
         BridgeServer.Instance.SendMessageToHoloLens(json);
-    }
+    }*/
 
     public string ToJson()
     {

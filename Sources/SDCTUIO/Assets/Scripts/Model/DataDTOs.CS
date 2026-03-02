@@ -55,6 +55,7 @@ public class CatcherDTO
 
     }
 }
+/*
 [Serializable]
 public class UpdateDTO
 {
@@ -71,4 +72,4 @@ public class UpdateDTO
         this.yRot = yRot;
         this.zRot = zRot;
     }
-}
+}*/

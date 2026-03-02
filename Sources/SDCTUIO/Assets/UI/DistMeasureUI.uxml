@@ -1,13 +1,10 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/GlobalStyles.uss?fileID=7433441132597879392&amp;guid=4f3d59cb90662203e8a3fbc8b91a18d8&amp;type=3#GlobalStyles" />
     <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
-        <ui:VisualElement style="flex-grow: 1;">
-            <ui:Label text="Meters" name="MeasureText" style="-unity-text-align: lower-left; -unity-font-style: bold; position: absolute; right: 0; height: 80%;" />
-            <ui:VisualElement name="MeasureBar" data-source="project://database/Assets/UI/DistMeasureDataSource.asset?fileID=11400000&amp;guid=04fa9564234402d37bee1046af4551f2&amp;type=2#DistMeasureDataSource" style="flex-grow: 1; border-left-width: 4px; border-bottom-width: 4px; border-right-width: 4px; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); margin-left: 0%; margin-top: 6px;">
-                <Bindings>
-                    <ui:DataBinding property="style.marginLeft" data-source-path="ratio" binding-mode="ToTarget" />
-                </Bindings>
-            </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: flex-end; align-items: flex-end; padding-bottom: 2px;">
+            <ui:VisualElement name="MeasureBar" style="height: 10px; border-left-width: 4px; border-bottom-width: 4px; border-right-width: 4px; border-color: rgb(255, 255, 255); margin-right: 10px; margin-bottom: 4px;" />
+            
+            <ui:Label text="Meters" name="MeasureText" style="-unity-text-align: lower-right; -unity-font-style: bold; width: 55px;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
