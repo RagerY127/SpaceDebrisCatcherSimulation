@@ -16,6 +16,8 @@ public class DebrisCreationController : MonoBehaviour
 
     private const float MIN_DEBRIS_DISTANCE_FROM_EARTH_KM = 200f;
     private const float MAX_DEBRIS_DISTANCE_FROM_EARTH_KM = 10000f;
+    private const float MIN_MASS_KG = 1f;
+    private const float MAX_MASS_KG = 10000f;
     private const float MIN_DIMENSION_M = 1f;
     private const float MAX_DIMENSION_M = 10000f;
 
@@ -62,10 +64,15 @@ public class DebrisCreationController : MonoBehaviour
         var widthField = _wizard.Q<FloatField>("Width");
 
         RegisterRangeErrorCallback(distanceFromEarthField, MIN_DEBRIS_DISTANCE_FROM_EARTH_KM, MAX_DEBRIS_DISTANCE_FROM_EARTH_KM);
-        RegisterRangeErrorCallback(massField, 1, 10000);
+        RegisterRangeErrorCallback(massField, MIN_MASS_KG, MAX_MASS_KG);
         RegisterRangeErrorCallback(heightField, MIN_DIMENSION_M, MAX_DIMENSION_M);
         RegisterRangeErrorCallback(lengthField, MIN_DIMENSION_M, MAX_DIMENSION_M);
         RegisterRangeErrorCallback(widthField, MIN_DIMENSION_M, MAX_DIMENSION_M);
+
+        // change labels to add ranges
+        _wizard.Q<Label>("DistanceFromEarthLabel").text += $" (from {MIN_DEBRIS_DISTANCE_FROM_EARTH_KM}km to {MAX_DEBRIS_DISTANCE_FROM_EARTH_KM}km)";
+        _wizard.Q<Label>("MassLabel").text += $" (from {MIN_MASS_KG}kg to {MAX_MASS_KG}kg)";
+        _wizard.Q<Label>("DimensionsLabel").text += $" (from {MIN_DIMENSION_M}m to {MAX_DIMENSION_M}m)";
     }
 
     private void OnCreateButtonClicked()
@@ -128,10 +135,7 @@ public class DebrisCreationController : MonoBehaviour
                 {
                     field.AddToClassList("base-field-error");
                     errorCounter++;
-                    if (errorCounter > 0)
-                    {
-                        _createButton.SetEnabled(false);
-                    }   
+                    _createButton.SetEnabled(false);
                 }
             }
             else
