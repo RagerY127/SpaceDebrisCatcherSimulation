@@ -966,8 +966,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5504cf9823e1fa74cb2292bced731b3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  debrisPrefab: {fileID: 285981770586061605, guid: b4f3a55949ea2a345bb95217973ae5e2, type: 3}
+  debrisPrefabs:
+  - shapeName: Cube
+    prefab: {fileID: 285981770586061605, guid: b4f3a55949ea2a345bb95217973ae5e2, type: 3}
+  - shapeName: Sphere
+    prefab: {fileID: 285981770586061605, guid: 6683441e6c179bd4190ec0b638abe8b8, type: 3}
+  - shapeName: Cylinder
+    prefab: {fileID: 285981770586061605, guid: b1f8b98ae45efa846b5f98ea8135dc20, type: 3}
   catcherPrefab: {fileID: 766560007459443654, guid: 65932049454560146a72630dbea3337c, type: 3}
+  distanceScale: 0.05
+  modelScale: 0.1
 --- !u!1 &2034068870
 GameObject:
   m_ObjectHideFlags: 0
