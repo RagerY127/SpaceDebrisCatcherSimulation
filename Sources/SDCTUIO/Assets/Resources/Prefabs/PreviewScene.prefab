@@ -285,6 +285,7 @@ MonoBehaviour:
   ascendingNodeAxis: {fileID: 1116204860112604749}
   positionAxis: {fileID: 660390380887506791}
   globe: {fileID: 8793239261348773175}
+  debris: {fileID: 968897582048292941}
 --- !u!1 &4718922015484562088
 GameObject:
   m_ObjectHideFlags: 0

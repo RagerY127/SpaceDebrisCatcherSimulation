@@ -55,6 +55,7 @@ public class DebrisCreationController : MonoBehaviour
         _wizard.Q<Slider>("OrbitSecondAxis").RegisterValueChangedCallback(evt => previewScript.AscendingNodeAngle = evt.newValue);
         _wizard.Q<Slider>("InitialPosition").RegisterValueChangedCallback(evt => previewScript.PositionAngle = evt.newValue);
         _wizard.Q<FloatField>("DistanceFromEarth").RegisterValueChangedCallback(evt => previewScript.Distance = evt.newValue);
+        _wizard.Q<DropdownField>("Shape").RegisterValueChangedCallback(evt => previewScript.Shape = (DebrisShape)Enum.Parse(typeof(DebrisShape), evt.newValue));
 
         // check for errors in fields
         var distanceFromEarthField = _wizard.Q<FloatField>("DistanceFromEarth");

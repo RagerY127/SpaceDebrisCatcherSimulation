@@ -8,11 +8,13 @@ public class PreviewSceneOrbit : MonoBehaviour
     public LineRenderer ascendingNodeAxis;
     public LineRenderer positionAxis;
     public GameObject globe;
+    public GameObject debris;
 
     private float tiltAngle;
     private float ascendingNodeAngle;
     private float positionAngle;
     private float distance;
+    private DebrisShape shape;
 
     public float TiltAngle {
         set{
@@ -44,6 +46,16 @@ public class PreviewSceneOrbit : MonoBehaviour
             UpdatePreview();
         }
         get => distance;
+    }
+
+    public DebrisShape Shape
+    {
+        set
+        {
+            shape = value;
+            UpdateShape();
+        }
+        get => shape;
     }
 
     protected void FillLineRenderer(LineRenderer lineRenderer, float angle, bool z = false)
@@ -92,5 +104,24 @@ public class PreviewSceneOrbit : MonoBehaviour
         ascendingNodeAxis.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
         // update distance
         globe.transform.localScale = Vector3.one / MathF.Pow(2f, distance / SimulationManager.EARTH_RADIUS_KM);
+    }
+
+    private void UpdateShape()
+    {
+        string file = "";
+        Vector3 scale = Vector3.one / 10;
+
+        switch (Shape)
+        {
+            case DebrisShape.Cube:
+                file = "Cube";
+                break;
+            case DebrisShape.Cylinder:
+                file = "Cylinder";
+                scale /= 2;
+                break;
+        }
+        debris.GetComponent<MeshFilter>().mesh = Resources.GetBuiltinResource<Mesh>(file + ".fbx");
+        debris.transform.localScale = scale;
     }
 }
