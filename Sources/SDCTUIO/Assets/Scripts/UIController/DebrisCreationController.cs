@@ -164,7 +164,7 @@ public class DebrisCreationController : MonoBehaviour
     {
         field.Q<TextElement>().RegisterCallback<KeyDownEvent>(evt =>
         {
-            if (!char.IsDigit(evt.character))
+            if (!char.IsDigit(evt.character) && evt.keyCode != KeyCode.Backspace)
             {
                 evt.StopPropagation();
             }
