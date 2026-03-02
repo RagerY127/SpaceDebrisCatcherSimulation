@@ -181,8 +181,6 @@ public class SimulationManager : MonoBehaviour
 
         _selectedDebris = _debrisObjects[debrisId];
         DrawDebrisOrbit(debrisId);
-        
-        DebrisTapped.Invoke(debrisId);
     }
 
     /// <summary>
