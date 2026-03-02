@@ -177,7 +177,8 @@ public class DebrisListUI : MonoBehaviour
         {
             _addCatcherButton.clicked += OpenCatcherWizard;
             
-            _addCatcherButton.SetEnabled(false); 
+            // new : button catcher state
+            RefreshAddCatcherButtonState();
         }
     }
 
@@ -188,6 +189,9 @@ public class DebrisListUI : MonoBehaviour
         if (string.IsNullOrEmpty(catcherName))
         {
             _catcherTargetInfo.style.display = DisplayStyle.None;
+
+            // new : button catcher state
+            RefreshAddCatcherButtonState();
         }
         else
         {
@@ -195,6 +199,8 @@ public class DebrisListUI : MonoBehaviour
             
             if (_catcherNameLabel != null) _catcherNameLabel.text = catcherName;
             if (_debrisNameLabel != null) _debrisNameLabel.text = targetDebrisName;
+            // new : button catcher state
+            RefreshAddCatcherButtonState();
         }
     }
 
@@ -212,6 +218,15 @@ public class DebrisListUI : MonoBehaviour
         if (_catcherCreationController != null)
         {
             _catcherCreationController.ShowWizard();
+        }
+    }
+    
+    // new : button catcher state
+    private void RefreshAddCatcherButtonState()
+    {
+        if (_addCatcherButton != null && scrollView != null)
+        {
+            _addCatcherButton.SetEnabled(scrollView.childCount > 0 && !SimulationManager.Instance.HasCatcher);
         }
     }
 }

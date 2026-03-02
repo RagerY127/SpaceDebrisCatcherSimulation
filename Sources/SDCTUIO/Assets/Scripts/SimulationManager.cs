@@ -41,6 +41,9 @@ public class SimulationManager : MonoBehaviour
     private GameObject _catcher;
     private GameObject _targetDebris;
 
+    // If existe already a catcher
+    public bool HasCatcher => _catcher != null;
+
     // Static passthroughs
     public static float SimulationSpeed => Instance._simulationSpeed;
     public static EpochTime SimulationTime => Instance._simulationTime;
