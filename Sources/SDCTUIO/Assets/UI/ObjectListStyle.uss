@@ -183,3 +183,49 @@
 #Sidebar > Label {
     background-color: rgb(65, 81, 109);
 }
+
+.confirmation-overlay {
+    display: none; 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    bottom: 0; 
+    background-color: rgba(0, 0, 0, 0.75); 
+    justify-content: center; 
+    align-items: center; 
+    border-radius: 20px;
+}
+
+.confirmation-modal {
+    background-color: rgb(35, 45, 60); 
+    padding: 20px; 
+    border-radius: 15px; 
+    border-width: 2px; 
+    border-color: rgb(84, 123, 146); 
+    width: 85%;
+}
+
+.confirmation-label {
+    color: white; 
+    -unity-font-style: bold; 
+    margin-bottom: 20px; 
+    -unity-text-align: middle-center; 
+    white-space: normal;
+}
+
+.confirmation-button-container {
+    flex-direction: row; 
+    justify-content: space-between;
+}
+
+.confirmation-btn {
+    width: 45%; 
+    height: 40px; 
+    margin: 0;
+}
+
+.cancel-btn {
+    background-color: rgb(65, 81, 109); 
+    border-color: rgb(84, 123, 146);
+}
