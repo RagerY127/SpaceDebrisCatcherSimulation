@@ -1,5 +1,4 @@
 using One_Sgp4;
-using System;
 using UnityEngine;
 
 public class CatcherData : ObjectData
@@ -16,16 +15,11 @@ public class CatcherData : ObjectData
         this.InitialTimeLagMinutes = initialTimeLagMinutes;
     }
 
-    public Vector3 GetPositionAtTime(EpochTime simulationTime, double catchProgressSeconds)
+    public Vector3 GetPositionAtTime(EpochTime exactCatcherTime)
     {
         if (TargetDebris == null) return Vector3.zero;
 
-        EpochTime calcTime = new EpochTime(simulationTime);
-
-        calcTime.addMinutes(-this.InitialTimeLagMinutes);
-        calcTime.addMinutes(catchProgressSeconds / 60.0f);
-
-        var rawPos = TargetDebris.GetPositionKmAtTime(calcTime);
+        var rawPos = TargetDebris.GetPositionKmAtTime(exactCatcherTime);
 
         return new Vector3((float)rawPos.X, (float)rawPos.Y, (float)rawPos.Z);
     }

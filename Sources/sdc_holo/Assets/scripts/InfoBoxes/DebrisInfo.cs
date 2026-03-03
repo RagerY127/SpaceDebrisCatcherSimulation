@@ -31,6 +31,9 @@ public class DebrisInfo : MonoBehaviour
     void OnDestroy()
     {
         Debug.Log("Destroying info panel");
-        originalDebris.infoInstance = null;
+        if (originalDebris != null)
+        {
+            originalDebris.infoInstance = null;
+        }
     }
 }

@@ -23,6 +23,8 @@ public class Catcher : MonoBehaviour
     private float currentVisualDistance;
     private double catchSpeedKmPerSec;
 
+    private Vector3 fixedApproachDirection;
+
     private LineRenderer distanceLine;
 
     private CatcherInfo activeInfoScript;
@@ -55,6 +57,18 @@ public class Catcher : MonoBehaviour
         }
 
         currentVisualDistance = (float)targetDistance * ObjectManager.Instance.distanceScale;
+
+        if (Camera.main != null)
+        {
+            fixedApproachDirection = (-Camera.main.transform.right).normalized;
+            
+            fixedApproachDirection.y = 0;
+            fixedApproachDirection.Normalize();
+        }
+        else
+        {
+            fixedApproachDirection = Vector3.left;
+        }
     }
 
     public void UpdateTargetDistance(double newDistance)
@@ -85,8 +99,7 @@ public class Catcher : MonoBehaviour
             float targetVisual = (float)targetDistance * ObjectManager.Instance.distanceScale;
             currentVisualDistance = Mathf.Lerp(currentVisualDistance, targetVisual, Time.deltaTime * 5f);
 
-            Vector3 approachDirection = Camera.main != null ? (-Camera.main.transform.right).normalized : Vector3.left;
-            transform.position = targetTransform.position + approachDirection * currentVisualDistance;
+            transform.position = targetTransform.position + fixedApproachDirection * currentVisualDistance;
 
             if (distanceLine != null)
             {

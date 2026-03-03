@@ -1,5 +1,4 @@
-﻿// scripts/BridgeClient.cs
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Net.Sockets;
 using System.Text;
@@ -10,7 +9,7 @@ using TMPro;
 public class BridgeClient : MonoBehaviour
 {
     [Header("Paramètres de connexion")]
-    public string serverIP = "172.20.10.2";
+    public string serverIP = "192.168.148.134";
     public int port = 9999;
 
     [Header("Interface Utilisateur")] 
