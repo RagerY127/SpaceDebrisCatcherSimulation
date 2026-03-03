@@ -15,10 +15,6 @@
     margin: 2px;
 }
 
-.delete-btn {
-    background-color: #a33;
-}
-
 .window {
     overflow: hidden; 
     display: flex;
@@ -46,13 +42,15 @@
 }
 
 .delete-btn {
+    width: 65px;
+    height: 50px;
     background-color: #FF4444;
-    color: white;
     opacity: 1;
+    align-items: center;
 }
 
 .delete-btn:disabled {
-    background-color: #444;
+    background-color: #FF4444;
     color: #888;
     opacity: 0.5;
 }
@@ -105,7 +103,7 @@
     align-items: center;
 }
 
-.catcher-image, .debris-image {
+.catcher-image, .debris-image, .trash-image {
     width: 28px;
     height: 28px;
     -unity-background-scale-mode: scale-to-fit;
@@ -123,6 +121,10 @@
 
 .plus-image {
     background-image: url("project:/Assets/UI/Icons/plus.png");
+}
+
+.trash-image{
+    background-image: url("project:/Assets/UI/Icons/trash_delete_button.png");
 }
 
 .catcher-image {
