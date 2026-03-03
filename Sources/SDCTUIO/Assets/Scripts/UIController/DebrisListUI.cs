@@ -23,6 +23,9 @@ public class DebrisListUI : MonoBehaviour
     private Label _debrisNameLabel;
 
     private TextField _searchField;
+    private VisualElement _deleteConfirmPanel;
+    private Button _confirmDeleteBtn;
+    private Button _cancelDeleteBtn;
 
     void Awake()
     {
@@ -150,11 +153,28 @@ public class DebrisListUI : MonoBehaviour
         var root = GetComponent<UIDocument>().rootVisualElement;
         if (root == null) return;
 
+        _deleteConfirmPanel = root.Q<VisualElement>("delete-confirmation-panel");
+        _confirmDeleteBtn = root.Q<Button>("confirm-delete-btn");
+        _cancelDeleteBtn = root.Q<Button>("cancel-delete-btn");
+
         _deleteButton = root.Q<Button>("delete");
         if (_deleteButton != null)
         {
-            _deleteButton.clicked += DeleteSelected;
-            _deleteButton.SetEnabled(false); 
+            _deleteButton.clicked += () => _deleteConfirmPanel.style.display = DisplayStyle.Flex;
+            _deleteButton.SetEnabled(false);
+        }
+
+        if (_cancelDeleteBtn != null)
+        {
+            _cancelDeleteBtn.clicked += () => _deleteConfirmPanel.style.display = DisplayStyle.None;
+        }
+
+        if (_confirmDeleteBtn != null)
+        {
+            _confirmDeleteBtn.clicked += () => {
+                DeleteSelected();
+                _deleteConfirmPanel.style.display = DisplayStyle.None;
+            };
         }
         
         scrollView = root.Q<ScrollView>("debris-scroll-view");

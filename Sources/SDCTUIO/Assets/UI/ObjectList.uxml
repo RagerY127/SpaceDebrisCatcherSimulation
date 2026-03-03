@@ -33,7 +33,20 @@
                 <ui:VisualElement class="plus-image" />
                 <ui:VisualElement class="catcher-image" />
             </ui:Button>
-            <ui:Button name="delete" text="Delete" class="delete-btn" />
+            <ui:Button name="delete" text="" class="delete-btn">
+                <ui:VisualElement class="trash-image" />
+            </ui:Button>
+        </ui:VisualElement>
+        <ui:VisualElement name="delete-confirmation-panel" class="confirmation-overlay">
+            <ui:VisualElement class="confirmation-modal">
+                <ui:Label name="delete-confirmation-text" 
+                        text="Delete selected object?&#10;&#10;Warning: If a catcher is assigned to this debris, it will be cancelled." 
+                        class="confirmation-label" />
+                <ui:VisualElement class="confirmation-button-container">
+                    <ui:Button name="confirm-delete-btn" text="Yes" class="delete-btn confirmation-btn" />
+                    <ui:Button name="cancel-delete-btn" text="No" class="confirmation-btn cancel-btn" />
+                </ui:VisualElement>
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
