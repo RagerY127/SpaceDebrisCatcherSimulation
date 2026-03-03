@@ -35,11 +35,12 @@
 }
 
 .unity-base-field:focus>.unity-base-field__input {
+    background-color: rgb(65, 81, 109)
     border-color: rgb(125, 160, 181);
 }
 
 .base-field-error>.unity-base-field__input {
-    border-color: red;
+    border-color: red !important;
 }
 
 .unity-radio-button__input {
