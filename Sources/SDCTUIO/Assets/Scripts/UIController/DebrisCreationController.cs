@@ -1,25 +1,13 @@
 using System;
 using System.Linq;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(UIDocument))]
 public class DebrisCreationController : MonoBehaviour
 {
-    private const string INITIAL_DEBRIS_NAME = "New debris";
-    private const float INITIAL_DEBRIS_DISTANCE_FROM_EARTH_KM = 200f;
-    private const float INITIAL_DEBRIS_MASS_KG = 1f;
-    private const float INITIAL_DEBRIS_WIDTH_M = 1f;
-    private const float INITIAL_DEBRIS_HEIGHT_M = 1f;
-    private const float INITIAL_DEBRIS_LENGTH_M = 1f;
     //private static int _debrisCounter = 1;
-
-    private const float MIN_DEBRIS_DISTANCE_FROM_EARTH_KM = 200f;
-    private const float MAX_DEBRIS_DISTANCE_FROM_EARTH_KM = 10000f;
-    private const float MIN_MASS_KG = 1f;
-    private const float MAX_MASS_KG = 10000f;
-    private const float MIN_DIMENSION_M = 1f;
-    private const float MAX_DIMENSION_M = 10000f;
 
     private Button _cancelButton;
     private Button _createButton;
@@ -57,38 +45,16 @@ public class DebrisCreationController : MonoBehaviour
         _wizard.Q<FloatField>("DistanceFromEarth").RegisterValueChangedCallback(evt => previewScript.Distance = evt.newValue);
         _wizard.Q<DropdownField>("Shape").RegisterValueChangedCallback(evt => previewScript.Shape = (DebrisShape)Enum.Parse(typeof(DebrisShape), evt.newValue));
 
-        // check for errors in fields
-        var distanceFromEarthField = _wizard.Q<FloatField>("DistanceFromEarth");
-        var massField = _wizard.Q<FloatField>("Mass");
-        var heightField = _wizard.Q<FloatField>("Height");
-        var lengthField = _wizard.Q<FloatField>("Length");
-        var widthField = _wizard.Q<FloatField>("Width");
-
-        RegisterRangeErrorCallback(distanceFromEarthField, MIN_DEBRIS_DISTANCE_FROM_EARTH_KM, MAX_DEBRIS_DISTANCE_FROM_EARTH_KM);
-        RegisterRangeErrorCallback(massField, MIN_MASS_KG, MAX_MASS_KG);
-        RegisterRangeErrorCallback(heightField, MIN_DIMENSION_M, MAX_DIMENSION_M);
-        RegisterRangeErrorCallback(lengthField, MIN_DIMENSION_M, MAX_DIMENSION_M);
-        RegisterRangeErrorCallback(widthField, MIN_DIMENSION_M, MAX_DIMENSION_M);
-
-        // change labels to add ranges
-        _wizard.Q<Label>("DistanceFromEarthLabel").text += $" (from {MIN_DEBRIS_DISTANCE_FROM_EARTH_KM}km to {MAX_DEBRIS_DISTANCE_FROM_EARTH_KM}km)";
-        _wizard.Q<Label>("MassLabel").text += $" (from {MIN_MASS_KG}kg to {MAX_MASS_KG}kg)";
-        _wizard.Q<Label>("DimensionsLabel").text += $" (from {MIN_DIMENSION_M}m to {MAX_DIMENSION_M}m)";
-
-        // prevent float inputs from putting letters
-        PreventLetters(distanceFromEarthField);
-        PreventLetters(massField);
-        PreventLetters(heightField);
-        PreventLetters(lengthField);
-        PreventLetters(widthField);
+        // add error handling to ranged inputs
+        _wizard.Query<SDCNumericField>().ForEach(field => {
+            field.JustBecameOutOfRange += OnNumericFieldError;
+            field.JustEnteredRange += OnNumericFieldCorrect; 
+        });
     }
 
     private void OnCreateButtonClicked()
     {
-        // TODO: verify if input is valid
-        DebrisData data = new DebrisData(_dataSource.debrisName, _dataSource.orbitFirstAxis,
-        _dataSource.orbitSecondAxis, _dataSource.initialPosition, _dataSource.distanceFromEarthKm, _dataSource.mass, _dataSource.shape,
-        _dataSource.height, _dataSource.length, _dataSource.width);
+        DebrisData data = _dataSource.CreateDebrisData();
 
         GameObject debrisObject = SimulationManager.Instance.AddDebrisToSimulation(data);
         SimulationManager.Instance.SelectDebris(data.Id);
@@ -115,60 +81,21 @@ public class DebrisCreationController : MonoBehaviour
         if (_wizard != null) _wizard.visible = true;
         if (_modals != null) _modals.visible = true;
 
-        ResetData();
+        _dataSource.ResetData();
     }
 
-    private void ResetData()
+    private void OnNumericFieldError()
     {
-        _dataSource.debrisName = INITIAL_DEBRIS_NAME;
-        //_dataSource.debrisName = $"{INITIAL_DEBRIS_NAME} {_debrisCounter}";
-        _dataSource.orbitFirstAxis = 0;
-        _dataSource.orbitSecondAxis = 0;
-        _dataSource.initialPosition = 0;
-        _dataSource.distanceFromEarthKm = INITIAL_DEBRIS_DISTANCE_FROM_EARTH_KM;
-        _dataSource.mass = INITIAL_DEBRIS_MASS_KG;
-        _dataSource.width = INITIAL_DEBRIS_WIDTH_M;
-        _dataSource.height = INITIAL_DEBRIS_HEIGHT_M;
-        _dataSource.length = INITIAL_DEBRIS_LENGTH_M;
+        errorCounter++;
+        _createButton.SetEnabled(false);
     }
 
-    private void RegisterRangeErrorCallback(FloatField field, float min, float max)
+    private void OnNumericFieldCorrect()
     {
-        field.RegisterCallback<ChangeEvent<float>>((evt) =>
+        errorCounter--;
+        if (errorCounter == 0)
         {
-            float val = field.value;
-            if (val < min || val > max)
-            {
-                if (!field.GetClasses().Contains("base-field-error"))
-                {
-                    field.AddToClassList("base-field-error");
-                    errorCounter++;
-                    _createButton.SetEnabled(false);
-                }
-            }
-            else
-            {
-                if (field.GetClasses().Contains("base-field-error"))
-                {
-                    field.RemoveFromClassList("base-field-error");
-                    errorCounter--;
-                    if (errorCounter == 0)
-                    {
-                        _createButton.SetEnabled(true);
-                    }   
-                }
-            }
-        });
-    }
-
-    private void PreventLetters(FloatField field)
-    {
-        field.Q<TextElement>().RegisterCallback<KeyDownEvent>(evt =>
-        {
-            if (!char.IsDigit(evt.character) && evt.keyCode != KeyCode.Backspace)
-            {
-                evt.StopPropagation();
-            }
-        }, TrickleDown.TrickleDown);
+             _createButton.SetEnabled(true);
+        }
     }
 }
