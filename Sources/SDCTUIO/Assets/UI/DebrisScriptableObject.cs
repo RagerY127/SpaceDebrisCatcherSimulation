@@ -11,11 +11,11 @@ public class DebrisScriptableObject : ScriptableObject
     private const float INITIAL_DEBRIS_MASS_KG = 1f;
     private const float INITIAL_DEBRIS_DIMENSION_M = 1f;
 
-    public float MIN_DEBRIS_DISTANCE_FROM_EARTH_KM = 200f;
-    public float MAX_DEBRIS_DISTANCE_FROM_EARTH_KM = 10000f;
-    public float MIN_MASS_KG = 1f;
+    public float MIN_DEBRIS_DISTANCE_FROM_EARTH_KM = 160f;
+    public float MAX_DEBRIS_DISTANCE_FROM_EARTH_KM = 2000f;
+    public float MIN_MASS_KG = 0.1f;
     public float MAX_MASS_KG = 1000f;
-    public float MIN_DIMENSION_M = 1f;
+    public float MIN_DIMENSION_M = 0.1f;
     public float MAX_DIMENSION_M = 10f;
 
     public string debrisName = INITIAL_DEBRIS_NAME;
