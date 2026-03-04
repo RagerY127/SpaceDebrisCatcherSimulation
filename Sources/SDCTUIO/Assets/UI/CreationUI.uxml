@@ -17,7 +17,10 @@
                     </ui:VisualElement>
                     <ui:VisualElement name="Separator" class="separator-horizontal" style="flex-grow: 0;" />
                     <ui:VisualElement name="RightPane" style="flex-grow: 1;">
-                        <ui:Label text="Name" class="label-for-below" style="-unity-font-style: bold;" />
+                        <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+                            <ui:Label text="Name" class="label-for-below" style="-unity-font-style: bold; min-width: 100px;" />
+                            <ui:Label name="NameError" text="Name error label placeholder" style="border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px;" />
+                        </ui:VisualElement>
                         <ui:TextField placeholder-text="Default Name" name="Name">
                             <Bindings>
                                 <ui:DataBinding property="value" data-source-path="debrisName" binding-mode="TwoWay" />
@@ -47,18 +50,30 @@
                                 <ui:DataBinding property="value" data-source-path="initialPosition" binding-mode="TwoWay" />
                             </Bindings>
                         </ui:Slider>
-                        <ui:Label text="Distance from Earth (km)" class="label-for-below" style="-unity-font-style: bold;" />
-                        <ui:IntegerField value="42" name="DistanceFromEarth">
+                        <ui:Label text="Distance from Earth" name="DistanceFromEarthLabel" class="label-for-below" style="-unity-font-style: bold;">
+                            <Bindings>
+                                <ui:DataBinding property="text" data-source-path="distanceFromEarthLabel" binding-mode="ToTarget" />
+                            </Bindings>
+                        </ui:Label>
+                        <SDCNumericField value="42" name="DistanceFromEarth" allow-negatives="false" max-value="10000" min-value="200">
                             <Bindings>
                                 <ui:DataBinding property="value" data-source-path="distanceFromEarthKm" binding-mode="TwoWay" />
+                                <ui:DataBinding property="minValue" data-source-path="MIN_DEBRIS_DISTANCE_FROM_EARTH_KM" binding-mode="ToTargetOnce" />
+                                <ui:DataBinding property="maxValue" data-source-path="MAX_DEBRIS_DISTANCE_FROM_EARTH_KM" binding-mode="ToTargetOnce" />
                             </Bindings>
-                        </ui:IntegerField>
-                        <ui:Label text="Mass (kg)" class="label-for-below" style="-unity-font-style: bold;" />
-                        <ui:FloatField value="42.2" name="Mass">
+                        </SDCNumericField>
+                        <ui:Label text="Mass" name="MassLabel" class="label-for-below" style="-unity-font-style: bold;">
+                            <Bindings>
+                                <ui:DataBinding property="text" data-source-path="massLabel" binding-mode="ToTarget" />
+                            </Bindings>
+                        </ui:Label>
+                        <SDCNumericField value="42.2" name="Mass" allow-negatives="false">
                             <Bindings>
                                 <ui:DataBinding property="value" data-source-path="mass" binding-mode="TwoWay" />
+                                <ui:DataBinding property="minValue" data-source-path="MIN_MASS_KG" binding-mode="ToTargetOnce" />
+                                <ui:DataBinding property="maxValue" data-source-path="MAX_MASS_KG" binding-mode="ToTargetOnce" />
                             </Bindings>
-                        </ui:FloatField>
+                        </SDCNumericField>
                         <ui:Label text="Shape" class="label-for-below" style="-unity-font-style: bold;" />
                         <ui:DropdownField choices="Sphere" index="0" name="Shape">
                             <Bindings>
@@ -66,23 +81,33 @@
                                 <ui:DataBinding property="index" data-source-path="shapeEnumIndex" binding-mode="TwoWay" />
                             </Bindings>
                         </ui:DropdownField>
-                        <ui:Label text="Dimensions (m)" class="label-for-below" style="-unity-font-style: bold;" />
+                        <ui:Label text="Dimensions" name="DimensionsLabel" class="label-for-below" style="-unity-font-style: bold;">
+                            <Bindings>
+                                <ui:DataBinding property="text" data-source-path="dimensionLabel" binding-mode="ToTarget" />
+                            </Bindings>
+                        </ui:Label>
                         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-around;">
-                            <ui:FloatField label="H" value="0" name="Height" class="small-label" style="flex-grow: 1;">
+                            <SDCNumericField label="H" value="0" name="Height" allow-negatives="false" class="small-label" style="flex-grow: 1;">
                                 <Bindings>
                                     <ui:DataBinding property="value" data-source-path="height" binding-mode="TwoWay" />
+                                    <ui:DataBinding property="minValue" data-source-path="MIN_DIMENSION_M" binding-mode="ToTargetOnce" />
+                                    <ui:DataBinding property="maxValue" data-source-path="MAX_DIMENSION_M" binding-mode="ToTargetOnce" />
                                 </Bindings>
-                            </ui:FloatField>
-                            <ui:FloatField label="L" value="0" name="Length" class="small-label" style="flex-grow: 1;">
+                            </SDCNumericField>
+                            <SDCNumericField label="L" value="0" name="Length" allow-negatives="false" class="small-label" style="flex-grow: 1;">
                                 <Bindings>
                                     <ui:DataBinding property="value" data-source-path="length" binding-mode="TwoWay" />
+                                    <ui:DataBinding property="minValue" data-source-path="MIN_DIMENSION_M" binding-mode="ToTargetOnce" />
+                                    <ui:DataBinding property="maxValue" data-source-path="MAX_DIMENSION_M" binding-mode="ToTargetOnce" />
                                 </Bindings>
-                            </ui:FloatField>
-                            <ui:FloatField label="W" value="0" name="Width" class="small-label" style="flex-grow: 1;">
+                            </SDCNumericField>
+                            <SDCNumericField label="W" value="0" name="Width" allow-negatives="false" class="small-label" style="flex-grow: 1;">
                                 <Bindings>
                                     <ui:DataBinding property="value" data-source-path="width" binding-mode="TwoWay" />
+                                    <ui:DataBinding property="minValue" data-source-path="MIN_DIMENSION_M" binding-mode="ToTargetOnce" />
+                                    <ui:DataBinding property="maxValue" data-source-path="MAX_DIMENSION_M" binding-mode="ToTargetOnce" />
                                 </Bindings>
-                            </ui:FloatField>
+                            </SDCNumericField>
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>

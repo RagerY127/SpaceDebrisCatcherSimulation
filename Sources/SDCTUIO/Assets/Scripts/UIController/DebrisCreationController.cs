@@ -1,19 +1,18 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(UIDocument))]
 public class DebrisCreationController : MonoBehaviour
 {
-    private const string INITIAL_DEBRIS_NAME = "New debris";
-    private const float INITIAL_DEBRIS_DISTANCE_FROM_EARTH_KM = 200f;
-    private const float INITIAL_DEBRIS_MASS_KG = 1f;
-    private const float INITIAL_DEBRIS_WIDTH_M = 1f;
-    private const float INITIAL_DEBRIS_HEIGHT_M = 1f;
-    private const float INITIAL_DEBRIS_LENGTH_M = 1f;
     //private static int _debrisCounter = 1;
 
     private Button _cancelButton;
     private Button _createButton;
+    private TextField _nameField;
 
     private DebrisScriptableObject _dataSource;
     private VisualElement _wizard;
@@ -21,8 +20,13 @@ public class DebrisCreationController : MonoBehaviour
     private GameObject previewScene;
     private PreviewSceneOrbit previewScript;
 
+    private int errorCounter = 0;
+    private HashSet<string> debrisNameList;
+
     void OnEnable()
     {
+        debrisNameList = new();
+
         var root = GetComponent<UIDocument>().rootVisualElement;
         _wizard = root.Q<VisualElement>("DebrisCreationWizard");
         _modals = root.Q<VisualElement>("Modals");
@@ -43,15 +47,23 @@ public class DebrisCreationController : MonoBehaviour
         _wizard.Q<Slider>("OrbitFirstAxis").RegisterValueChangedCallback(evt => previewScript.TiltAngle = evt.newValue);
         _wizard.Q<Slider>("OrbitSecondAxis").RegisterValueChangedCallback(evt => previewScript.AscendingNodeAngle = evt.newValue);
         _wizard.Q<Slider>("InitialPosition").RegisterValueChangedCallback(evt => previewScript.PositionAngle = evt.newValue);
-        _wizard.Q<IntegerField>("DistanceFromEarth").RegisterValueChangedCallback(evt => previewScript.Distance = evt.newValue);
+        _wizard.Q<FloatField>("DistanceFromEarth").RegisterValueChangedCallback(evt => previewScript.Distance = evt.newValue);
+        _wizard.Q<DropdownField>("Shape").RegisterValueChangedCallback(evt => previewScript.Shape = (DebrisShape)Enum.Parse(typeof(DebrisShape), evt.newValue));
+
+        // make sure debris name is unique
+        _nameField = _wizard.Q<TextField>("Name");
+        _nameField.RegisterValueChangedCallback(evt => OnNameChange(_nameField, evt.newValue));
+
+        // add error handling to ranged inputs
+        _wizard.Query<SDCNumericField>().ForEach(field => {
+            field.JustBecameOutOfRange += OnFieldError;
+            field.JustEnteredRange += OnFieldCorrect; 
+        });
     }
 
     private void OnCreateButtonClicked()
     {
-        // TODO: verify if input is valid
-        DebrisData data = new DebrisData(_dataSource.debrisName, _dataSource.orbitFirstAxis,
-        _dataSource.orbitSecondAxis, _dataSource.initialPosition, _dataSource.distanceFromEarthKm, _dataSource.mass, _dataSource.shape,
-        _dataSource.height, _dataSource.length, _dataSource.width);
+        DebrisData data = _dataSource.CreateDebrisData();
 
         GameObject debrisObject = SimulationManager.Instance.AddDebrisToSimulation(data);
         SimulationManager.Instance.SelectDebris(data.Id);
@@ -78,20 +90,70 @@ public class DebrisCreationController : MonoBehaviour
         if (_wizard != null) _wizard.visible = true;
         if (_modals != null) _modals.visible = true;
 
-        ResetData();
+        _dataSource.ResetData();
+        RefreshDebrisNameList();
+        OnNameChange(_nameField, _dataSource.debrisName); // to make sure initial value is seen as changed
     }
 
-    private void ResetData()
+    private void OnFieldError()
     {
-        _dataSource.debrisName = INITIAL_DEBRIS_NAME;
-        //_dataSource.debrisName = $"{INITIAL_DEBRIS_NAME} {_debrisCounter}";
-        _dataSource.orbitFirstAxis = 0;
-        _dataSource.orbitSecondAxis = 0;
-        _dataSource.initialPosition = 0;
-        _dataSource.distanceFromEarthKm = INITIAL_DEBRIS_DISTANCE_FROM_EARTH_KM;
-        _dataSource.mass = INITIAL_DEBRIS_MASS_KG;
-        _dataSource.width = INITIAL_DEBRIS_WIDTH_M;
-        _dataSource.height = INITIAL_DEBRIS_HEIGHT_M;
-        _dataSource.length = INITIAL_DEBRIS_LENGTH_M;
+        errorCounter++;
+        _createButton.SetEnabled(false);
+    }
+
+    private void OnFieldCorrect()
+    {
+        errorCounter--;
+        if (errorCounter == 0)
+        {
+             _createButton.SetEnabled(true);
+        }
+    }
+
+    private void RefreshDebrisNameList()
+    {
+        debrisNameList.Clear();
+
+        foreach (GameObject debris in SimulationManager.Instance.DebrisObjects.Values) {
+            debrisNameList.Add(debris.GetComponent<DebrisController>().ObjectData.Name);
+        }
+    }
+
+    private void OnNameChange(TextField field, string newValue)
+    {
+        Label nameError = _wizard.Q<Label>("NameError");
+
+        bool nameAlreadyExists = debrisNameList.Contains(newValue);
+        bool isWhitespace = string.IsNullOrWhiteSpace(newValue);
+
+        if (nameAlreadyExists || isWhitespace)
+        {
+            if (!field.ClassListContains("base-field-error"))
+            {
+                field.AddToClassList("base-field-error");
+                OnFieldError();  
+            }
+
+            nameError.AddToClassList("error-label");
+            if (nameAlreadyExists)
+            {
+                nameError.text = "Debris with this name already exists";
+            }
+            else if (isWhitespace)
+            {
+                nameError.text = "Debris name cannot be empty";
+            }
+        }
+        else
+        {
+            if (field.ClassListContains("base-field-error"))
+            {
+                field.RemoveFromClassList("base-field-error");
+                OnFieldCorrect();  
+            }
+
+            nameError.RemoveFromClassList("error-label");
+            nameError.text = "";
+        }
     }
 }

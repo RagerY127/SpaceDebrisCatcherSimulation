@@ -29,16 +29,32 @@
     background-color: rgb(40, 51, 73);
     border-color: rgb(84, 123, 146);
     border-width: 4px;
-    border-radius: 0px;
-    padding: 0px;
+    border-radius: 0;
+    padding: 0;
     padding-left: 6px;
 }
 
-.unity-radio-button__input {
-    border-width: 0px;
+.unity-base-field:focus > .unity-base-field__input {
+    background-color: rgb(65, 81, 109) border-color rgb(125, 160, 181);
 }
 
-.unity-text-element__selectable, .unity-enum-field__text, .unity-base-popup-field__text {
+.base-field-error > .unity-base-field__input {
+    border-color: red;
+}
+
+.unity-radio-button__input {
+    border-width: 0;
+}
+
+.unity-text-element__selectable {
+    padding: 4px;
+}
+
+.unity-enum-field__text {
+    padding: 4px;
+}
+
+.unity-base-popup-field__text {
     padding: 4px;
 }
 
@@ -48,17 +64,17 @@
 }
 
 #unity-tracker {
-    border-width: 0px;
+    border-width: 0;
     border-radius: 7px;
     background-color: rgb(84, 123, 146);
     height: 14px;
-    margin: 0px;
+    margin: 0;
     top: 8px;
 }
 
 #unity-dragger {
     width: 24px;
-    border-width: 0px;
+    border-width: 0;
     border-radius: 12px;
 }
 
@@ -98,9 +114,10 @@
 .overlay-hidden {
     display: none;
 }
+
 .label-for-below {
     padding-top: 6px;
-    padding-bottom: 0px;
+    padding-bottom: 0;
 }
 
 .small-label .unity-label {
@@ -121,3 +138,7 @@
     margin-bottom: 4px;
 }
 
+.error-label {
+    background-color: rgb(255, 60, 60);
+    border-radius: 8px;
+}
