@@ -121,12 +121,27 @@ public class DebrisCreationController : MonoBehaviour
 
     private void OnNameChange(TextField field, string newValue)
     {
-        if (debrisNameList.Contains(newValue))
+        Label nameError = _wizard.Q<Label>("NameError");
+
+        bool nameAlreadyExists = debrisNameList.Contains(newValue);
+        bool isWhitespace = string.IsNullOrWhiteSpace(newValue);
+
+        if (nameAlreadyExists || isWhitespace)
         {
             if (!field.ClassListContains("base-field-error"))
             {
                 field.AddToClassList("base-field-error");
                 OnFieldError();  
+            }
+
+            nameError.AddToClassList("error-label");
+            if (nameAlreadyExists)
+            {
+                nameError.text = "Debris with this name already exists";
+            }
+            else if (isWhitespace)
+            {
+                nameError.text = "Debris name cannot be empty";
             }
         }
         else
@@ -136,6 +151,9 @@ public class DebrisCreationController : MonoBehaviour
                 field.RemoveFromClassList("base-field-error");
                 OnFieldCorrect();  
             }
+
+            nameError.RemoveFromClassList("error-label");
+            nameError.text = "";
         }
     }
 }

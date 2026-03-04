@@ -17,7 +17,10 @@
                     </ui:VisualElement>
                     <ui:VisualElement name="Separator" class="separator-horizontal" style="flex-grow: 0;" />
                     <ui:VisualElement name="RightPane" style="flex-grow: 1;">
-                        <ui:Label text="Name" class="label-for-below" style="-unity-font-style: bold;" />
+                        <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+                            <ui:Label text="Name" class="label-for-below" style="-unity-font-style: bold; min-width: 100px;" />
+                            <ui:Label name="NameError" text="Name error label placeholder" style="border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px;" />
+                        </ui:VisualElement>
                         <ui:TextField placeholder-text="Default Name" name="Name">
                             <Bindings>
                                 <ui:DataBinding property="value" data-source-path="debrisName" binding-mode="TwoWay" />
