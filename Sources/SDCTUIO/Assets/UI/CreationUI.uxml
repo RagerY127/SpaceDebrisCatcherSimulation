@@ -47,7 +47,11 @@
                                 <ui:DataBinding property="value" data-source-path="initialPosition" binding-mode="TwoWay" />
                             </Bindings>
                         </ui:Slider>
-                        <ui:Label text="Distance from Earth" name="DistanceFromEarthLabel" class="label-for-below" style="-unity-font-style: bold;" />
+                        <ui:Label text="Distance from Earth" name="DistanceFromEarthLabel" class="label-for-below" style="-unity-font-style: bold;">
+                            <Bindings>
+                                <ui:DataBinding property="text" data-source-path="distanceFromEarthLabel" binding-mode="ToTarget" />
+                            </Bindings>
+                        </ui:Label>
                         <SDCNumericField value="42" name="DistanceFromEarth" allow-negatives="false" max-value="10000" min-value="200">
                             <Bindings>
                                 <ui:DataBinding property="value" data-source-path="distanceFromEarthKm" binding-mode="TwoWay" />
@@ -55,7 +59,11 @@
                                 <ui:DataBinding property="maxValue" data-source-path="MAX_DEBRIS_DISTANCE_FROM_EARTH_KM" binding-mode="ToTargetOnce" />
                             </Bindings>
                         </SDCNumericField>
-                        <ui:Label text="Mass" name="MassLabel" class="label-for-below" style="-unity-font-style: bold;" />
+                        <ui:Label text="Mass" name="MassLabel" class="label-for-below" style="-unity-font-style: bold;">
+                            <Bindings>
+                                <ui:DataBinding property="text" data-source-path="massLabel" binding-mode="ToTarget" />
+                            </Bindings>
+                        </ui:Label>
                         <SDCNumericField value="42.2" name="Mass" allow-negatives="false">
                             <Bindings>
                                 <ui:DataBinding property="value" data-source-path="mass" binding-mode="TwoWay" />
@@ -70,7 +78,11 @@
                                 <ui:DataBinding property="index" data-source-path="shapeEnumIndex" binding-mode="TwoWay" />
                             </Bindings>
                         </ui:DropdownField>
-                        <ui:Label text="Dimensions" name="DimensionsLabel" class="label-for-below" style="-unity-font-style: bold;" />
+                        <ui:Label text="Dimensions" name="DimensionsLabel" class="label-for-below" style="-unity-font-style: bold;">
+                            <Bindings>
+                                <ui:DataBinding property="text" data-source-path="dimensionLabel" binding-mode="ToTarget" />
+                            </Bindings>
+                        </ui:Label>
                         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-around;">
                             <SDCNumericField label="H" value="0" name="Height" allow-negatives="false" class="small-label" style="flex-grow: 1;">
                                 <Bindings>

@@ -31,6 +31,23 @@ public class DebrisScriptableObject : ScriptableObject
 
     // Propriétés string pour labels de CreationUI
     [SerializeField]
+    public string distanceFromEarthLabel {
+        get => $"Distance from Earth (from {MIN_DEBRIS_DISTANCE_FROM_EARTH_KM}km to {MAX_DEBRIS_DISTANCE_FROM_EARTH_KM}km)";
+    }
+
+    [SerializeField]
+    public string massLabel
+    {
+        get => $"Mass (from {MIN_MASS_KG}kg to {MAX_MASS_KG}kg)";
+    }
+
+    [SerializeField]
+    public string dimensionLabel
+    {
+        get => $"Dimensions (from {MIN_DIMENSION_M}m to {MAX_DIMENSION_M}m)";
+    }
+
+    [SerializeField]
     public string orbitFirstAxisString {
         get => orbitFirstAxis.ToString() + "°";
         set => orbitFirstAxis = int.Parse(value);
