@@ -90,7 +90,7 @@ public class PreviewSceneOrbit : MonoBehaviour
         posLineRenderer.transform.localRotation =
             Quaternion.Euler(0f, ascendingNodeAngle, 0f) *
             Quaternion.Euler(tiltAngle, 0f, 0f) * 
-            Quaternion.Euler(0f, positionAngle, 0f);    // position du débris, l'axe est déjà sur le Y local
+            Quaternion.Euler(0f, positionAngle + 180f, 0f);    // position du débris, l'axe est déjà sur le Y local
     }
 
     public void UpdatePreview()
