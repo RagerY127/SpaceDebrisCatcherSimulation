@@ -537,7 +537,7 @@ MonoBehaviour:
   minCameraDistance: 30
   maxCameraDistance: 300
   _trackingSpeed: 5
-  _panGesture: {fileID: 736798984}
+  _panAndRotateGesture: {fileID: 736798984}
   _zoomGesture: {fileID: 736798985}
 --- !u!114 &736798984
 MonoBehaviour:
@@ -576,7 +576,7 @@ MonoBehaviour:
   OnTransformComplete:
     m_PersistentCalls:
       m_Calls: []
-  type: 1
+  type: 3
   screenTransformThreshold: 0.1
   minScreenPointsDistance: 0.5
 --- !u!114 &736798985
