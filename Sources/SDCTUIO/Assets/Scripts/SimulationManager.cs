@@ -130,6 +130,7 @@ public class SimulationManager : MonoBehaviour
     {
         GameObject debrisObject = Instantiate(this.DebrisPrefab, this.transform);
         DebrisController debrisController = debrisObject.GetComponent<DebrisController>();
+        debrisController.RegisterTapCallback(() => { DebrisTapped?.Invoke(debrisData.Id); });
         debrisController.AssignDebrisData(debrisData);
 
         _debrisObjects[debrisData.Id] = debrisObject;

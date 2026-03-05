@@ -1,3 +1,4 @@
+using System;
 using One_Sgp4;
 using TouchScript.Gestures;
 using UnityEngine;
@@ -15,13 +16,13 @@ public class DebrisController : ObjectController<DebrisData>
     public void OnEnable()
     {
         TapGesture.Tapped += OnDebrisTapped;
-
         LongPressGesture.LongPressed += OnDebrisLongPressed;
     }
 
     public void OnDisable()
     {
         TapGesture.Tapped -= OnDebrisTapped;
+        LongPressGesture.LongPressed -= OnDebrisLongPressed;
     }
 
     private void Update()
@@ -38,5 +39,10 @@ public class DebrisController : ObjectController<DebrisData>
     private void OnDebrisLongPressed(object sender, System.EventArgs e)
     {
         AnneauController.Instance.OpenMenuForDebris(this);
+    }
+
+    public void RegisterTapCallback(Action action)
+    {
+        TapGesture.Tapped += (sender, e) => { action.Invoke(); };
     }
 }
