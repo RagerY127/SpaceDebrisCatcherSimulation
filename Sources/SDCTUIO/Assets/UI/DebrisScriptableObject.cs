@@ -44,7 +44,7 @@ public class DebrisScriptableObject : ScriptableObject
     [SerializeField]
     public string dimensionLabel
     {
-        get => $"Dimensions (from {MIN_DIMENSION_M}m to {MAX_DIMENSION_M}m)";
+        get => $"Dimensions of bounding box (from {MIN_DIMENSION_M}m to {MAX_DIMENSION_M}m)";
     }
 
     [SerializeField]

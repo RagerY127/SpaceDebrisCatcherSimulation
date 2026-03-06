@@ -40,7 +40,9 @@ public partial class SDCNumericField : FloatField
                 return;
             }
 
-            if (!char.IsDigit(evt.character) && evt.keyCode != KeyCode.Backspace)
+            if (!char.IsDigit(evt.character) &&
+                evt.keyCode != KeyCode.Backspace &&
+                evt.keyCode != KeyCode.Return)
             {
                 evt.StopPropagation();
             }

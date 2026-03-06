@@ -18,7 +18,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField]
     private float _trackingSpeed;
     [SerializeField]
-    private ScreenTransformGesture _panGesture;
+    private ScreenTransformGesture _panAndRotateGesture;
     [SerializeField]
     private ScreenTransformGesture _zoomGesture;
 
@@ -28,15 +28,13 @@ public class CameraManager : MonoBehaviour
 
     private void OnEnable()
     {
-        _panGesture.Transformed += OnPanGesture;
-        _panGesture.TransformCompleted += OnPanCompletedGesture;
+        _panAndRotateGesture.Transformed += OnPanAndRotateGesture;
         _zoomGesture.Transformed += OnZoomGesture;
     }
 
     private void OnDisable()
     {
-        _panGesture.Transformed -= OnPanGesture;
-        _panGesture.TransformCompleted -= OnPanCompletedGesture;
+        _panAndRotateGesture.Transformed -= OnPanAndRotateGesture;
         _zoomGesture.Transformed -= OnZoomGesture;
     }
 
@@ -56,10 +54,6 @@ public class CameraManager : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(debrisPosition);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _trackingSpeed);
         }
-        else
-        {
-
-        }
     }
 
     public void FollowDebris(GameObject debris)
@@ -72,8 +66,9 @@ public class CameraManager : MonoBehaviour
         _followedDebris = null;
     }
 
-    private void OnPanGesture(object sender, EventArgs e)
+    private void OnPanAndRotateGesture(object sender, EventArgs e)
     {
+        // pan gesture
         if (EventSystem.current != null)
         {
             if (EventSystem.current.IsPointerOverGameObject())
@@ -83,18 +78,13 @@ public class CameraManager : MonoBehaviour
         }
 
         Quaternion rotation = Quaternion.Euler(
-            _panGesture.DeltaPosition.y / Screen.height * _rotationSpeed,
-            _panGesture.DeltaPosition.x / Screen.width * _rotationSpeed,
-            0
+            _panAndRotateGesture.DeltaPosition.y / Screen.height * _rotationSpeed,
+            _panAndRotateGesture.DeltaPosition.x / Screen.width * _rotationSpeed,
+            _panAndRotateGesture.DeltaRotation
         );
         transform.localRotation *= rotation;
 
         UnfollowDebris();
-    }
-
-    private void OnPanCompletedGesture(object sender, EventArgs e)
-    {
-
     }
 
     private void OnZoomGesture(object sender, EventArgs e)

@@ -1,8 +1,4 @@
-using UnityEngine;
 using System.Diagnostics;
-using TouchScript;
-using System.IO;
-using System;
 
 class OnScreenKeyboard
 {
@@ -15,6 +11,21 @@ class OnScreenKeyboard
             ""EnableDesktopModeAutoInvoke""=dword:00000001
         */
         ExternalCall(@"C:\Program Files\Common Files\microsoft shared\ink\TabTip.exe", null, false);
+    }
+
+    public static void KillTouchKeyboard()
+    {
+        try
+        {
+            foreach (var p in Process.GetProcessesByName("TextInputHost"))
+            {
+                p.Kill();
+            }
+        }
+        catch
+        {
+            // do nothing, we just want to kill the keyboard whatever happens
+        }
     }
 
     private static Process ExternalCall(string filename, string arguments, bool hideWindow)

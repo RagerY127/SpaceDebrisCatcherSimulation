@@ -15,6 +15,18 @@ public class MainUIController : MonoBehaviour
         textFields.ForEach(field => RegisterFieldForTouchKeyboard(field));
         integerFields.ForEach(field => RegisterFieldForTouchKeyboard(field));
         floatFields.ForEach(field => RegisterFieldForTouchKeyboard(field));
+
+        // kill keyboard on enter (return) for any element
+        root.Query<TextElement>().ForEach(field =>
+        {
+            field.RegisterCallback<KeyDownEvent>(evt =>
+            {
+                if (evt.keyCode == KeyCode.Return)
+                {
+                    OnScreenKeyboard.KillTouchKeyboard();
+                }
+            });
+        });
     }
 
     void Update()
