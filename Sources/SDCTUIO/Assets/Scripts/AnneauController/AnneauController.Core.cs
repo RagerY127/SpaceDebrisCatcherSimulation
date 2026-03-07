@@ -172,7 +172,7 @@ public partial class AnneauController : MonoBehaviour
         _targetDebris = d; 
         _targetCatcher = null;
 
-        _isFocusBtnActive = !SimulationManager.Instance.HasCatcher;
+        _isFocusBtnActive = true;
 
         var btn = _root.Q<VisualElement>("btnFocas");
         if (btn != null)

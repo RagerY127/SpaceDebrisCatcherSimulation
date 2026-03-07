@@ -59,15 +59,17 @@ public partial class AnneauController
             // --------------------------------------------------
             else if (_pendingOpBtn.name == "btnFocas") 
             { 
-                if (_targetDebris != null && !SimulationManager.Instance.HasCatcher)
+                if (_targetDebris != null)
                 {
                     CatcherCreationController catcherUI = Object.FindObjectOfType<CatcherCreationController>();
-                    catcherUI.ShowWizard(_targetDebris.ObjectData.Id);
-                    //ameraManager.Instance.FollowDebris(_targetDebris.gameObject);
+                    if (catcherUI != null) 
+                    {
+                        catcherUI.ShowWizard(_targetDebris.ObjectData.Id);
+                    }
                 }
                 else if (_targetCatcher != null)
                 {
-                    
+                    // catcher don't have the cible to assign
                 }
             }
         }
