@@ -98,8 +98,14 @@ public class Catcher : MonoBehaviour
 
             float targetVisual = (float)targetDistance * ObjectManager.Instance.distanceScale;
             currentVisualDistance = Mathf.Lerp(currentVisualDistance, targetVisual, Time.deltaTime * 5f);
-
-            transform.position = targetTransform.position + fixedApproachDirection * currentVisualDistance;
+            if (isDragging)
+            {
+                targetTransform.position = transform.position - fixedApproachDirection * currentVisualDistance;
+            }
+            else
+            {
+                transform.position = targetTransform.position + fixedApproachDirection * currentVisualDistance;
+            }
 
             if (distanceLine != null)
             {

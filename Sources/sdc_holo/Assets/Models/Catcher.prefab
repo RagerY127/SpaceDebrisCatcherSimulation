@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7057321405093958477}
   - component: {fileID: 1565721593761541032}
   - component: {fileID: 8069781934167486520}
+  - component: {fileID: 6422858686864714691}
   m_Layer: 0
   m_Name: Catcher
   m_TagString: Untagged
@@ -56,6 +57,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   infoPrefab: {fileID: 3758598746463649504, guid: 636736c74ab57c44ea20da7fc720e4a6, type: 3}
   infoInstance: {fileID: 0}
+  simulationSpeedMultiplier: 1
   isDragging: 0
 --- !u!114 &5512482565730864111
 MonoBehaviour:
@@ -244,6 +246,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0, y: 0, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6422858686864714691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766560007459443654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5afd5316c63705643b3daba5a6e923bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Microsoft.MixedReality.Toolkit.Services.InputSystem::Microsoft.MixedReality.Toolkit.Input.NearInteractionGrabbable
+  ShowTetherWhenManipulating: 0
+  IsBoundsHandles: 0
 --- !u!1 &1258674501524835598
 GameObject:
   m_ObjectHideFlags: 0
