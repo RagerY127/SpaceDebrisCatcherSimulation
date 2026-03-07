@@ -11,6 +11,7 @@ public class CatcherCreationController : MonoBehaviour
     private IntegerField _timeInput;
     private Button _cancelButton;
     private Button _createButton;
+    private bool _isSelectionValid = false;
 
     private List<string> _availableDebrisIds = new List<string>();
 
@@ -31,6 +32,14 @@ public class CatcherCreationController : MonoBehaviour
         if (_cancelButton != null) _cancelButton.clicked += HideWizard;
         if (_createButton != null) _createButton.clicked += OnCreateButtonClicked;
 
+        if (_debrisDropdown != null)
+        {
+            _debrisDropdown.RegisterValueChangedCallback(evt => UpdateCreateButtonState());
+
+            _debrisDropdown.style.transitionProperty = new StyleList<StylePropertyName>(new List<StylePropertyName> { new StylePropertyName("scale"), new StylePropertyName("color") });
+            _debrisDropdown.style.transitionDuration = new StyleList<TimeValue>(new List<TimeValue> { new TimeValue(0.15f, TimeUnit.Second) });
+        }
+
         if (_wizard != null) _wizard.visible = false;
         if (_modals != null) _modals.visible = false;
     }
@@ -48,7 +57,7 @@ public class CatcherCreationController : MonoBehaviour
             _debrisDropdown.choices.Add(debrisCtrl.ObjectData.Name);
             _availableDebrisIds.Add(debrisCtrl.ObjectData.Id);
         }
-        // TODO : ALERTE, FAUT CHOISIR UN DEBRIS
+
         if (!string.IsNullOrEmpty(preselectedDebrisId) && _availableDebrisIds.Contains(preselectedDebrisId))
         {
             _debrisDropdown.index = _availableDebrisIds.IndexOf(preselectedDebrisId);
@@ -66,8 +75,19 @@ public class CatcherCreationController : MonoBehaviour
 
         if (_timeInput != null) _timeInput.value = 5;
 
+        UpdateCreateButtonState();
+
         _wizard.visible = true;
         if (_modals != null) _modals.visible = true;
+    }
+
+    private void UpdateCreateButtonState()
+    {
+        if (_createButton == null || _debrisDropdown == null) return;
+
+        _isSelectionValid = _debrisDropdown.index >= 0 && _debrisDropdown.index < _availableDebrisIds.Count;
+
+        _createButton.style.opacity = _isSelectionValid ? 1f : 0.2f;
     }
 
     private void HideWizard()
@@ -78,6 +98,11 @@ public class CatcherCreationController : MonoBehaviour
 
     private void OnCreateButtonClicked()
     {
+        if (!_isSelectionValid)
+        {
+            TriggerDropdownHighlight();
+            return;
+        }
         if (_availableDebrisIds.Count == 0 || _debrisDropdown.index < 0) return;
 
         string selectedId = _availableDebrisIds[_debrisDropdown.index];
@@ -85,5 +110,21 @@ public class CatcherCreationController : MonoBehaviour
 
         SimulationManager.Instance.AssignCatcherToDebris(selectedId, timeLagMinutes);
         HideWizard();
+    }
+    /// <summary>
+    /// Zoom in instant to remind user to choose a debris before create
+    /// </summary>
+    private void TriggerDropdownHighlight()
+    {
+        if (_debrisDropdown == null) return;
+
+        _debrisDropdown.style.scale = new StyleScale(new Vector3(1.05f, 1.05f, 1f));
+        _debrisDropdown.style.color = new StyleColor(new Color(1f, 0.3f, 0.3f));
+
+        _debrisDropdown.schedule.Execute(() =>
+        {
+            _debrisDropdown.style.scale = new StyleScale(new Vector3(1f, 1f, 1f));
+            _debrisDropdown.style.color = new StyleColor(StyleKeyword.Null);
+        }).StartingIn(150);
     }
 }

@@ -73,7 +73,7 @@ public class DebrisListUI : MonoBehaviour
         SelectRow(row, controller.ObjectData.Id, true);
 
         // new : add catcher button
-        if (_addCatcherButton != null) _addCatcherButton.SetEnabled(true);
+        RefreshAddCatcherButtonState();
         if (_searchField != null)
         {
             FilterList(_searchField.value);
@@ -105,10 +105,7 @@ public class DebrisListUI : MonoBehaviour
             scrollView.Remove(rowToDelete);
 
             // new : if no debris, setEnabled false
-            if (scrollView.childCount == 0 && _addCatcherButton != null)
-            {
-                _addCatcherButton.SetEnabled(false);
-            }
+            RefreshAddCatcherButtonState();
         }
     }
 
