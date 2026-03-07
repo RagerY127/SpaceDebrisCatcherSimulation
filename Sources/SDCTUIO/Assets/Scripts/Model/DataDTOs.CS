@@ -33,23 +33,24 @@ public class CatcherDTO
 
     public CatcherDTO(CatcherData source, double currentProgressSeconds)
     {
-        if (source == null) return;
+        if (source == null || source.TargetDebris == null) return;
 
         this.Id = source.Id;
-        
-        this.minutesBeforeCatch = source.InitialTimeLagMinutes;
-
-        if (source.TargetDebris == null) return;
-
         var t = source.TargetDebris;
         this.targetId = t.Id;
         this.targetName = t.Name;
-        this.currentSpeed = (2 * Math.PI * t.OrbitFirstAxis * t.RevolutionsPerDay) / 86400.0;
-        double totalSecondNeeded = this.minutesBeforeCatch * 60;
+        this.minutesBeforeCatch = source.InitialTimeLagMinutes;
 
+        double periodSeconds = 86400.0 / t.RevolutionsPerDay;
+        
+        double mu = 398600.4418;
+        double a = Math.Pow((mu * periodSeconds * periodSeconds) / (4.0 * Math.PI * Math.PI), 1.0 / 3.0);
+        
+        this.currentSpeed = (2.0 * Math.PI * a) / periodSeconds;
+
+        double totalSecondNeeded = this.minutesBeforeCatch * 60.0;
         double remainingSeconds = totalSecondNeeded - currentProgressSeconds;
-
-        if(remainingSeconds < 0) remainingSeconds = 0;
+        if (remainingSeconds < 0) remainingSeconds = 0;
 
         this.distanceToTarget = this.currentSpeed * remainingSeconds;
 

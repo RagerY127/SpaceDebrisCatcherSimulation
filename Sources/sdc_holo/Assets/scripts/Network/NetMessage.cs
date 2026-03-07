@@ -25,7 +25,7 @@ public class CatcherData
     public string Id;
     public string targetId;
     public string targetName;
-    public double currentSpeed;       // 修复：必须是 double
-    public double distanceToTarget;   // 修复：必须是 double
+    public double currentSpeed;
+    public double distanceToTarget;
     public double minutesBeforeCatch;
 }

@@ -19,7 +19,9 @@ public class ObjectManager : MonoBehaviour
 
     [Header("Scaling settings")]
     public float distanceScale = 0.05f; 
-    public float modelScale = 0.1f; 
+    public float modelScale = 0.1f;
+    // patch ：the ancient logic of caculate the distance in TABLE was wrong but we don't want to have a big change
+    public float realDataShrinkFactor = 0.01f;
 
     private Dictionary<string, GameObject> spawnedObjects = new Dictionary<string, GameObject>();
 
@@ -110,7 +112,8 @@ public class ObjectManager : MonoBehaviour
         if (chaseScript != null)
         {
             chaseScript.targetName = data.targetName;
-            chaseScript.SetTarget(targetDebris.transform, data.distanceToTarget, data.minutesBeforeCatch);
+            double visualDistance = data.distanceToTarget * realDataShrinkFactor;
+            chaseScript.SetTarget(targetDebris.transform, visualDistance, data.minutesBeforeCatch);
         }
 
         spawnedObjects.Add(data.Id, catcher);
@@ -123,7 +126,8 @@ public class ObjectManager : MonoBehaviour
             Catcher script = catcherObj.GetComponent<Catcher>();
             if (script != null)
             {
-                script.UpdateTargetDistance(data.distanceToTarget);
+                double visualDistance = data.distanceToTarget * realDataShrinkFactor;
+                script.UpdateTargetDistance(visualDistance);
             }
         }
     }
