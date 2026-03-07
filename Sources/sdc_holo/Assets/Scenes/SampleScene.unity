@@ -473,7 +473,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83d9acc7968244a8886f3af591305bcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Microsoft.MixedReality.Toolkit::Microsoft.MixedReality.Toolkit.MixedRealityToolkit
-  activeProfile: {fileID: 11400000, guid: 31a611a779d3499e8e35f1a2018ca841, type: 2}
+  activeProfile: {fileID: 11400000, guid: 8acb926a0a0bd854ea822e399d7f1214, type: 2}
 --- !u!4 &764662109
 Transform:
   m_ObjectHideFlags: 0
@@ -976,6 +976,7 @@ MonoBehaviour:
   catcherPrefab: {fileID: 766560007459443654, guid: 65932049454560146a72630dbea3337c, type: 3}
   distanceScale: 0.05
   modelScale: 0.1
+  realDataShrinkFactor: 0.01
 --- !u!1 &2034068870
 GameObject:
   m_ObjectHideFlags: 0
