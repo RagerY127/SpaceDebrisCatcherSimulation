@@ -138,39 +138,56 @@
 #search-container {
     flex-direction: row;
     flex-shrink: 0; 
-    padding: 5px 10px;
+    padding: 10px 10px;
     align-items: center;
+}
+
+#clear-search-btn {
+    min-height: auto;
+    height: 24px;
+    width: 24px;
+    border-width: 1px;
+    border-radius: 5px;
+    padding: 0;
+    margin-left: 6px;
+    margin-right : 0px;
+    background-color: #FF4444;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.clear {
+    width: 12px;
+    height: 12px;
+    background-image: url("project:/Assets/UI/Icons/close.png");
+    -unity-background-scale-mode: scale-to-fit;
 }
 
 #object-search-input {
     flex-grow: 1;
-    border-radius: 10px;
-    border-width: 1px;
+    margin: 0;
+    padding: 0;
 }
 
 #object-search-input > .unity-text-field__input {
     border-radius: 10px;
-    background-color: rgb(84, 123, 146)
-}
-
-#search-button {
-    min-height: auto; 
-    height: 35px; 
-    width: 50px; 
-    border-width: 3px; 
-    padding: 0;
-    margin-left: 8px;
-    flex-shrink: 0;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
+    background-color: rgb(84, 123, 146);
+    border-width: 1px;
+    padding-left: 30px; 
 }
 
 .search-icon {
-    width: 20px;
-    height: 20px;
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    translate: 0 -50%;
+    width: 16px;
+    height: 16px;
     background-image: url("project:/Assets/UI/Icons/search.png");
     -unity-background-scale-mode: scale-to-fit;
+    picking-mode: Ignore;
+    z-index: 1;
 }
 
 #Sidebar.window {
@@ -229,3 +246,4 @@
     background-color: rgb(65, 81, 109); 
     border-color: rgb(84, 123, 146);
 }
+

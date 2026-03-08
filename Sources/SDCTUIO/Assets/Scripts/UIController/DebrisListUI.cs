@@ -21,8 +21,8 @@ public class DebrisListUI : MonoBehaviour
     private VisualElement _catcherTargetInfo;
     private Label _catcherNameLabel;
     private Label _debrisNameLabel;
-
     private TextField _searchField;
+    private Button _clearSearchBtn;
     private VisualElement _deleteConfirmPanel;
     private Button _confirmDeleteBtn;
     private Button _cancelDeleteBtn;
@@ -73,7 +73,7 @@ public class DebrisListUI : MonoBehaviour
         SelectRow(row, controller.ObjectData.Id, true);
 
         // new : add catcher button
-        RefreshAddCatcherButtonState();
+        if (_addCatcherButton != null) _addCatcherButton.SetEnabled(true);
         if (_searchField != null)
         {
             FilterList(_searchField.value);
@@ -105,7 +105,10 @@ public class DebrisListUI : MonoBehaviour
             scrollView.Remove(rowToDelete);
 
             // new : if no debris, setEnabled false
-            RefreshAddCatcherButtonState();
+            if (scrollView.childCount == 0 && _addCatcherButton != null)
+            {
+                _addCatcherButton.SetEnabled(false);
+            }
         }
     }
 
@@ -206,15 +209,29 @@ public class DebrisListUI : MonoBehaviour
         }
 
         _searchField = root.Q<TextField>("object-search-input");
+        _clearSearchBtn = root.Q<Button>("clear-search-btn"); // Button finden
+
         if (_searchField != null)
         {
-            _searchField.RegisterValueChangedCallback(evt => FilterList(evt.newValue));
+            _searchField.RegisterValueChangedCallback(evt => {
+                FilterList(evt.newValue);
+                if (_clearSearchBtn != null)
+                {
+                    _clearSearchBtn.style.display = string.IsNullOrEmpty(evt.newValue) 
+                        ? DisplayStyle.None 
+                        : DisplayStyle.Flex;
+                }
+            });
         }
-        
-        var searchBtn = root.Q<Button>("search-button");
-        if (searchBtn != null)
+
+        if (_clearSearchBtn != null)
         {
-            searchBtn.clicked += () => FilterList(_searchField.value);
+            _clearSearchBtn.style.display = DisplayStyle.None;
+
+            _clearSearchBtn.clicked += () => {
+                _searchField.value = string.Empty;
+                _searchField.Focus();
+            };
         }
     }
 
