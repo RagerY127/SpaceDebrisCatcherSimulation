@@ -15,7 +15,7 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin https://gitlab.univ-lorraine.fr/coll/sciences-et-technologies/mim/imihm/spacedebriscatcher/spacedebriscatchersimulator.git
+git remote add origin https://github.com/RagerY127/SpaceDebrisCatcherSimulation.git
 git branch -M main
 git push -uf origin main
 ```
